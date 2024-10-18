@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .primary-btn {
+    @apply bg-primary text-white py-[5px] px-[10px] rounded-lg shadow-sm hover:shadow-md;
+  }
+}
