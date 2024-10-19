@@ -8,3 +8,7 @@ const config = {
 export const loginAuthApi = async (user: ILogin): Promise<IApiLogin> => {
   return await axiosInstance.post("/login", user, config);
 };
+
+export const logoutAuthApi = async () => {
+  return await axiosInstance.get("/logout");
+};

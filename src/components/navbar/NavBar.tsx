@@ -9,15 +9,21 @@ import { RiSearchLine } from "react-icons/ri";
 import { RiSearchFill } from "react-icons/ri";
 import { NavLink, useNavigate } from "react-router-dom";
 import { categories } from "../Interface/product";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { IUser } from "../Interface/user";
+import {
+  logOutFailed,
+  logOutStart,
+  logOutSuccess,
+} from "../../redux/authSlice";
+import { logoutAuthApi } from "../../Services/modules/auth";
 
 const NavBar = () => {
   const [showProFile, setShowProFile] = useState<boolean>(false);
   const [showNavBar, setShowNavBar] = useState<boolean>(false);
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const isLogin = useSelector((state: RootState) => state.auth.login.isLogin);
   const user: any = useSelector(
     (state: RootState) => state.auth.login.currentUser?.user
@@ -44,6 +50,18 @@ const NavBar = () => {
     }
   };
 
+  const handleLogOut = async (): Promise<void> => {
+    dispatch(logOutStart());
+    try {
+      await logoutAuthApi();
+      dispatch(logOutSuccess());
+      localStorage.removeItem("token");
+      // toast.success("🦄 Đăng nhập thành công!");
+      navigate("/");
+    } catch (err) {
+      dispatch(logOutFailed());
+    }
+  };
   return (
     <>
       <nav className="bg-white dark:bg-gray-800 shadow-lg sticky top-0 z-50">
@@ -259,6 +277,7 @@ const NavBar = () => {
                       className="block px-4 py-2 text-sm text-gray-700"
                       role="menuitem"
                       id="user-menu-item-2"
+                      onClick={() => handleLogOut()}
                     >
                       Đăng xuất
                     </a>
