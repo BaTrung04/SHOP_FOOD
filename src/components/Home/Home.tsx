@@ -28,7 +28,7 @@ const Home = () => {
   return (
     <>
       <div className="bg-white  dark:bg-gray-700">
-        <video autoPlay muted loop className="video-homepage">
+        <video autoPlay muted loop className="w-[100%]">
           <source src={intro} type="video/mp4"></source>
         </video>
         <div className="container">
