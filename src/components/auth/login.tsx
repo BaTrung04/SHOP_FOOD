@@ -1,8 +1,35 @@
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import logo from "../../assets/logo.png";
 import { useState } from "react";
+import { ILogin } from "../Interface/user";
+import { loginFailed, loginStart, loginSuccess } from "../../redux/authSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { loginAuthApi } from "../../Services/modules/auth";
+
 const Login = () => {
   const [showPass, setShowPass] = useState<Boolean>(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassWord] = useState<string>("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleSubmitLogin = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const user: ILogin = {
+      email: email,
+      password: password,
+    };
+    dispatch(loginStart());
+    try {
+      const res = await loginAuthApi(user);
+      dispatch(loginSuccess(res));
+      localStorage.setItem("token", res.token);
+      // toast.success("🦄 Đăng nhập thành công!");
+      navigate("/");
+    } catch (err) {
+      dispatch(loginFailed());
+    }
+  };
   return (
     <>
       <div className="container ">
@@ -23,7 +50,7 @@ const Login = () => {
                   </div>
 
                   <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form className="space-y-6">
+                    <form onSubmit={handleSubmitLogin} className="space-y-6">
                       <div>
                         <label
                           htmlFor="email"
@@ -36,6 +63,8 @@ const Login = () => {
                             type="email"
                             placeholder="Email"
                             required
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             autoComplete="email"
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-[5px]"
                             tabIndex={1}
@@ -65,6 +94,8 @@ const Login = () => {
                             type={showPass ? "text" : "password"}
                             placeholder="password"
                             required
+                            value={password}
+                            onChange={(e) => setPassWord(e.target.value)}
                             autoComplete="current-password"
                             className="block w-full px-[5px] rounded-md border-0 py-1.5  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             tabIndex={2}

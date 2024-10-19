@@ -9,12 +9,20 @@ import { RiSearchLine } from "react-icons/ri";
 import { RiSearchFill } from "react-icons/ri";
 import { NavLink, useNavigate } from "react-router-dom";
 import { categories } from "../Interface/product";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { IUser } from "../Interface/user";
+
 const NavBar = () => {
   const [showProFile, setShowProFile] = useState<boolean>(false);
   const [showNavBar, setShowNavBar] = useState<boolean>(false);
   const [darkMode, setDarkMode] = useState<boolean>(false);
-  const [isLogin, setIsLogin] = useState<boolean>(true);
   const navigate = useNavigate();
+  const isLogin = useSelector((state: RootState) => state.auth.login.isLogin);
+  const user: any = useSelector(
+    (state: RootState) => state.auth.login.currentUser?.user
+  );
+  console.log(user);
   useEffect(() => {
     const isDark = localStorage.getItem("darkMode") === "true";
     setDarkMode(isDark);
@@ -24,6 +32,7 @@ const NavBar = () => {
       document.documentElement.classList.remove("dark");
     }
   }, []);
+
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
     if (!darkMode) {
@@ -34,6 +43,7 @@ const NavBar = () => {
       localStorage.setItem("darkMode", "false");
     }
   };
+
   return (
     <>
       <nav className="bg-white dark:bg-gray-800 shadow-lg sticky top-0 z-50">
@@ -186,7 +196,7 @@ const NavBar = () => {
                 {darkMode ? <RiShoppingBagFill /> : <RiShoppingBagLine />}
               </button>
             </div>
-            {isLogin ? (
+            {!isLogin ? (
               <button
                 className="primary-btn font-bold ml-[10px]"
                 onClick={() => navigate("/login")}
@@ -206,10 +216,14 @@ const NavBar = () => {
                     aria-expanded="false"
                     aria-haspopup="true"
                   >
-                    <img className="h-8 w-8 rounded-full" src={logo} alt="" />
+                    <img
+                      className="h-8 w-8 rounded-full"
+                      src={user.avatar && user.avatar.url}
+                      alt={user && user.name}
+                    />
                   </button>
                   <div className="text-black dark:text-white font-bold">
-                    Bá trung
+                    {user.name}
                   </div>
                 </div>
 
