@@ -1,14 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/react-tailwindcss-datepicker/dist/index.esm.js",
-  ],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
-        primary: "#c084fc",
+        primary: "#6366f1",
       },
       fontFamily: {
         sans: ["Sora", "sans-serif"],
@@ -31,5 +28,5 @@ export default {
       },
     },
   },
-  plugins: [require("daisyui")],
+  plugins: [],
 };
