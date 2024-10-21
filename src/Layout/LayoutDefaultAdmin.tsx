@@ -19,7 +19,7 @@ const LayoutDefaultAdmin = () => {
     return location.pathname.includes(path);
   };
   return (
-    <div className="flex h-[4000px]">
+    <div className="flex pb-[50px]">
       <div className="fixed shadow-[4px_0px_10px_rgba(0,0,0,0.1)] w-[300px] h-[100vh] p-[20px]">
         <div className="flex items-center justify-center">
           <img src={logo} alt="" className="w-[150px] rounded-lg" />

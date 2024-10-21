@@ -25,6 +25,9 @@ import Product from "./components/admin/product";
 import Order from "./components/admin/order";
 import Reviews from "./components/admin/Reviews";
 import User from "./components/admin/User";
+import Info from "./components/Home/Info";
+import UpdateAccount from "./components/Home/UpdateAccount";
+import UpdatePassword from "./components/Home/UpdatePassword";
 
 function App() {
   const isRole = useSelector(
@@ -42,6 +45,10 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/news" element={<News />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/info" element={<Info />}>
+              <Route index element={<UpdateAccount />} />
+              <Route path="update-password" element={<UpdatePassword />} />
+            </Route>
           </Route>
           <Route
             path="admin"

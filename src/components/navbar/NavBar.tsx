@@ -266,20 +266,15 @@ const NavBar = () => {
                       </Link>
                     )}
 
-                    <a
+                    <Link
+                      to={"/info"}
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-violet-300 cursor-pointer"
                       role="menuitem"
                       id="user-menu-item-1"
                     >
                       Thông tin cá nhân
-                    </a>
-                    <a
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-violet-300 cursor-pointer"
-                      role="menuitem"
-                      id="user-menu-item-1"
-                    >
-                      Thông tin cá nhân
-                    </a>
+                    </Link>
+
                     <a
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-violet-300 cursor-pointer"
                       role="menuitem"
