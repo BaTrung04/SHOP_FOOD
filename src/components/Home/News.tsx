@@ -12,7 +12,7 @@ const News = () => {
           {/* left */}
           <div className="flex-1 border-r border-r-violet-300 px-[20px] pb-[50px]">
             {/* map */}
-            <div className="flex flex-col items-center gap-[10px] py-[20px] border-b border-violet-300">
+            <div className="flex flex-col items-center gap-[10px] py-[20px] mb-[30px] border-b border-violet-300">
               <div className="uppercase text-[14px] text-gray-500 dark:text-gray-300">
                 tin tức
               </div>
