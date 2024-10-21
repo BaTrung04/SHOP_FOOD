@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // Giả sử `currentUser` là một object có kiểu IUser, bạn định nghĩa kiểu dữ liệu cho nó:
-import { IApiLogin } from "../components/Interface/user";
+import { IApiLogin, IUser } from "../components/Interface/user";
 import storage from "redux-persist/lib/storage";
 import persistConfig from "./persistConfig";
 export interface IAuthState {
@@ -54,6 +54,13 @@ export const authSlice = createSlice({
       state.login.isFetching = false;
       state.login.error = true;
     },
+    //register
+    registerSuccess: (state, action: PayloadAction<any>) => {
+      state.login.isFetching = false;
+      state.login.currentUser = action.payload;
+      state.login.isLogin = true;
+      state.login.error = false;
+    },
   },
 });
 
@@ -66,5 +73,6 @@ export const {
   logOutStart,
   logOutSuccess,
   logOutFailed,
+  registerSuccess,
 } = actions;
 export default reducer;

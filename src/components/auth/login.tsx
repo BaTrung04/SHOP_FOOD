@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ILogin } from "../Interface/user";
 import { loginFailed, loginStart, loginSuccess } from "../../redux/authSlice";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginAuthApi } from "../../Services/modules/auth";
 
 const Login = () => {
@@ -33,8 +33,8 @@ const Login = () => {
   return (
     <>
       <div className="container ">
-        <div className="flex items-center justify-center">
-          <div className="my-[70px] w-[80%] h-auto border border-violet-200 rounded-lg shadow-xl">
+        <div className="flex items-center justify-center ">
+          <div className="my-[70px] w-[80%] h-auto border border-violet-200 rounded-lg shadow-xl dark:bg-gray-800">
             <div className="lg:flex ">
               <div className="lg:flex-1 lg:m-auto flex items-center justify-center  ">
                 <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -42,7 +42,7 @@ const Login = () => {
                     <img
                       alt="Your Company"
                       src={logo}
-                      className="mx-auto w-[120px]"
+                      className="mx-auto w-[120px] rounded-xl"
                     />
                     <h2 className="mt-[15px] text-center text-2xl font-bold leading-9 tracking-tight text-violet-800">
                       Đăng nhập
@@ -54,7 +54,7 @@ const Login = () => {
                       <div>
                         <label
                           htmlFor="email"
-                          className="block text-sm font-medium leading-6 text-gray-900"
+                          className="block text-sm font-medium leading-6 text-gray-900 dark:text-white"
                         >
                           Email address:
                         </label>
@@ -66,7 +66,7 @@ const Login = () => {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             autoComplete="email"
-                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-[5px]"
+                            className="block w-full rounded-md border-0 py-1.5  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-[5px]"
                             tabIndex={1}
                           />
                         </div>
@@ -76,15 +76,12 @@ const Login = () => {
                         <div className="flex items-center justify-between">
                           <label
                             htmlFor="password"
-                            className="block text-sm font-medium leading-6 text-gray-900"
+                            className="block text-sm font-medium leading-6 text-gray-900 dark:text-white"
                           >
                             Password:
                           </label>
                           <div className="text-sm">
-                            <a
-                              href="#"
-                              className="font-semibold text-violet-600 hover:text-indigo-500"
-                            >
+                            <a className="font-semibold text-violet-600 hover:text-indigo-500">
                               Quên mật khẩu?
                             </a>
                           </div>
@@ -121,14 +118,14 @@ const Login = () => {
                       </div>
                     </form>
 
-                    <p className="mt-10 text-center text-sm text-gray-500">
+                    <p className="mt-10 text-center text-sm text-gray-500 dark:text-gray-300">
                       Bạn cần tạo tài khoản?{" "}
-                      <a
-                        href="#"
+                      <Link
+                        to={"/register"}
                         className="font-semibold leading-6 text-violet-600 hover:text-indigo-500"
                       >
                         Đăng ký
-                      </a>
+                      </Link>
                     </p>
                   </div>
                 </div>

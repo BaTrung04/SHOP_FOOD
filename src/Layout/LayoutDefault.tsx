@@ -7,7 +7,7 @@ const LayoutDefault = () => {
     <>
       <div className="h-auto">
         <NavBar />
-        <div>
+        <div className="dark:bg-gray-700">
           <Outlet />
         </div>
         <Footer />

@@ -19,3 +19,10 @@ export interface IApiLogin {
   token: string;
   user: IUser;
 }
+
+export interface IUserRegister {
+  name: string;
+  email: string;
+  password: string;
+  avatar: string;
+}
