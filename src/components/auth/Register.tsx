@@ -68,7 +68,7 @@ const Register = () => {
                       src={logo}
                       className="mx-auto w-[120px] rounded-xl"
                     />
-                    <h2 className="mt-[15px] text-center text-2xl font-bold leading-9 tracking-tight text-violet-800">
+                    <h2 className="mt-[15px] text-center text-2xl font-bold dark:text-white leading-9 tracking-tight text-violet-800">
                       Đăng ký tài khoản
                     </h2>
                   </div>

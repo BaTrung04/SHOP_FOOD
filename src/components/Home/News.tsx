@@ -5,21 +5,23 @@ const News = () => {
   return (
     <>
       <div className="container">
-        <h1 className="text-[25px] font-medium uppercase py-[40px] text-center">
+        <h1 className="text-[25px] font-medium uppercase py-[40px] text-center dark:text-white">
           Category Archives: Tin tức
         </h1>
-        <div className="flex gap-[10px] pb-[50px]">
+        <div className="flex gap-[10px] pb-[50px] dark:text-white">
           {/* left */}
           <div className="flex-1 border-r border-r-violet-300 px-[20px] pb-[50px]">
             {/* map */}
             <div className="flex flex-col items-center gap-[10px] py-[20px] border-b border-violet-300">
-              <div className="uppercase text-[14px] text-gray-500">tin tức</div>
+              <div className="uppercase text-[14px] text-gray-500 dark:text-gray-300">
+                tin tức
+              </div>
               <div className="relative text-[20px] text-center">
                 Thời thượng và lãng mạn với Dịch vụ tiệc trọn gói outside Qúa
                 Ngon Food
                 <span className="absolute w-[60px] h-[3px] bg-violet-500 block left-[46%] bottom-[-5px]"></span>
               </div>
-              <div className="text-[14px] text-gray-500 uppercase">
+              <div className="text-[14px] text-gray-500 uppercase dark:text-gray-300">
                 Posted on 25/11/2021 by hoangdung
               </div>
               <div>
@@ -46,7 +48,9 @@ const News = () => {
             </div>
             {/* map */}
             <div className="flex flex-col items-center gap-[10px] py-[20px] border-b border-violet-300">
-              <div className="uppercase text-[14px] text-gray-500">tin tức</div>
+              <div className="uppercase text-[14px] text-gray-500 dark:text-gray-300">
+                tin tức
+              </div>
               <div className="relative text-[20px] text-center">
                 Thời thượng và lãng mạn với Dịch vụ tiệc trọn gói outside Qúa
                 Ngon Food
