@@ -7,7 +7,7 @@ import logo from "../../assets/logo.png";
 import { FaAngleDown } from "react-icons/fa";
 import { RiSearchLine } from "react-icons/ri";
 import { RiSearchFill } from "react-icons/ri";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { categories } from "../Interface/product";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
@@ -27,6 +27,9 @@ const NavBar = () => {
   const isLogin = useSelector((state: RootState) => state.auth.login.isLogin);
   const user: any = useSelector(
     (state: RootState) => state.auth.login.currentUser?.user
+  );
+  const isRole = useSelector(
+    (state: RootState) => state.auth?.login?.currentUser?.user?.role
   );
   console.log(user);
   useEffect(() => {
@@ -252,29 +255,33 @@ const NavBar = () => {
                     aria-orientation="vertical"
                     aria-labelledby="user-menu-button"
                   >
+                    {isRole === "admin" && (
+                      <Link
+                        to={"/admin"}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-violet-300 cursor-pointer"
+                        role="menuitem"
+                        id="user-menu-item-0"
+                      >
+                        Trang quản trị
+                      </Link>
+                    )}
+
                     <a
-                      className="block px-4 py-2 text-sm text-gray-700"
-                      role="menuitem"
-                      id="user-menu-item-0"
-                    >
-                      Trang quản trị
-                    </a>
-                    <a
-                      className="block px-4 py-2 text-sm text-gray-700"
-                      role="menuitem"
-                      id="user-menu-item-1"
-                    >
-                      Thông tin cá nhân
-                    </a>
-                    <a
-                      className="block px-4 py-2 text-sm text-gray-700"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-violet-300 cursor-pointer"
                       role="menuitem"
                       id="user-menu-item-1"
                     >
                       Thông tin cá nhân
                     </a>
                     <a
-                      className="block px-4 py-2 text-sm text-gray-700"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-violet-300 cursor-pointer"
+                      role="menuitem"
+                      id="user-menu-item-1"
+                    >
+                      Thông tin cá nhân
+                    </a>
+                    <a
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-violet-300 cursor-pointer"
                       role="menuitem"
                       id="user-menu-item-2"
                       onClick={() => handleLogOut()}

@@ -25,7 +25,6 @@ import Product from "./components/admin/product";
 import Order from "./components/admin/order";
 import Reviews from "./components/admin/Reviews";
 import User from "./components/admin/User";
-import { useState } from "react";
 
 function App() {
   const isRole = useSelector(
