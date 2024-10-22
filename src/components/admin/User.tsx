@@ -5,7 +5,7 @@ const User = () => {
     <>
       {" "}
       <div>
-        <h1 className="text-[35px] font-semibold text-gray-700 mt-[10px]">
+        <h1 className="text-[35px] font-semibold text-gray-700 mt-[10px] dark:text-white">
           Quản lý người dùng
         </h1>
         {/* <button className="primary-btn mt-[30px]">Thêm bài viết mới</button> */}
@@ -14,7 +14,7 @@ const User = () => {
           <div className="sm:col-span-3 ">
             <label
               htmlFor="country"
-              className="block text-sm font-medium leading-6 text-gray-900"
+              className="block text-sm font-medium leading-6 text-gray-900 dark:text-white"
             >
               Show entries
             </label>
@@ -52,7 +52,7 @@ const User = () => {
           <table className="table text-[16px]">
             {/* head */}
             <thead>
-              <tr className="text-[18px]">
+              <tr className="text-[18px] dark:text-gray-300">
                 <th></th>
                 <th>ID</th>
                 <th>Tên sản phẩm</th>

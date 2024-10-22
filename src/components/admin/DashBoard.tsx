@@ -1,9 +1,10 @@
 import { FaAngleRight } from "react-icons/fa";
 
 const DashBoard = () => {
+  
   return (
     <>
-      <div>
+      <div className="">
         <h1 className="text-[35px] font-semibold text-gray-700 mt-[10px]">
           Tổng quan
         </h1>
