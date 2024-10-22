@@ -21,7 +21,7 @@ import { logoutAuthApi } from "../../Services/modules/auth";
 const NavBar = () => {
   const [showProFile, setShowProFile] = useState<boolean>(false);
   const [showNavBar, setShowNavBar] = useState<boolean>(false);
-  const [showCart, setShowCart] = useState<boolean>(true);
+  const [showCart, setShowCart] = useState<boolean>(false);
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -141,10 +141,19 @@ const NavBar = () => {
                   </NavLink>
                   <div className="relative group">
                     {/* Nút danh mục */}
-                    <div className="flex items-center rounded-md px-3 py-2 text-lg font-bold text-black dark:text-white cursor-pointer">
+                    <NavLink
+                      to="/categories"
+                      className={({ isActive }) =>
+                        `flex items-center rounded-md px-3 py-2 text-lg font-bold cursor-pointer ${
+                          isActive
+                            ? "text-violet-500 dark:text-violet-300 ring-2 ring-violet-300"
+                            : "text-black dark:text-white"
+                        }`
+                      }
+                    >
                       <span>Danh mục</span>
                       <FaAngleDown className="ml-2" />
-                    </div>
+                    </NavLink>
 
                     {/* Dropdown hiển thị khi hover */}
                     <div className="absolute left-0 mt-0.5 hidden w-48 rounded-md bg-white shadow-lg dark:bg-gray-800 group-hover:block z-10">

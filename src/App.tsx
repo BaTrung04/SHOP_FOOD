@@ -29,6 +29,9 @@ import UpdateAccount from "./components/Home/UpdateAccount";
 import UpdatePassword from "./components/Home/UpdatePassword";
 import Cart from "./components/cart/Cart";
 import Payment from "./components/shopping/Payment";
+import DetailNews from "./components/Home/DetailNews";
+import ListNews from "./components/Home/ListNews";
+import Categories from "./components/products/Categories";
 
 function App() {
   const isRole = useSelector(
@@ -44,7 +47,11 @@ function App() {
             <Route path="/introduce" element={<Introduce />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/news" element={<News />} />
+            <Route path="/categories" element={<Categories />} />
+            <Route path="/news" element={<News />}>
+              <Route index element={<ListNews />} />
+              <Route path="detail-news" element={<DetailNews />} />
+            </Route>
             <Route path="/contact" element={<Contact />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/payment" element={<Payment />} />
