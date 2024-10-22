@@ -21,6 +21,7 @@ import { logoutAuthApi } from "../../Services/modules/auth";
 const NavBar = () => {
   const [showProFile, setShowProFile] = useState<boolean>(false);
   const [showNavBar, setShowNavBar] = useState<boolean>(false);
+  const [showCart, setShowCart] = useState<boolean>(true);
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ const NavBar = () => {
   const isRole = useSelector(
     (state: RootState) => state.auth?.login?.currentUser?.user?.role
   );
-  console.log(user);
+
   useEffect(() => {
     const isDark = localStorage.getItem("darkMode") === "true";
     setDarkMode(isDark);
@@ -82,14 +83,14 @@ const NavBar = () => {
                   className="block h-6 w-6"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
                   data-slot="icon"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
                   />
                 </svg>
@@ -98,14 +99,14 @@ const NavBar = () => {
                   className="hidden h-6 w-6"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
                   data-slot="icon"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M6 18 18 6M6 6l12 12"
                   />
                 </svg>
@@ -124,6 +125,7 @@ const NavBar = () => {
                   alt="Your Company"
                 />
               </div>
+              {/* navbar  */}
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex space-x-4">
                   <NavLink
@@ -148,18 +150,14 @@ const NavBar = () => {
                     <div className="absolute left-0 mt-0.5 hidden w-48 rounded-md bg-white shadow-lg dark:bg-gray-800 group-hover:block z-10">
                       <ul className="py-2">
                         {categories &&
-                          categories.map((item) => {
-                            return (
-                              <>
-                                <li
-                                  className="px-4 py-2 hover:bg-violet-300 dark:hover:bg-gray-400 cursor-pointer dark:text-white "
-                                  key={item.id}
-                                >
-                                  {item.name}
-                                </li>
-                              </>
-                            );
-                          })}
+                          categories.map((item) => (
+                            <li
+                              className="px-4 py-2 hover:bg-violet-300 dark:hover:bg-gray-400 cursor-pointer dark:text-white "
+                              key={item.id}
+                            >
+                              {item.name}
+                            </li>
+                          ))}
                       </ul>
                     </div>
                   </div>
@@ -186,6 +184,7 @@ const NavBar = () => {
                 </div>
               </div>
             </div>
+            {/* search */}
             <div className="w-[30%] relative">
               <input
                 type="text"
@@ -203,20 +202,81 @@ const NavBar = () => {
             {/* dark */}
             <button
               onClick={toggleDarkMode}
-              className="p-[10px] rounded-full hover:bg-violet-300  dark:hover:bg-gray-300  bg-violet-200 text-black dark:bg-white  dark:text-black"
+              className="p-[11px] rounded-full hover:bg-violet-300  dark:hover:bg-gray-300  bg-violet-200 text-black dark:bg-white  dark:text-black"
             >
-              {darkMode ? <BsCloudSunFill /> : <BsCloudSun />}
+              {darkMode ? (
+                <BsCloudSunFill className="text-[25px]" />
+              ) : (
+                <BsCloudSun className="text-[25px]" />
+              )}
             </button>
 
             {/* Giỏ hàng */}
-            <div className="absolute inset-y-0 right-0 flex items-center gap-[10px] pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-              <button
-                type="button"
-                className="p-[10px] rounded-full hover:bg-violet-300  dark:hover:bg-gray-300  bg-violet-200 text-black dark:bg-white  dark:text-black"
-              >
-                {darkMode ? <RiShoppingBagFill /> : <RiShoppingBagLine />}
-              </button>
+            <div
+              className="relative"
+              onMouseEnter={() => setShowCart(true)}
+              onMouseLeave={() => setShowCart(false)}
+            >
+              <div className=" inset-y-0 right-0 flex items-center gap-[10px] pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                <button
+                  type="button"
+                  className="p-[11px] rounded-full hover:bg-violet-300  dark:hover:bg-gray-300  bg-violet-200 text-black dark:bg-white  dark:text-black"
+                >
+                  {darkMode ? (
+                    <RiShoppingBagFill className="text-[25px]" />
+                  ) : (
+                    <RiShoppingBagLine className="text-[25px]" />
+                  )}
+                </button>
+                <div className="absolute top-[-6px] right-[-8px] bg-red-500 text-[16px] rounded-full w-[25px] h-[25px] text-center text-white">
+                  1
+                </div>
+              </div>
+              {showCart && (
+                <div className="absolute bg-white w-[350px] right-[50%] dark:bg-gray-700 mt-[1px] left-[50%] transform translate-x-[-50%] z-10 origin-top ring-1 ring-gray-100 shadow-xl h-[auto] rounded-lg">
+                  <div className="text-gray-400 text-[14px] p-[10px] dark:text-white">
+                    Sản phẩm mới thêm
+                  </div>
+                  <div className="px-[10px] overflow-y-auto max-h-[300px] ">
+                    {/* sp1 */}
+                    <div className="flex items-center justify-between text-[14px] mb-[5px] dark:text-white">
+                      <div className="flex items-center gap-[10px] ">
+                        <img
+                          src={logo}
+                          alt=""
+                          className="w-[40px] h-[50px] border border-violet-200 object-cover rounded-sm"
+                        />
+                        <div>Sản phẩm 1</div>
+                      </div>
+                      <div className="text-red-500 font-semibold ">
+                        100.000Đ
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-[10px] items-center mt-[10px] px-[10px]">
+                    <button
+                      className="primary-btn w-[100%]"
+                      onClick={() => {
+                        navigate("/cart");
+                        setShowCart(false);
+                      }}
+                    >
+                      Xem giỏ hàng
+                    </button>
+                    <button
+                      className="primary-btn w-[100%] mb-[10px]"
+                      onClick={() => {
+                        navigate("/payment");
+                        setShowCart(false);
+                      }}
+                    >
+                      Thanh toán
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
+
             {!isLogin ? (
               <button
                 className="primary-btn font-bold ml-[10px]"
@@ -225,32 +285,25 @@ const NavBar = () => {
                 Đăng nhập
               </button>
             ) : (
-              <div className="relative ml-3 ">
-                <div
-                  className="flex relative  items-center gap-[10px] focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                  onClick={() => setShowProFile(!showProFile)}
-                >
-                  <button
-                    type="button"
-                    className="  bg-violet-200 dark:bg-white rounded-full "
-                    id="user-menu-button"
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                  >
-                    <img
-                      className="h-8 w-8 rounded-full"
-                      src={user.avatar && user.avatar.url}
-                      alt={user && user.name}
-                    />
-                  </button>
-                  <div className="text-black dark:text-white font-bold">
+              <div
+                className="relative ml-3 cursor-pointer"
+                onMouseEnter={() => setShowProFile(true)}
+                onMouseLeave={() => setShowProFile(false)}
+              >
+                <div className="flex relative  items-center gap-[10px] focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                  <img
+                    className="h-[45px] w-[45px] rounded-full ml-[10px]"
+                    src={user.avatar && user.avatar.url}
+                    alt={user && user.name}
+                  />
+                  <div className="text-black dark:text-white font-bold text-[18px]">
                     {user.name}
                   </div>
                 </div>
 
                 {showProFile && (
                   <div
-                    className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                    className="absolute left-0 z-10 dark:bg-gray-700  w-48 origin-top-left rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none cursor-pointer"
                     role="menu"
                     aria-orientation="vertical"
                     aria-labelledby="user-menu-button"
@@ -258,9 +311,10 @@ const NavBar = () => {
                     {isRole === "admin" && (
                       <Link
                         to={"/admin"}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-violet-300 cursor-pointer"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-violet-300 cursor-pointer dark:text-white"
                         role="menuitem"
                         id="user-menu-item-0"
+                        onClick={() => setShowProFile(false)}
                       >
                         Trang quản trị
                       </Link>
@@ -268,18 +322,22 @@ const NavBar = () => {
 
                     <Link
                       to={"/info"}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-violet-300 cursor-pointer"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-violet-300 cursor-pointer dark:text-white"
                       role="menuitem"
                       id="user-menu-item-1"
+                      onClick={() => setShowProFile(false)}
                     >
                       Thông tin cá nhân
                     </Link>
 
                     <a
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-violet-300 cursor-pointer"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-violet-300 cursor-pointer dark:text-white"
                       role="menuitem"
                       id="user-menu-item-2"
-                      onClick={() => handleLogOut()}
+                      onClick={() => {
+                        handleLogOut();
+                        setShowProFile(false);
+                      }}
                     >
                       Đăng xuất
                     </a>

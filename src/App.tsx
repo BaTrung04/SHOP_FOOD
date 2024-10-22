@@ -4,7 +4,6 @@ import {
   Route,
   Routes,
   Navigate,
-  useLocation,
 } from "react-router-dom";
 import LayoutDefault from "./Layout/LayoutDefault";
 import Introduce from "./components/Home/Introduce";
@@ -16,18 +15,20 @@ import Contact from "./components/Home/Contact";
 import Home from "./components/Home/Home";
 import { RootState } from "./redux/store";
 import { useSelector } from "react-redux";
-import PrivateRoute from "./routes/privateRouter";
+import PrivateRoute from "./routes/PrivateRouter";
 import DashBoard from "./components/admin/DashBoard";
 import LoginAdmin from "./components/admin/LoginAdmin";
 
 import LayoutDefaultAdmin from "./Layout/LayoutDefaultAdmin";
-import Product from "./components/admin/product";
-import Order from "./components/admin/order";
+import Product from "./components/admin/Product";
+import Order from "./components/admin/Order";
 import Reviews from "./components/admin/Reviews";
 import User from "./components/admin/User";
 import Info from "./components/Home/Info";
 import UpdateAccount from "./components/Home/UpdateAccount";
 import UpdatePassword from "./components/Home/UpdatePassword";
+import Cart from "./components/cart/Cart";
+import Payment from "./components/shopping/Payment";
 
 function App() {
   const isRole = useSelector(
@@ -45,6 +46,8 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/news" element={<News />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/payment" element={<Payment />} />
             <Route path="/info" element={<Info />}>
               <Route index element={<UpdateAccount />} />
               <Route path="update-password" element={<UpdatePassword />} />
