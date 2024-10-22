@@ -11,7 +11,7 @@ const Categories = () => {
   };
 
   return (
-    <div className="container py-[50px] ">
+    <div className="container py-[50px]">
       <div className="flex gap-[10px] pb-[50px] dark:text-white">
         {/* left */}
         <div className="w-[270px] border-r border-r-violet-300 border-dashed">

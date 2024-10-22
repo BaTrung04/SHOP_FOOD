@@ -32,6 +32,9 @@ import Payment from "./components/shopping/Payment";
 import DetailNews from "./components/Home/DetailNews";
 import ListNews from "./components/Home/ListNews";
 import Categories from "./components/products/Categories";
+import DetailCategory from "./components/products/DetailCategory";
+import DetailProduct from "./components/products/DetailProduct";
+import PageNotExist from "./components/404/404";
 
 function App() {
   const isRole = useSelector(
@@ -47,12 +50,16 @@ function App() {
             <Route path="/introduce" element={<Introduce />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/categories" element={<Categories />} />
+            <Route path="/detail-product" element={<DetailProduct />} />
+            <Route path="/contact" element={<Contact />} />
+
+            <Route path="/categories" element={<Categories />}>
+              <Route path="detail-cate" element={<DetailCategory />} />
+            </Route>
             <Route path="/news" element={<News />}>
               <Route index element={<ListNews />} />
               <Route path="detail-news" element={<DetailNews />} />
             </Route>
-            <Route path="/contact" element={<Contact />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/payment" element={<Payment />} />
             <Route path="/info" element={<Info />}>
@@ -81,6 +88,7 @@ function App() {
             <Route path="reviews" element={<Reviews />} />
           </Route>
           <Route path="/login-admin" element={<LoginAdmin />} />
+          <Route path="*" element={<PageNotExist />} />
         </Routes>
       </Router>
     </>
