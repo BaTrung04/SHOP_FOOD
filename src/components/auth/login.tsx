@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { loginAuthApi } from "../../Services/modules/auth";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [showPass, setShowPass] = useState<Boolean>(false);
@@ -26,7 +27,7 @@ const Login = () => {
       const res = await loginAuthApi(user);
       dispatch(loginSuccess(res));
       localStorage.setItem("token", res.token);
-      // toast.success("🦄 Đăng nhập thành công!");
+      toast.success("🦄 Đăng nhập thành công!");
       navigate("/");
     } catch (err) {
       dispatch(loginFailed());
@@ -63,6 +64,7 @@ const Login = () => {
                         <div className="mt-2">
                           <input
                             type="email"
+                            name="email"
                             placeholder="Email"
                             required
                             value={email}
@@ -125,7 +127,6 @@ const Login = () => {
                           const decoded = jwtDecode(
                             credentialResponse?.credential
                           );
-                          console.log(decoded);
                           const { name, email, picture, jti }: any = decoded;
                           const user: IUser = {
                             avatar: {
@@ -149,7 +150,7 @@ const Login = () => {
                             })
                           );
                           navigate("/");
-                          console.log(credentialResponse);
+                          toast.success("🦄 Đăng nhập thành công!");
                         }}
                         onError={() => {
                           console.log("Login Failed");

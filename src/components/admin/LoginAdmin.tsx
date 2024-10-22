@@ -1,12 +1,15 @@
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import logo from "../../assets/logo.png";
 import { useState } from "react";
-import { ILogin } from "../Interface/user";
+import { ILogin, IUser } from "../Interface/user";
 import { loginFailed, loginStart, loginSuccess } from "../../redux/authSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginAuthApi } from "../../Services/modules/auth";
 import chef from "../../assets/dau-bep.svg";
+import { toast } from "react-toastify";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 const LoginAdmin = () => {
   const [showPass, setShowPass] = useState<Boolean>(false);
   const [email, setEmail] = useState<string>("");
@@ -24,8 +27,13 @@ const LoginAdmin = () => {
       const res = await loginAuthApi(user);
       dispatch(loginSuccess(res));
       localStorage.setItem("token", res.token);
-      // toast.success("🦄 Đăng nhập thành công!");
-      navigate("/admin");
+      if (res.user.role === "admin") {
+        navigate("/admin");
+        toast.success("🦄 Đăng nhập Admin thành công!");
+      } else {
+        navigate("/");
+        toast.success("🦄 Đăng nhập thành công!");
+      }
     } catch (err) {
       dispatch(loginFailed());
     }
@@ -65,6 +73,7 @@ const LoginAdmin = () => {
                   <div className="mt-2">
                     <input
                       type="email"
+                      name="email"
                       placeholder="Email"
                       required
                       value={email}
@@ -128,12 +137,50 @@ const LoginAdmin = () => {
                   </button>
                 </div>
               </form>
+              <div className="mt-[20px] flex items-center justify-center ">
+                <GoogleLogin
+                  onSuccess={(credentialResponse: any) => {
+                    const decoded = jwtDecode(credentialResponse?.credential);
+                    const { name, email, picture, jti }: any = decoded;
+                    const user: IUser = {
+                      avatar: {
+                        public_id: "",
+                        url: picture,
+                      },
+                      role:
+                        email === "trungmkzxc12345@gmail.com"
+                          ? "admin"
+                          : "user",
+                      _id: jti,
+                      name,
+                      email,
+                      password: "",
+                    };
+
+                    dispatch(
+                      loginSuccess({
+                        token: credentialResponse.credential,
+                        user,
+                      })
+                    );
+                    if (user.role === "admin") {
+                      navigate("/admin");
+                      toast.success("🦄 Đăng nhập Admin thành công!");
+                    } else {
+                      navigate("/");
+                      toast.success("🦄 Đăng nhập thành công!");
+                    }
+                  }}
+                  onError={() => {
+                    console.log("Login Failed");
+                  }}
+                />
+              </div>
 
               <p className="mt-10 text-center text-sm text-gray-500">
                 Bạn không có quyền truy cập? Vui lòng:{" "}
                 <a
-                  href="#"
-                  className="font-semibold leading-6 text-violet-600 hover:text-indigo-500"
+                  className="font-semibold leading-6 text-violet-600 hover:text-indigo-500 cursor-pointer"
                   onClick={() => navigate("/")}
                 >
                   Quay lại

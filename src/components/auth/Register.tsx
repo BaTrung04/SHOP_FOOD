@@ -7,52 +7,50 @@ import { useNavigate } from "react-router-dom";
 import { registerAuthApi } from "../../Services/modules/auth";
 const Register = () => {
   const [showPass, setShowPass] = useState<Boolean>(false);
-  const [user, setUser] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
-  const { name, email, password } = user;
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [avatar, setAvatar] = useState<any>("");
   const [avatarPreview, setAvatarPreview] = useState<any>(
     "/images/default_avatar.jpg"
   );
-  const handleSubmitLogin = async (event: React.FormEvent) => {
-    event.preventDefault();
-    const data = {
-      name: name,
-      email: email,
-      password: password,
-      avatar: avatar,
-    };
-    const res = await registerAuthApi(data);
-    dispatch(registerSuccess(res));
-    navigate("/login");
-  };
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.name === "avatar") {
-      const files = e.target.files; // Lấy danh sách files
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
-      if (files && files.length > 0) {
-        // Kiểm tra nếu có files
-        const file = files[0]; // Lấy file đầu tiên
-        const reader = new FileReader();
-
-        reader.onload = () => {
-          if (reader.readyState === 2) {
-            setAvatarPreview(reader.result as string); // Đảm bảo kiểu là string
-            setAvatar(file); // Lưu trữ file
-          }
-        };
-
-        reader.readAsDataURL(file); // Đọc file dưới dạng Data URL
-      }
-    } else {
-      setUser({ ...user, [e.target.name]: e.target.value });
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      console.log(reader);
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        setAvatar(base64String);
+        setAvatarPreview(base64String);
+      };
+      reader.readAsDataURL(file);
     }
   };
+  const handleSubmitLogin = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("password", password);
+    if (avatar) {
+      formData.append("avatar", avatar);
+    }
+    console.log(avatar);
+
+    try {
+      const res = await registerAuthApi(formData);
+      dispatch(registerSuccess(res));
+      navigate("/");
+    } catch (error) {
+      console.error("Đăng ký thất bại:", error);
+    }
+  };
+
   return (
     <>
       {" "}
@@ -85,10 +83,11 @@ const Register = () => {
                         <div className="mt-2">
                           <input
                             type="text"
+                            name="name"
                             placeholder="Tên của bạn"
                             required
-                            onChange={onChange}
-                            autoComplete="email"
+                            onChange={(e) => setName(e.target.value)}
+                            autoComplete="name"
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-[5px]"
                             tabIndex={1}
                           />
@@ -105,9 +104,10 @@ const Register = () => {
                         <div className="mt-2">
                           <input
                             type="email"
+                            name="email"
                             placeholder="Email"
                             required
-                            onChange={onChange}
+                            onChange={(e) => setEmail(e.target.value)}
                             autoComplete="email"
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-[5px]"
                             tabIndex={1}
@@ -129,7 +129,7 @@ const Register = () => {
                             type={showPass ? "text" : "password"}
                             placeholder="Password"
                             required
-                            onChange={onChange}
+                            onChange={(e) => setPassword(e.target.value)}
                             autoComplete="current-password"
                             className="block w-full px-[5px] rounded-md border-0 py-1.5  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             tabIndex={2}
@@ -167,9 +167,9 @@ const Register = () => {
                                 data-slot="icon"
                               >
                                 <path
-                                  fill-rule="evenodd"
+                                  fillRule="evenodd"
                                   d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z"
-                                  clip-rule="evenodd"
+                                  clipRule="evenodd"
                                 />
                               </svg>
                               <div className="mt-4 flex flex-col items-center text-sm leading-6 text-gray-600">
@@ -180,7 +180,7 @@ const Register = () => {
                                     type="file"
                                     className="sr-only"
                                     accept="iamges/*"
-                                    onChange={onChange}
+                                    onChange={handleFileChange}
                                   />
                                 </label>
                               </div>

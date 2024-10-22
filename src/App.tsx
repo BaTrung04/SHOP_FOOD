@@ -35,12 +35,14 @@ import Categories from "./components/products/Categories";
 import DetailCategory from "./components/products/DetailCategory";
 import DetailProduct from "./components/products/DetailProduct";
 import PageNotExist from "./components/404/404";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const isRole = useSelector(
     (state: RootState) => state.auth?.login?.currentUser?.user?.role
   );
-
+  const darkMode = localStorage.getItem("darkMode");
   return (
     <>
       <Router>
@@ -90,6 +92,18 @@ function App() {
           <Route path="/login-admin" element={<LoginAdmin />} />
           <Route path="*" element={<PageNotExist />} />
         </Routes>
+        <ToastContainer
+          position="bottom-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme={darkMode === "true" ? "dark" : "light"}
+        />
       </Router>
     </>
   );

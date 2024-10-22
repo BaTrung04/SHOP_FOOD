@@ -56,7 +56,7 @@ const LayoutDefaultAdmin = () => {
       dispatch(logOutSuccess());
       localStorage.removeItem("token");
       // toast.success("🦄 Đăng nhập thành công!");
-      navigate("#");
+      navigate("/");
     } catch (err) {
       dispatch(logOutFailed());
     }
