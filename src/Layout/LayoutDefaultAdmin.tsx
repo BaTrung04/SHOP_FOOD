@@ -30,7 +30,6 @@ const LayoutDefaultAdmin = () => {
       document.documentElement.classList.remove("dark");
     }
   }, []);
-  console.log(darkMode);
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
     if (!darkMode) {
@@ -76,6 +75,15 @@ const LayoutDefaultAdmin = () => {
           >
             <AiOutlineDashboard className="text-[30px]" />
             <span className="text-[18px]">Trang tổng quan</span>
+          </div>
+          <div
+            className={`flex items-center gap-[10px] px-[2px] py-[8px] rounded-md ${
+              isActive("categories") ? "bg-violet-300" : ""
+            }`}
+            onClick={() => navigate("categories")}
+          >
+            <RiProductHuntLine className="text-[30px]" />
+            <span className="text-[18px]">Quản lý danh mục</span>
           </div>
           <div
             className={`flex items-center gap-[10px] px-[2px] py-[8px] rounded-md ${
@@ -129,7 +137,7 @@ const LayoutDefaultAdmin = () => {
           onMouseEnter={() => setShowDiv(true)}
           onMouseLeave={() => setShowDiv(false)}
         >
-          <div className="mt-[400px] flex items-center gap-[15px] border border-violet-400 px-[10px] py-[6px] rounded-lg cursor-pointer">
+          <div className="mt-[350px] flex items-center gap-[15px] border border-violet-400 px-[10px] py-[6px] rounded-lg cursor-pointer">
             <img
               src={logo}
               alt=""

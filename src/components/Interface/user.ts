@@ -26,3 +26,8 @@ export interface IUserRegister {
   password: string;
   avatar: string;
 }
+
+export interface IAllUser {
+  success: boolean;
+  users: IUser;
+}

@@ -55,3 +55,26 @@ export const categories: ICategories[] = [
     name: "Món Tôm",
   },
 ];
+
+export interface IImage {
+  public_id: string | null;
+  url: string | null;
+}
+
+export interface ICategory {
+  image: IImage;
+  _id: string;
+  categoryName: string;
+  slug: string;
+  description: string;
+  createdAt: string; // Hoặc Date nếu bạn muốn chuyển đổi sau này
+  __v: number;
+}
+
+export interface ICategoryResponse {
+  success: boolean;
+  categoryCount: number;
+  resPerPage: number;
+  filteredCategoryCount: number;
+  categories: ICategory[];
+}

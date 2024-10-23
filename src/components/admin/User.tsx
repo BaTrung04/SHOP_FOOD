@@ -1,6 +1,30 @@
 import { RiPencilFill, RiSearchLine } from "react-icons/ri";
 import { MdOutlineKey } from "react-icons/md";
+import { useEffect, useState } from "react";
+import { getAllUser } from "../../Services/modules/auth";
+import { IUser } from "../Interface/user";
+import UpdateUser from "./UpdateUser";
 const User = () => {
+  const [data, setData] = useState<any>("");
+  const fetchApi = async () => {
+    try {
+      const res = await getAllUser();
+      setData(res.users);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchApi();
+  }, []);
+  const handleUpdateAuth = (id: string, item: IUser) => {
+    const modal = document.getElementById(
+      `modal_auth_${id}`
+    ) as HTMLDialogElement;
+    modal.close();
+  };
+  console.log(data);
   return (
     <>
       {" "}
@@ -55,29 +79,49 @@ const User = () => {
               <tr className="text-[18px] dark:text-gray-300">
                 <th></th>
                 <th>ID</th>
-                <th>Tên sản phẩm</th>
-                <th>Giá</th>
-                <th>Số lượng còn lại</th>
-                <th>Hành động</th>
+                <th>Tên người dùng</th>
+                <th>Email</th>
+                <th>Quyền</th>
+                <th>Trạng thái tài khoản</th>
               </tr>
             </thead>
             <tbody>
+              {data &&
+                data.map((item: any, index: number) => {
+                  return (
+                    <tr className="hover:bg-violet-100 cursor-pointer dark:hover:bg-violet-300 ">
+                      <th>{index + 1}</th>
+                      <td>{item._id}</td>
+                      <td>{item.name}</td>
+                      <td>{item.email}</td>
+                      <td>
+                        {item.role === "admin" ? (
+                          <>Quản trị viên</>
+                        ) : item.role === "user" ? (
+                          <>Người dùng</>
+                        ) : item.role === "look" ? (
+                          <span className="text-red-500">Đã bị khóa</span>
+                        ) : null}
+                      </td>
+                      <td className="">
+                        {item.role === "user" || item.role === "admin" ? (
+                          <div className="text-green-600 font-semibold">
+                            Đang hoạt động
+                          </div>
+                        ) : item.role === "look" ? (
+                          <div className="text-red-500 font-semibold flex items-center gap-[5px]">
+                            <MdOutlineKey className=" text-red-500 text-[25px]" />
+                            Đã bị khóa
+                          </div>
+                        ) : null}
+                      </td>
+                      <td className="flex gap-[10px] items-center">
+                        <UpdateUser item={item} fetchApi={fetchApi} />
+                      </td>
+                    </tr>
+                  );
+                })}
               {/* row 1 */}
-              <tr className="hover:bg-violet-100 cursor-pointer">
-                <th>1</th>
-                <td>671222f5ee39e946b821f23e</td>
-                <td>1</td>
-                <td>10.000 VNĐ</td>
-                <td>32</td>
-                <td className="flex gap-[10px] items-center">
-                  <span className="p-[10px] bg-blue-500 rounded-lg">
-                    <RiPencilFill className=" text-white text-[25px] " />
-                  </span>
-                  <span className="p-[10px] bg-red-500 rounded-lg">
-                    <MdOutlineKey className=" text-white text-[25px]" />
-                  </span>
-                </td>
-              </tr>
             </tbody>
           </table>
         </div>

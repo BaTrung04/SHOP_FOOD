@@ -17,6 +17,7 @@ import { RootState } from "./redux/store";
 import { useSelector } from "react-redux";
 import PrivateRoute from "./routes/PrivateRouter";
 import DashBoard from "./components/admin/DashBoard";
+import CategoriesAdmin from "./components/admin/CategoriesAdmin";
 import LoginAdmin from "./components/admin/LoginAdmin";
 
 import LayoutDefaultAdmin from "./Layout/LayoutDefaultAdmin";
@@ -83,6 +84,7 @@ function App() {
           >
             {/* Route con */}
             <Route index element={<DashBoard />} />
+            <Route path="categories" element={<CategoriesAdmin />} />
             <Route path="products" element={<Product />} />
             <Route path="orders" element={<Order />} />
             <Route path="news" element={<NewsAdmin />} />
