@@ -101,3 +101,21 @@ export interface IProductResponse {
   total: number;
   totalPage: number;
 }
+
+//NEWS
+export interface INew {
+  images: any;
+  _id: string;
+  title: string;
+  content: string;
+  author: any;
+  createdAt: string; // Hoặc Date nếu bạn muốn chuyển đổi sau này
+  __v: number;
+}
+export interface INewResponse {
+  rows: INew[];
+  page: number;
+  limit: number;
+  total: number;
+  totalPage: number;
+}

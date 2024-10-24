@@ -4,7 +4,7 @@ import lauHaiSan from "../../assets/lau-hai-san.jpg";
 
 const Categories = () => {
   const [valuePrice, setValuePrice] = useState<number>(0);
-  const [rating, setRating] = useState(0);
+  const [, setRating] = useState(0);
 
   const handleRangeChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setValuePrice(Number(e.target.value));

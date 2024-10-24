@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // Giả sử `currentUser` là một object có kiểu IUser, bạn định nghĩa kiểu dữ liệu cho nó:
-import { IApiLogin, IUser } from "../components/Interface/user";
+import { IApiLogin } from "../components/Interface/user";
 import storage from "redux-persist/lib/storage";
 import persistConfig from "./persistConfig";
 export interface IAuthState {

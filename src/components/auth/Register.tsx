@@ -22,7 +22,6 @@ const Register = () => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      console.log(reader);
       reader.onloadend = () => {
         const base64String = reader.result as string;
         setAvatar(base64String);
@@ -40,7 +39,6 @@ const Register = () => {
     if (avatar) {
       formData.append("avatar", avatar);
     }
-    console.log(avatar);
 
     try {
       const res = await registerAuthApi(formData);

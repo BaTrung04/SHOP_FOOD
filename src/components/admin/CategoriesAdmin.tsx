@@ -26,7 +26,6 @@ const CategoriesAdmin = () => {
   const fetchApi = async () => {
     try {
       const res = await getCategories(page, limit, keyword);
-      console.log(res);
       setTotalPage(res.totalPage);
       setData(res.rows);
     } catch (error) {

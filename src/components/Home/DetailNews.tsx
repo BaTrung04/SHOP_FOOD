@@ -1,5 +1,4 @@
 import img from "../../assets/dau-bep.png";
-import { FaArrowRight } from "react-icons/fa6";
 
 const DetailNews = () => {
   return (

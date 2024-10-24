@@ -1,4 +1,3 @@
-import { RiPencilFill, RiSearchLine } from "react-icons/ri";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import {
@@ -10,6 +9,7 @@ import {
 import { ICategory, IProduct } from "../Interface/product";
 import { toast } from "react-toastify";
 import UpdateProduct from "./UpdateProduct";
+import { RiSearchLine } from "react-icons/ri";
 
 const Product = () => {
   const [name, setName] = useState<string>("");
@@ -421,7 +421,13 @@ const Product = () => {
                     >
                       <th>{index + 1}</th>
                       <td>{item._id}</td>
-                      <td>img</td>
+                      <td>
+                        <img
+                          src={item?.images[0]?.url || ""}
+                          alt="sản phẩm"
+                          className="w-[50px] h-[50px] object-cover ring-1 ring-violet-300 rounded"
+                        />
+                      </td>
                       <td>{item.name}</td>
                       <td>{item.price}</td>
                       <td>{item.stock}</td>
@@ -432,7 +438,7 @@ const Product = () => {
 
                       <td className="flex gap-[10px] items-center">
                         {/* update */}
-                        <UpdateProduct item={item} fetchApi={fetchApi}/>
+                        <UpdateProduct item={item} fetchApi={fetchApi} />
                         {/* delete */}
                         <span
                           className="p-[10px] bg-red-500 rounded-lg"

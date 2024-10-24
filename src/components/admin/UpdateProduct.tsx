@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { RiPencilFill } from "react-icons/ri";
-import { ICategory } from "../Interface/product";
 import { getCategories, updateProduct } from "../../Services/modules/auth";
 import { toast } from "react-toastify";
 interface MyComponentProps {
@@ -21,7 +20,6 @@ const UpdateProduct: React.FC<MyComponentProps> = ({ item, fetchApi }) => {
     images.map((item: any) => item.url)
   );
   const [categoryProduct, setCategoryProduct] = useState<any>("");
-  console.log(imagesPreviewUp);
   useEffect(() => {
     const fetchApiCategory = async () => {
       try {
@@ -38,7 +36,6 @@ const UpdateProduct: React.FC<MyComponentProps> = ({ item, fetchApi }) => {
     setImagesUp([]);
     setImagesPreviewUp([]);
     const files = event.target.files;
-    console.log(files);
     if (files) {
       const fileArray = Array.from(files);
       const fileArrayBase64: string[] = [];
