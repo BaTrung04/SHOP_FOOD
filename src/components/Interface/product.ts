@@ -57,8 +57,8 @@ export const categories: ICategories[] = [
 ];
 
 export interface IImage {
-  public_id: string | null;
-  url: string | null;
+  public_id: string | "";
+  url: string | "";
 }
 
 export interface ICategory {
@@ -72,9 +72,10 @@ export interface ICategory {
 }
 
 export interface ICategoryResponse {
-  success: boolean;
-  categoryCount: number;
-  resPerPage: number;
   filteredCategoryCount: number;
-  categories: ICategory[];
+  rows: ICategory[];
+  page: number;
+  limit: number;
+  total: number;
+  totalPage: number;
 }

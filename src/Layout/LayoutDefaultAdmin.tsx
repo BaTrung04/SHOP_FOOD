@@ -12,6 +12,7 @@ import { BsCloudSun, BsCloudSunFill } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { logOutFailed, logOutStart, logOutSuccess } from "../redux/authSlice";
 import { logoutAuthApi } from "../Services/modules/auth";
+import { ToastContainer } from "react-toastify";
 
 const LayoutDefaultAdmin = () => {
   const navigate = useNavigate();
@@ -61,121 +62,135 @@ const LayoutDefaultAdmin = () => {
     }
   };
   return (
-    <div className="flex pb-[50px] dark:bg-gray-700 dark:text-white min-h-[100vh]">
-      <div className="fixed shadow-[4px_0px_10px_rgba(0,0,0,0.1)] w-[300px] h-[100vh] p-[20px] dark:bg-gray-800 dark:text-white bg-white">
-        <div className="flex items-center justify-center">
-          <img src={logo} alt="" className="w-[150px] rounded-lg" />
-        </div>
-        <div className="mt-[30px] flex flex-col gap-[10px] cursor-pointer">
-          <div
-            className={`flex items-center gap-[10px] px-[2px] py-[8px] rounded-md ${
-              isActive("") ? "bg-violet-300" : ""
-            }`}
-            onClick={() => navigate("")}
-          >
-            <AiOutlineDashboard className="text-[30px]" />
-            <span className="text-[18px]">Trang tổng quan</span>
+    <>
+      <div className="flex pb-[50px] dark:bg-gray-700 dark:text-white min-h-[100vh]">
+        <div className="fixed shadow-[4px_0px_10px_rgba(0,0,0,0.1)] w-[300px] h-[100vh] p-[20px] dark:bg-gray-800 dark:text-white bg-white">
+          <div className="flex items-center justify-center">
+            <img src={logo} alt="" className="w-[150px] rounded-lg" />
           </div>
-          <div
-            className={`flex items-center gap-[10px] px-[2px] py-[8px] rounded-md ${
-              isActive("categories") ? "bg-violet-300" : ""
-            }`}
-            onClick={() => navigate("categories")}
-          >
-            <RiProductHuntLine className="text-[30px]" />
-            <span className="text-[18px]">Quản lý danh mục</span>
-          </div>
-          <div
-            className={`flex items-center gap-[10px] px-[2px] py-[8px] rounded-md ${
-              isActive("products") ? "bg-violet-300" : ""
-            }`}
-            onClick={() => navigate("products")}
-          >
-            <RiProductHuntLine className="text-[30px]" />
-            <span className="text-[18px]">Quản lý sản phẩm</span>
-          </div>
-          <div
-            className={`flex items-center gap-[10px] px-[2px] py-[8px] rounded-md ${
-              isActive("orders") ? "bg-violet-300" : ""
-            }`}
-            onClick={() => navigate("orders")}
-          >
-            <HiOutlineShoppingCart className="text-[30px]" />
-            <span className="text-[18px]">Quản lý đơn hàng</span>
-          </div>
-          <div
-            className={`flex items-center gap-[10px] px-[2px] py-[8px] rounded-md ${
-              isActive("news") ? "bg-violet-300" : ""
-            }`}
-            onClick={() => navigate("news")}
-          >
-            <PiNewspaperClippingBold className="text-[30px]" />
-            <span className="text-[18px]">Quản lý bài viết</span>
-          </div>
-          <div
-            className={`flex items-center gap-[10px] px-[2px] py-[8px] rounded-md ${
-              isActive("user") ? "bg-violet-300" : ""
-            }`}
-            onClick={() => navigate("user")}
-          >
-            <PiUserCircle className="text-[30px]" />
-            <span className="text-[18px]">Quản lý người dùng</span>
-          </div>
-          <div
-            className={`flex items-center gap-[10px] px-[2px] py-[8px] rounded-md ${
-              isActive("reviews") ? "bg-violet-300" : ""
-            }`}
-            onClick={() => navigate("reviews")}
-          >
-            <FaRegStar className="text-[30px]" />
-            <span className="text-[18px]">Quản lý bình luận</span>
-          </div>
-        </div>
-
-        <div
-          className="relative"
-          onMouseEnter={() => setShowDiv(true)}
-          onMouseLeave={() => setShowDiv(false)}
-        >
-          <div className="mt-[350px] flex items-center gap-[15px] border border-violet-400 px-[10px] py-[6px] rounded-lg cursor-pointer">
-            <img
-              src={logo}
-              alt=""
-              className="w-[40px] h-[40px] object-cover border border-violet-300 rounded-full"
-            />
-            Bá Trung <FaAngleUp />
-          </div>
-          {showDiv && (
-            <div className="absolute cursor-pointer bottom-[55px] left-0 bg-white w-[258px] ring-1 ring-violet-100 shadow-md rounded-lg dark:bg-gray-700 ">
-              <div
-                className="px-[20px] py-[10px] border-b border-b-violet-100"
-                onClick={toggleDarkMode}
-              >
-                {darkMode ? (
-                  <div className="flex items-center gap-[10px] ">
-                    <BsCloudSunFill className="text-[25px]" />
-                    Chế độ tối
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-[10px]">
-                    <BsCloudSun className="text-[25px]" />
-                    Chế độ sáng
-                  </div>
-                )}
-              </div>
-              <div className="px-[20px] py-[10px]" onClick={handleLogOut}>
-                Đăng xuất
-              </div>
+          <div className="mt-[30px] flex flex-col gap-[10px] cursor-pointer">
+            <div
+              className={`flex items-center gap-[10px] px-[2px] py-[8px] rounded-md ${
+                isActive("") ? "bg-violet-300" : ""
+              }`}
+              onClick={() => navigate("")}
+            >
+              <AiOutlineDashboard className="text-[30px]" />
+              <span className="text-[18px]">Trang tổng quan</span>
             </div>
-          )}
+            <div
+              className={`flex items-center gap-[10px] px-[2px] py-[8px] rounded-md ${
+                isActive("categories") ? "bg-violet-300" : ""
+              }`}
+              onClick={() => navigate("categories")}
+            >
+              <RiProductHuntLine className="text-[30px]" />
+              <span className="text-[18px]">Quản lý danh mục</span>
+            </div>
+            <div
+              className={`flex items-center gap-[10px] px-[2px] py-[8px] rounded-md ${
+                isActive("products") ? "bg-violet-300" : ""
+              }`}
+              onClick={() => navigate("products")}
+            >
+              <RiProductHuntLine className="text-[30px]" />
+              <span className="text-[18px]">Quản lý sản phẩm</span>
+            </div>
+            <div
+              className={`flex items-center gap-[10px] px-[2px] py-[8px] rounded-md ${
+                isActive("orders") ? "bg-violet-300" : ""
+              }`}
+              onClick={() => navigate("orders")}
+            >
+              <HiOutlineShoppingCart className="text-[30px]" />
+              <span className="text-[18px]">Quản lý đơn hàng</span>
+            </div>
+            <div
+              className={`flex items-center gap-[10px] px-[2px] py-[8px] rounded-md ${
+                isActive("news") ? "bg-violet-300" : ""
+              }`}
+              onClick={() => navigate("news")}
+            >
+              <PiNewspaperClippingBold className="text-[30px]" />
+              <span className="text-[18px]">Quản lý bài viết</span>
+            </div>
+            <div
+              className={`flex items-center gap-[10px] px-[2px] py-[8px] rounded-md ${
+                isActive("user") ? "bg-violet-300" : ""
+              }`}
+              onClick={() => navigate("user")}
+            >
+              <PiUserCircle className="text-[30px]" />
+              <span className="text-[18px]">Quản lý người dùng</span>
+            </div>
+            <div
+              className={`flex items-center gap-[10px] px-[2px] py-[8px] rounded-md ${
+                isActive("reviews") ? "bg-violet-300" : ""
+              }`}
+              onClick={() => navigate("reviews")}
+            >
+              <FaRegStar className="text-[30px]" />
+              <span className="text-[18px]">Quản lý bình luận</span>
+            </div>
+          </div>
+
+          <div
+            className="relative"
+            onMouseEnter={() => setShowDiv(true)}
+            onMouseLeave={() => setShowDiv(false)}
+          >
+            <div className="mt-[350px] flex items-center gap-[15px] border border-violet-400 px-[10px] py-[6px] rounded-lg cursor-pointer">
+              <img
+                src={logo}
+                alt=""
+                className="w-[40px] h-[40px] object-cover border border-violet-300 rounded-full"
+              />
+              Bá Trung <FaAngleUp />
+            </div>
+            {showDiv && (
+              <div className="absolute cursor-pointer bottom-[55px] left-0 bg-white w-[258px] ring-1 ring-violet-100 shadow-md rounded-lg dark:bg-gray-700 ">
+                <div
+                  className="px-[20px] py-[10px] border-b border-b-violet-100"
+                  onClick={toggleDarkMode}
+                >
+                  {darkMode ? (
+                    <div className="flex items-center gap-[10px] ">
+                      <BsCloudSunFill className="text-[25px]" />
+                      Chế độ tối
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-[10px]">
+                      <BsCloudSun className="text-[25px]" />
+                      Chế độ sáng
+                    </div>
+                  )}
+                </div>
+                <div className="px-[20px] py-[10px]" onClick={handleLogOut}>
+                  Đăng xuất
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="ml-[300px] ">
+          <div className="p-[20px] ">
+            <Outlet />
+          </div>
         </div>
       </div>
-      <div className="ml-[300px] ">
-        <div className="p-[20px] ">
-          <Outlet />
-        </div>
-      </div>
-    </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme={darkMode === true ? "dark" : "light"}
+      />
+    </>
   );
 };
 

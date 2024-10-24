@@ -1,4 +1,4 @@
-import { RiPencilFill, RiSearchLine } from "react-icons/ri";
+import { RiSearchLine } from "react-icons/ri";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import {
@@ -8,6 +8,7 @@ import {
 } from "../../Services/modules/auth";
 import { ICategory } from "../Interface/product";
 import UpdateCategories from "./UpdateCategories";
+import { toast } from "react-toastify";
 
 const CategoriesAdmin = () => {
   const [categoryName, setCategoryName] = useState<string>("");
@@ -19,13 +20,15 @@ const CategoriesAdmin = () => {
   );
   const [data, setData] = useState<any>("");
   const [page, setPage] = useState<number>(1);
-  const [limit, setLimit] = useState<number>(9);
+  const [limit, setLimit] = useState<number>(10);
   const [keyword, setKeyword] = useState<string>("");
-
+  const [totalPage, setTotalPage] = useState<number>(1);
   const fetchApi = async () => {
     try {
       const res = await getCategories(page, limit, keyword);
-      setData(res.categories);
+      console.log(res);
+      setTotalPage(res.totalPage);
+      setData(res.rows);
     } catch (error) {
       console.log(error);
     }
@@ -33,7 +36,6 @@ const CategoriesAdmin = () => {
 
   useEffect(() => {
     let delayDebounceFn: NodeJS.Timeout;
-
     if (keyword) {
       delayDebounceFn = setTimeout(() => {
         fetchApi();
@@ -49,7 +51,6 @@ const CategoriesAdmin = () => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      console.log(reader);
       reader.onloadend = () => {
         const base64String = reader.result as string;
         setImage(base64String);
@@ -69,12 +70,14 @@ const CategoriesAdmin = () => {
       formData.append("image", image);
     }
     try {
-      const res = await createCategories(formData);
-      console.log(res);
+      await createCategories(formData);
       const modal = document.getElementById(
         "modal_add_categories"
       ) as HTMLDialogElement;
       modal.close();
+      toast.success("🦄 Bạn đã tạo mới danh mục thành công!", {
+        position: "top-right",
+      });
       setCategoryName("");
       setAvatarPreview("");
       setDescription("");
@@ -92,9 +95,9 @@ const CategoriesAdmin = () => {
       `modal_delete_${id}`
     ) as HTMLDialogElement;
     modal.close();
+    toast.success("🦄 Bạn đã xóa thành công!");
     fetchApi();
   };
-  console.log(data);
   return (
     <>
       <div>
@@ -247,11 +250,13 @@ const CategoriesAdmin = () => {
                 id="country"
                 name="country"
                 autoComplete="country-name"
+                value={limit}
+                onChange={(e) => setLimit(Number(e.target.value))}
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
               >
-                <option>10</option>
-                <option>20</option>
-                <option>30</option>
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={30}>30</option>
               </select>
             </div>
           </div>
@@ -281,9 +286,10 @@ const CategoriesAdmin = () => {
               <tr className="text-[18px] dark:text-gray-300">
                 <th></th>
                 <th>ID</th>
+                <th>Hình ảnh</th>
                 <th>Tên danh mục</th>
                 <th>Slug</th>
-                <th>Hình ảnh</th>
+                <th>Mô tả</th>
                 <th>Hành động</th>
               </tr>
             </thead>
@@ -297,9 +303,19 @@ const CategoriesAdmin = () => {
                     >
                       <th>{index + 1}</th>
                       <td>{item._id}</td>
+                      <td>
+                        <img
+                          src={item.image.url}
+                          alt="danh muc"
+                          className="w-[50px] h-[50px] object-cover ring-1 ring-violet-300 rounded"
+                        />
+                      </td>
                       <td>{item.categoryName}</td>
                       <td>{item.slug}</td>
-                      <td>img</td>
+                      <td className="max-w-[400px] ">
+                        <span className="line-clamp-2">{item.description}</span>
+                      </td>
+
                       <td className="flex gap-[10px] items-center">
                         <UpdateCategories item={item} fetchApi={fetchApi} />
                         <span
@@ -318,10 +334,12 @@ const CategoriesAdmin = () => {
                           >
                             <div className="modal-box">
                               <div className=" py-[10px] ">
-                                <div className="text-[20px] pb-[20px] text-center font-medium">
-                                  Bạn có chắc muốn xóa?
+                                <div className="text-[20px]">
+                                  Bạn có chắc muốn xóa danh muc:{" "}
+                                  <strong className="">
+                                    {item.categoryName}
+                                  </strong>
                                 </div>
-                                <div>Danh mục: {item.categoryName}</div>
                               </div>
                               <div className="flex justify-end items-center">
                                 <button
@@ -359,10 +377,36 @@ const CategoriesAdmin = () => {
       {/* paginaton */}
       <div className="flex items-center justify-center mt-[30px]">
         <div className="join">
-          <button className="join-item btn btn-md">1</button>
-          <button className="join-item btn btn-md btn-active">2</button>
-          <button className="join-item btn btn-md">3</button>
-          <button className="join-item btn btn-md">4</button>
+          {page > 1 && (
+            <button
+              className="join-item btn btn-md"
+              onClick={() => setPage(page - 1)}
+            >
+              &lt;
+            </button>
+          )}
+          {page > 1 && (
+            <button className="join-item btn btn-md" onClick={() => setPage(1)}>
+              1
+            </button>
+          )}
+          <button className="join-item btn btn-md btn-active">{page}</button>
+          {page < totalPage && (
+            <button
+              className="join-item btn btn-md"
+              onClick={() => setPage(page + 1)}
+            >
+              {page + 1}
+            </button>
+          )}
+          {page < totalPage && (
+            <button
+              className="join-item btn btn-md"
+              onClick={() => setPage(page + 1)}
+            >
+              &gt;
+            </button>
+          )}
         </div>
       </div>
     </>

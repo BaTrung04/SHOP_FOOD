@@ -2,10 +2,11 @@ import { RiPencilFill, RiSearchLine } from "react-icons/ri";
 import { MdOutlineKey } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { getAllUser } from "../../Services/modules/auth";
-import { IUser } from "../Interface/user";
 import UpdateUser from "./UpdateUser";
+
 const User = () => {
   const [data, setData] = useState<any>("");
+
   const fetchApi = async () => {
     try {
       const res = await getAllUser();
@@ -18,13 +19,7 @@ const User = () => {
   useEffect(() => {
     fetchApi();
   }, []);
-  const handleUpdateAuth = (id: string, item: IUser) => {
-    const modal = document.getElementById(
-      `modal_auth_${id}`
-    ) as HTMLDialogElement;
-    modal.close();
-  };
-  console.log(data);
+  
   return (
     <>
       {" "}
@@ -89,7 +84,10 @@ const User = () => {
               {data &&
                 data.map((item: any, index: number) => {
                   return (
-                    <tr className="hover:bg-violet-100 cursor-pointer dark:hover:bg-violet-300 ">
+                    <tr
+                      className="hover:bg-violet-100 cursor-pointer dark:hover:bg-violet-300 "
+                      key={item._id}
+                    >
                       <th>{index + 1}</th>
                       <td>{item._id}</td>
                       <td>{item.name}</td>

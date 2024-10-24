@@ -1,31 +1,42 @@
 import React, { useState } from "react";
 import { RiPencilFill } from "react-icons/ri";
 import { updateCategories } from "../../Services/modules/auth";
+import { ICategory } from "../Interface/product";
+import { toast } from "react-toastify";
 interface MyComponentProps {
-  item: {
-    categoryName: string;
-    slug: string;
-    description: string;
-    _id: string;
-  };
+  item: ICategory;
   fetchApi: () => void;
 }
 const UpdateCategories: React.FC<MyComponentProps> = ({ item, fetchApi }) => {
-  const { categoryName, slug, description, _id } = item;
+  const { categoryName, slug, description, image, _id } = item;
   const [categoryNameUp, setCategoryNameUp] = useState<string>(categoryName);
   const [slugUp, setSlugUp] = useState<string>(slug);
   const [imageUp, setImageUp] = useState<any>("");
   const [descriptionUp, setDescriptionUp] = useState<string>(description);
-  const [avatarPreviewUp, setAvatarPreviewUp] = useState<any>(
-    "/images/default_avatar.jpg"
-  );
-  console.log(categoryName, categoryNameUp);
+  const [avatarPreviewUp, setAvatarPreviewUp] = useState<any>(image.url);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        setImageUp(base64String);
+        setAvatarPreviewUp(base64String);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleUpdate = async (event: React.FormEvent) => {
     event.preventDefault();
     const data = {
       categoryName: categoryNameUp,
       slug: slugUp,
       description: descriptionUp,
+      image: {
+        url: imageUp,
+      },
     };
     try {
       await updateCategories(_id, data);
@@ -33,6 +44,7 @@ const UpdateCategories: React.FC<MyComponentProps> = ({ item, fetchApi }) => {
         `modal_update_${_id}`
       ) as HTMLDialogElement;
       modal.close();
+      toast.success("🦄 Bạn dã cập nhật thành công!");
       setCategoryNameUp(categoryName);
       setDescriptionUp(description);
       setSlugUp(slug);
@@ -146,7 +158,7 @@ const UpdateCategories: React.FC<MyComponentProps> = ({ item, fetchApi }) => {
                           type="file"
                           className="sr-only"
                           accept="iamges/*"
-                          //  onChange={handleFileChange}
+                          onChange={handleFileChange}
                         />
                       </label>
                     </div>
