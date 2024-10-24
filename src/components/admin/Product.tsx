@@ -39,6 +39,12 @@ const Product = () => {
     };
     fetchApiCategory();
   }, []);
+  
+  useEffect(() => {
+    if (category.length > 0 && !categoryProduct) {
+      setCategoryProduct(category[0]._id);
+    }
+  }, [category, categoryProduct]);
 
   const fetchApi = async () => {
     try {
@@ -62,6 +68,10 @@ const Product = () => {
     }
     return () => clearTimeout(delayDebounceFn);
   }, [keyword, page, limit]);
+
+  const formattedPrice = (price: number): string => {
+    return price.toLocaleString("vi-VN");
+  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -429,7 +439,9 @@ const Product = () => {
                         />
                       </td>
                       <td>{item.name}</td>
-                      <td>{item.price}</td>
+                      <td className="text-red-500">
+                        {formattedPrice(item.price)}Đ
+                      </td>
                       <td>{item.stock}</td>
                       <td>{item.seller}</td>
                       <td className="max-w-[300px] ">

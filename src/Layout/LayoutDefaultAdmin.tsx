@@ -64,7 +64,7 @@ const LayoutDefaultAdmin = () => {
   return (
     <>
       <div className="flex pb-[50px] dark:bg-gray-700 dark:text-white min-h-[100vh]">
-        <div className="fixed shadow-[4px_0px_10px_rgba(0,0,0,0.1)] w-[300px] h-[100vh] p-[20px] dark:bg-gray-800 dark:text-white bg-white">
+        <div className="fixed shadow-[4px_0px_10px_rgba(0,0,0,0.1)] w-[300px] h-[100vh] p-[20px] dark:bg-gray-800 dark:text-white bg-white z-[50]">
           <div className="flex items-center justify-center">
             <img src={logo} alt="" className="w-[150px] rounded-lg" />
           </div>

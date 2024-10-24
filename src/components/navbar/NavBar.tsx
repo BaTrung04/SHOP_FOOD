@@ -8,7 +8,7 @@ import { FaAngleDown } from "react-icons/fa";
 import { RiSearchLine } from "react-icons/ri";
 import { RiSearchFill } from "react-icons/ri";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { categories } from "../Interface/product";
+import { ICategory } from "../Interface/product";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import {
@@ -16,15 +16,19 @@ import {
   logOutStart,
   logOutSuccess,
 } from "../../redux/authSlice";
-import { logoutAuthApi } from "../../Services/modules/auth";
+import { getCategories, logoutAuthApi } from "../../Services/modules/auth";
+import { toast } from "react-toastify";
 
 const NavBar = () => {
   const [showProFile, setShowProFile] = useState<boolean>(false);
   const [showNavBar, setShowNavBar] = useState<boolean>(false);
   const [showCart, setShowCart] = useState<boolean>(false);
   const [darkMode, setDarkMode] = useState<boolean>(false);
+  const [category, setCategory] = useState<ICategory[]>([]);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const isLogin = useSelector((state: RootState) => state.auth.login.isLogin);
   const user: any = useSelector(
     (state: RootState) => state.auth.login.currentUser?.user
@@ -32,6 +36,18 @@ const NavBar = () => {
   const isRole = useSelector(
     (state: RootState) => state.auth?.login?.currentUser?.user?.role
   );
+
+  useEffect(() => {
+    const fetchApiCategory = async () => {
+      try {
+        const res = await getCategories(1, 10, "");
+        setCategory(res.rows);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchApiCategory();
+  }, []);
 
   useEffect(() => {
     const isDark = localStorage.getItem("darkMode") === "true";
@@ -60,7 +76,7 @@ const NavBar = () => {
       await logoutAuthApi();
       dispatch(logOutSuccess());
       localStorage.removeItem("token");
-      // toast.success("🦄 Đăng nhập thành công!");
+      toast.success("🦄 Đăng nhập thành công!");
       navigate("/");
     } catch (err) {
       dispatch(logOutFailed());
@@ -158,13 +174,13 @@ const NavBar = () => {
                     {/* Dropdown hiển thị khi hover */}
                     <div className="absolute left-0 mt-0.5 hidden w-48 rounded-md bg-white shadow-lg dark:bg-gray-800 group-hover:block z-10">
                       <ul className="py-2">
-                        {categories &&
-                          categories.map((item) => (
+                        {category &&
+                          category.map((item) => (
                             <li
                               className="px-4 py-2 hover:bg-violet-300 dark:hover:bg-gray-400 cursor-pointer dark:text-white "
-                              key={item.id}
+                              key={item._id}
                             >
-                              {item.name}
+                              {item.categoryName}
                             </li>
                           ))}
                       </ul>
