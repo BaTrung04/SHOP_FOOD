@@ -3,9 +3,9 @@ import lauHaiSan from "../../assets/lau-hai-san.jpg";
 import { categories } from "../Interface/product";
 import { useState } from "react";
 import { CiStar } from "react-icons/ci";
+
 const responsive = {
   superLargeDesktop: {
-    // the naming can be any, depends on you.
     breakpoint: { max: 4000, min: 3000 },
     items: 4,
   },

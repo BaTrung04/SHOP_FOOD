@@ -33,11 +33,12 @@ import Payment from "./components/shopping/Payment";
 import DetailNews from "./components/Home/DetailNews";
 import ListNews from "./components/Home/ListNews";
 import Categories from "./components/products/Categories";
-import DetailCategory from "./components/products/DetailCategory";
 import DetailProduct from "./components/products/DetailProduct";
 import PageNotExist from "./components/404/404";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ProductByCategory from "./components/products/ProductByCategory";
+import DetailCategory from "./components/products/DetailCategory";
 
 function App() {
   const isRole = useSelector(
@@ -57,7 +58,8 @@ function App() {
             <Route path="/contact" element={<Contact />} />
 
             <Route path="/categories" element={<Categories />}>
-              <Route path="detail-cate" element={<DetailCategory />} />
+              <Route index element={<DetailCategory />} />
+              <Route path=":slug/:id" element={<ProductByCategory />} />
             </Route>
             <Route path="/news" element={<News />}>
               <Route index element={<ListNews />} />

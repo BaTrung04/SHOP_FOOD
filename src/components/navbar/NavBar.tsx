@@ -179,6 +179,9 @@ const NavBar = () => {
                             <li
                               className="px-4 py-2 hover:bg-violet-300 dark:hover:bg-gray-400 cursor-pointer dark:text-white "
                               key={item._id}
+                              onClick={() =>
+                                navigate(`categories/${item.slug}/${item._id}`)
+                              }
                             >
                               {item.categoryName}
                             </li>

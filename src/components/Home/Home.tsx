@@ -44,6 +44,7 @@ const Home = () => {
   const [totalPage, setTotalPage] = useState<number>(1);
   const [news, setNews] = useState<any>([]);
   const gridRef = useRef<HTMLDivElement | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
@@ -78,12 +79,15 @@ const Home = () => {
     fetchApiNew();
   }, []);
   const fetchApi = async () => {
+    setLoading(true);
     try {
       const res = await getAllProduct(page, limit, keyword);
       setTotalPage(res.totalPage);
       setData(res.rows);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -251,29 +255,38 @@ const Home = () => {
                 Xem chi tiết <FaAngleRight />
               </div>
             </div>
-            <div className="grid grid-cols-4 gap-4">
-              {/* map */}
-              {data &&
-                data.map((item: any) => (
-                  <div
-                    key={item._id}
-                    className="flex flex-col items-center shadow-md rounded-lg h-[370px] dark:bg-gray-800 cursor-pointer transform transition-transform duration-300 hover:scale-105"
-                  >
-                    <img
-                      src={item?.images[0]?.url || ""}
-                      alt="Sản phẩm"
-                      className=" w-[255px] h-[255px] object-cover my-[15px] rounded-lg"
-                    />
-                    <div className="text-center w-[80%] line-clamp-2">
-                      {item.name}
+            {loading ? (
+              <div className="h-[1142px] w-full flex items-center justify-center text-violet-400">
+                <span className="loading loading-spinner loading-lg "></span>
+                <span className="loading loading-spinner loading-lg "></span>
+                <span className="loading loading-spinner loading-lg "></span>
+              </div>
+            ) : (
+              <div className="grid grid-cols-4 gap-4">
+                {/* map */}
+                {data &&
+                  data.map((item: any) => (
+                    <div
+                      key={item._id}
+                      className="flex flex-col items-center shadow-md rounded-lg h-[370px] dark:bg-gray-800 cursor-pointer transform transition-transform duration-300 hover:scale-105"
+                    >
+                      <img
+                        src={item?.images[0]?.url || ""}
+                        alt="Sản phẩm"
+                        className=" w-[255px] h-[255px] object-cover my-[15px] rounded-lg"
+                      />
+                      <div className="text-center w-[80%] line-clamp-2">
+                        {item.name}
+                      </div>
+                      <div className="text-red-600 font-bold">
+                        {" "}
+                        {formattedPrice(item.price)}Đ
+                      </div>
                     </div>
-                    <div className="text-red-600 font-bold">
-                      {" "}
-                      {formattedPrice(item.price)}Đ
-                    </div>
-                  </div>
-                ))}
-            </div>
+                  ))}
+              </div>
+            )}
+
             {/* pagination */}
             <div className="flex items-center justify-center mt-[50px]">
               <div className="join">

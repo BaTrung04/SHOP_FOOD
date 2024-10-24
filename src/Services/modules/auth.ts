@@ -102,6 +102,18 @@ export const deleteProduct = async (id: string) => {
   return await axiosInstance.delete(`/admin/product/${id}`);
 };
 
+//[USER]
+export const getProductByCategories = async (
+  id: any,
+  page: number,
+  limit: number,
+  keyword: string
+): Promise<INewResponse> => {
+  return await axiosInstance.get(
+    `/${id}/products?page=${page}&keyword=${keyword}&limit=${limit}`
+  );
+};
+
 //[NEWS]
 //admin [GET NEWS]
 export const getNews = async (
@@ -127,4 +139,3 @@ export const updateNews = async (id: string, data: any) => {
 export const deleteNews = async (id: string) => {
   return await axiosInstance.delete(`/news/${id}`);
 };
-
