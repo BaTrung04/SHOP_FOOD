@@ -63,7 +63,7 @@ function App() {
             </Route>
             <Route path="/news" element={<News />}>
               <Route index element={<ListNews />} />
-              <Route path="detail-news" element={<DetailNews />} />
+              <Route path=":id" element={<DetailNews />} />
             </Route>
             <Route path="/cart" element={<Cart />} />
             <Route path="/payment" element={<Payment />} />

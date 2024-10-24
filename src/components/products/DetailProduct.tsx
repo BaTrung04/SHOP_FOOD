@@ -1,9 +1,9 @@
 import Carousel from "react-multi-carousel";
 import lauHaiSan from "../../assets/lau-hai-san.jpg";
-import { categories } from "../Interface/product";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CiStar } from "react-icons/ci";
-
+import { getCategories } from "../../Services/modules/auth";
+import { ICategory } from "../Interface/product";
 const responsive = {
   superLargeDesktop: {
     breakpoint: { max: 4000, min: 3000 },
@@ -27,6 +27,19 @@ const DetailProduct = () => {
   const [quantity, setQuantity] = useState<number>(1);
   const [content, setContent] = useState<string>("");
   const isFormValid = content;
+  const [category, setCategory] = useState<ICategory[]>([]);
+
+  useEffect(() => {
+    const fetchApiCategory = async () => {
+      try {
+        const res = await getCategories(1, 10, "");
+        setCategory(res.rows);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchApiCategory();
+  }, []);
   return (
     <>
       <div className="container py-[50px]">
@@ -49,19 +62,19 @@ const DetailProduct = () => {
               transitionDuration={500}
               className="rounded-sm z-20"
             >
-              {categories &&
-                categories.map((urlImg) => (
+              {category &&
+                category.map((item) => (
                   <div
-                    key={urlImg.id}
+                    key={item._id}
                     className="h-[110px] ring-1 ring-violet-200 flex justify-center flex-col items-center mt-[10px]"
                   >
                     <img
-                      src={urlImg.url}
+                      src={item.image.url}
                       alt=""
                       className=" cursor-pointer object-cover w-[90px] h-[90px]"
                     />
                     <div className="text-center dark:text-white">
-                      {urlImg.name}
+                      {item.categoryName}
                     </div>
                   </div>
                 ))}

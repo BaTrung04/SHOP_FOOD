@@ -44,9 +44,12 @@ const UpdateCategories: React.FC<MyComponentProps> = ({ item, fetchApi }) => {
         `modal_update_${_id}`
       ) as HTMLDialogElement;
       modal.close();
-      toast.success("🦄 Bạn dã cập nhật thành công!");
+      toast.success("🦄 Bạn dã cập nhật thành công!", {
+        position: "top-right",
+      });
       setCategoryNameUp(categoryName);
       setDescriptionUp(description);
+      setImageUp(image);
       setSlugUp(slug);
       fetchApi();
     } catch (error) {

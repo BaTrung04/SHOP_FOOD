@@ -1,4 +1,5 @@
 import {
+  IANew,
   ICategoryResponse,
   INewResponse,
   IProductResponse,
@@ -124,6 +125,10 @@ export const getNews = async (
   return await axiosInstance.get(
     `/news?page=${page}&keyword=${keyword}&limit=${limit}`
   );
+};
+
+export const getANew = async (id: string | undefined): Promise<IANew> => {
+  return await axiosInstance.get(`/news/${id}`);
 };
 
 //[POST NEWS]

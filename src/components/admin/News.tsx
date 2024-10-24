@@ -1,4 +1,4 @@
-import {  RiSearchLine } from "react-icons/ri";
+import { RiSearchLine } from "react-icons/ri";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { deleteNews, getNews, postNews } from "../../Services/modules/auth";
 import { useEffect, useState } from "react";
@@ -300,8 +300,12 @@ const News = () => {
                         className="w-[50px] h-[50px] object-cover ring-1 ring-violet-300 rounded"
                       />
                     </td>
-                    <td>{item.title}</td>
-                    <td>{item.author.name}</td>
+                    <td className="max-w-[350px] ">
+                      <span className="line-clamp-2">{item.title}</span>
+                    </td>
+                    <td className="max-w-[350px] ">
+                      <span className="line-clamp-2">{item.author.name}</span>
+                    </td>
                     <td className="max-w-[450px] ">
                       <span className="line-clamp-2">{item.content}</span>
                     </td>
