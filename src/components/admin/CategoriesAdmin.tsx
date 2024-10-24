@@ -95,7 +95,9 @@ const CategoriesAdmin = () => {
       `modal_delete_${id}`
     ) as HTMLDialogElement;
     modal.close();
-    toast.success("🦄 Bạn đã xóa thành công!");
+    toast.success("🦄 Bạn đã xóa thành công!", {
+      position: "top-right",
+    });
     fetchApi();
   };
   return (
@@ -247,9 +249,9 @@ const CategoriesAdmin = () => {
             </label>
             <div className="mt-2">
               <select
-                id="country"
-                name="country"
-                autoComplete="country-name"
+                id="limit"
+                name="limit"
+                autoComplete="limit-name"
                 value={limit}
                 onChange={(e) => setLimit(Number(e.target.value))}
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
@@ -374,7 +376,7 @@ const CategoriesAdmin = () => {
         </div>
       </div>
 
-      {/* paginaton */}
+      {/* pagination */}
       <div className="flex items-center justify-center mt-[30px]">
         <div className="join">
           {page > 1 && (

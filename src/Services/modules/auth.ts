@@ -1,4 +1,7 @@
-import { ICategoryResponse } from "../../components/Interface/product";
+import {
+  ICategoryResponse,
+  IProductResponse,
+} from "../../components/Interface/product";
 import {
   ILogin,
   IApiLogin,
@@ -31,6 +34,9 @@ export const registerAuthApi = async (userData: any) => {
   return await axiosInstance.post("/register", userData, configForm);
 };
 
+//[ADMIN]
+
+//CATEGORY
 //[POST CATEGORIES]
 export const getCategories = async (
   page: number,
@@ -57,12 +63,40 @@ export const deleteCategories = async (id: string) => {
   return await axiosInstance.delete(`/admin/category/${id}`);
 };
 
+//[USER]
 //admin [GET ALL USER]
 export const getAllUser = async (): Promise<IAllUser> => {
   return await axiosInstance.get(`/admin/users`);
 };
 
 //admin [GET ALL USER]
-export const updateUser = async (id: string, data:any): Promise<IUser> => {
+export const updateUser = async (id: string, data: any): Promise<IUser> => {
   return await axiosInstance.put(`/admin/user/${id}`, data);
+};
+
+//[PRODUCT]
+//admin [GET ALL USER]
+export const getAllProduct = async (
+  page: number,
+  limit: number,
+  keyword: string
+): Promise<IProductResponse> => {
+  return await axiosInstance.get(
+    `/products?page=${page}&keyword=${keyword}&limit=${limit}`
+  );
+};
+
+//[POST CATEGORIES]
+export const postProduct = async (data: any) => {
+  return await axiosInstance.post("/admin/product/new", data);
+};
+
+//[Update CATEGORIES]
+export const updateProduct = async (id: string, data: any) => {
+  return await axiosInstance.put(`/admin/product/${id}`, data);
+};
+
+//[DELETE CATEGORIES]
+export const deleteProduct = async (id: string) => {
+  return await axiosInstance.delete(`/admin/product/${id}`);
 };

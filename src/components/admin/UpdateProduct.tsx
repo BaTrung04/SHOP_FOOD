@@ -1,38 +1,32 @@
-import { RiPencilFill, RiSearchLine } from "react-icons/ri";
-import { FaRegTrashCan } from "react-icons/fa6";
 import { useEffect, useState } from "react";
-import {
-  deleteProduct,
-  getAllProduct,
-  getCategories,
-  postProduct,
-} from "../../Services/modules/auth";
-import { ICategory, IProduct } from "../Interface/product";
+import { RiPencilFill } from "react-icons/ri";
+import { ICategory } from "../Interface/product";
+import { getCategories, updateProduct } from "../../Services/modules/auth";
 import { toast } from "react-toastify";
-import UpdateProduct from "./UpdateProduct";
-
-const Product = () => {
-  const [name, setName] = useState<string>("");
-  const [price, setPrice] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [stock, setStock] = useState<number>(1);
-  const [category, setCategory] = useState<ICategory[]>([]);
-  const [seller, setSeller] = useState<string>("");
-  const [images, setImages] = useState<any>([]);
-  const [imagesPreview, setImagesPreview] = useState<any>([]);
-
-  const [data, setData] = useState<any>("");
-  const [page, setPage] = useState<number>(1);
-  const [limit, setLimit] = useState<number>(10);
-  const [keyword, setKeyword] = useState<string>("");
-  const [totalPage, setTotalPage] = useState<number>(1);
+interface MyComponentProps {
+  item: any;
+  fetchApi: () => void;
+}
+const UpdateProduct: React.FC<MyComponentProps> = ({ item, fetchApi }) => {
+  const { name, price, description, stock, category, seller, images, _id } =
+    item;
+  const [nameUp, setNameUp] = useState<string>(name);
+  const [priceUp, setPriceUp] = useState<string>(price);
+  const [descriptionUp, setDescriptionUp] = useState<string>(description);
+  const [stockUp, setStockUp] = useState<number>(stock);
+  const [categoryUp, setCategoryUp] = useState<any>(category);
+  const [sellerUp, setSellerUp] = useState<string>(seller);
+  const [imagesUp, setImagesUp] = useState<any>(images || []);
+  const [imagesPreviewUp, setImagesPreviewUp] = useState<any>(
+    images.map((item: any) => item.url)
+  );
   const [categoryProduct, setCategoryProduct] = useState<any>("");
-
+  console.log(imagesPreviewUp);
   useEffect(() => {
     const fetchApiCategory = async () => {
       try {
         const res = await getCategories(1, 10, "");
-        setCategory(res.rows);
+        setCategoryProduct(res.rows);
       } catch (error) {
         console.log(error);
       }
@@ -40,30 +34,9 @@ const Product = () => {
     fetchApiCategory();
   }, []);
 
-  const fetchApi = async () => {
-    try {
-      const res = await getAllProduct(page, limit, keyword);
-
-      setTotalPage(res.totalPage);
-      setData(res.rows);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    let delayDebounceFn: NodeJS.Timeout;
-    if (keyword) {
-      delayDebounceFn = setTimeout(() => {
-        fetchApi();
-      }, 1000);
-    } else {
-      fetchApi();
-    }
-    return () => clearTimeout(delayDebounceFn);
-  }, [keyword, page, limit]);
-
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setImagesUp([]);
+    setImagesPreviewUp([]);
     const files = event.target.files;
     console.log(files);
     if (files) {
@@ -75,86 +48,63 @@ const Product = () => {
         reader.onloadend = () => {
           const base64String = reader.result as string;
           fileArrayBase64.push(base64String);
-          setImagesPreview((prev: any) => [...prev, base64String]); // Lưu trực tiếp các bản xem trước vào state
+          setImagesPreviewUp((prev: any) => [...prev, base64String]); // Lưu trực tiếp các bản xem trước vào state
         };
         reader.readAsDataURL(file);
       });
 
-      setImages(fileArrayBase64); // Lưu mảng file thay vì chỉ 1 file
+      setImagesUp(fileArrayBase64); // Lưu mảng file thay vì chỉ 1 file
     }
   };
-
   const handleSubmitCreateProduct = async (event: React.FormEvent) => {
     event.preventDefault();
-    const productData: any = {
+    const data: any = {
       name: name,
       price: price,
       description: description,
       stock: stock,
       seller: seller,
-      category: categoryProduct,
     };
-
-    if (images) {
-      productData.images = images;
+    if (imagesUp) {
+      data.images = imagesUp;
     }
-
     try {
-      await postProduct(productData);
+      await updateProduct(_id, data);
       const modal = document.getElementById(
-        "modal_add_product"
+        `modal_update_${_id}`
       ) as HTMLDialogElement;
       modal.close();
-      toast.success("🦄 Bạn đã tạo mới danh mục thành công!", {
+      toast.success("🦄 Bạn dã cập nhật thành công!", {
         position: "top-right",
       });
-      setName("");
-      setPrice("");
-      setDescription("");
-      setStock(1);
-      setImages([]);
-      setImagesPreview([]);
-      setSeller("");
       fetchApi();
+      setNameUp(name);
+      setPriceUp(price);
+      setStockUp(stock);
+      setCategoryUp(category);
+      setSellerUp(seller);
+      setImagesUp(images);
+      setImagesPreviewUp(images.map((item: any) => item.url));
     } catch (error) {
       console.error("Tạo danh mục thất bại:", error);
     }
   };
-
-  const handleDeleteProduct = async (id: string) => {
-    await deleteProduct(id);
-    const modal = document.getElementById(
-      `modal_delete_${id}`
-    ) as HTMLDialogElement;
-    modal.close();
-    toast.success("🦄 Bạn đã xóa sản phẩm thành công!", {
-      position: "top-right",
-    });
-    fetchApi();
-  };
   return (
     <>
-      <div>
-        <h1 className="text-[35px] font-semibold text-gray-700 mt-[10px] dark:text-white ">
-          Quản lý sản phẩm
-        </h1>
-        <button
-          type="button"
-          className="primary-btn mt-[30px]"
+      <span className="p-[10px] bg-blue-500 rounded-lg">
+        <RiPencilFill
+          className=" text-white text-[25px] "
           onClick={() => {
             const modal = document.getElementById(
-              "modal_add_product"
+              `modal_update_${_id}`
             ) as HTMLDialogElement;
             modal?.showModal();
           }}
-        >
-          Thêm sản phẩm mới
-        </button>
-        {/* them danh muc */}
-        <dialog id="modal_add_product" className="modal">
+        />
+        <dialog id={`modal_update_${_id}`} className="modal">
           <div className="modal-box w-11/12 max-w-[1000px]">
             <div className="text-[20px] font-semibold py-[10px]">
-              Thêm sản phẩm mới
+              Cập nhật danh mục:
             </div>
             <form onSubmit={handleSubmitCreateProduct} className="space-y-6 ">
               <div className="grid grid-cols-2 gap-[20px]">
@@ -169,9 +119,9 @@ const Product = () => {
                       name="name"
                       placeholder="Tên sản phẩm"
                       required
-                      value={name}
+                      value={nameUp}
                       autoComplete="name"
-                      onChange={(e) => setName(e.target.value)}
+                      onChange={(e) => setNameUp(e.target.value)}
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-[5px]"
                       tabIndex={1}
                     />
@@ -188,9 +138,9 @@ const Product = () => {
                       name="price"
                       placeholder="giá"
                       required
-                      value={price}
+                      value={priceUp}
                       autoComplete="price"
-                      onChange={(e) => setPrice(e.target.value)}
+                      onChange={(e) => setPriceUp(e.target.value)}
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-[5px]"
                       tabIndex={1}
                     />
@@ -207,12 +157,12 @@ const Product = () => {
                       name="stock"
                       placeholder="số lượng"
                       required
-                      value={stock}
+                      value={stockUp}
                       min={0} // Không cho phép nhập giá trị âm
                       autoComplete="stock"
                       onChange={(e) => {
                         const value = Number(e.target.value);
-                        setStock(value >= 0 ? value : 1); // Đảm bảo giá trị không nhỏ hơn 0
+                        setStockUp(value >= 0 ? value : 1); // Đảm bảo giá trị không nhỏ hơn 0
                       }}
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-[5px]"
                       tabIndex={1}
@@ -230,9 +180,9 @@ const Product = () => {
                       name="seller"
                       placeholder="nhãn hiệu"
                       required
-                      value={seller}
+                      value={sellerUp}
                       autoComplete="seller"
-                      onChange={(e) => setSeller(e.target.value)}
+                      onChange={(e) => setSellerUp(e.target.value)}
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-[5px]"
                       tabIndex={1}
                     />
@@ -247,12 +197,12 @@ const Product = () => {
                     id="category"
                     name="category"
                     autoComplete="limit-name"
-                    value={categoryProduct}
-                    onChange={(e) => setCategoryProduct(e.target.value)}
+                    value={categoryUp}
+                    onChange={(e) => setCategoryUp(e.target.value)}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                   >
-                    {category &&
-                      category.map((item) => {
+                    {categoryProduct &&
+                      categoryProduct.map((item: any) => {
                         return (
                           <option key={item._id} value={item._id}>
                             {item.categoryName}
@@ -274,8 +224,8 @@ const Product = () => {
                       tabIndex={1}
                       name="description"
                       placeholder="mô tả"
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
+                      value={descriptionUp}
+                      onChange={(e) => setDescriptionUp(e.target.value)}
                     />
                   </div>
                 </div>
@@ -319,8 +269,8 @@ const Product = () => {
                       </div>
                     </div>
                     {/* previews */}
-                    {imagesPreview &&
-                      imagesPreview
+                    {imagesPreviewUp &&
+                      imagesPreviewUp
                         .slice(0, 4)
                         .map((item: string, index: number) => (
                           <div
@@ -343,7 +293,7 @@ const Product = () => {
                   type="submit"
                   className="flex w-full justify-center rounded-md bg-violet-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  Tạo mới
+                  Cập nhật
                 </button>
               </div>
             </form>
@@ -352,176 +302,9 @@ const Product = () => {
             <button>close</button>
           </form>
         </dialog>
-
-        <div className="mt-[20px] flex justify-between">
-          <div className="sm:col-span-3 ">
-            <label
-              htmlFor="country"
-              className="block text-sm font-medium leading-6 text-gray-900 dark:text-white"
-            >
-              Show entries
-            </label>
-            <div className="mt-2">
-              <select
-                id="limit"
-                name="limit"
-                autoComplete="limit-name"
-                value={limit}
-                onChange={(e) => setLimit(Number(e.target.value))}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-              >
-                <option value={10}>10</option>
-                <option value={20}>20</option>
-                <option value={30}>30</option>
-              </select>
-            </div>
-          </div>
-          <div className="w-[30%] relative">
-            <input
-              type="text"
-              className="block w-[90%] rounded-2xl mr-[10px] border-0 py-1.5 px-[10px] text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-violet-300 sm:text-sm sm:leading-6"
-              placeholder="Tìm kiếm"
-              value={keyword}
-              onChange={(e) => setKeyword(e.target.value)}
-            />
-            <button
-              type="button"
-              className="p-[10px] rounded-full hover:bg-violet-300  dark:hover:bg-gray-300 bg-violet-200 text-black dark:bg-white  dark:text-black absolute top-0 right-[44px] dark:border-0 ring-1 ring-inset ring-gray-300"
-            >
-              <RiSearchLine />
-            </button>
-          </div>
-        </div>
-      </div>
-      {/* table */}
-      <div className="mt-[40px]">
-        <div className="overflow-x-auto w-[1500px]">
-          <table className="table text-[16px]">
-            {/* head */}
-            <thead>
-              <tr className="text-[18px] dark:text-gray-300">
-                <th></th>
-                <th>ID</th>
-                <th>img</th>
-                <th>Tên sản phẩm</th>
-                <th>Giá</th>
-                <th>Số lượng </th>
-                <th>nhãn hiệu</th>
-                <th className="text-center">mô tả</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* row 1 */}
-              {data &&
-                data.map((item: IProduct, index: number) => {
-                  return (
-                    <tr
-                      key={item._id}
-                      className="hover:bg-violet-100 cursor-pointer dark:hover:bg-violet-400"
-                    >
-                      <th>{index + 1}</th>
-                      <td>{item._id}</td>
-                      <td>img</td>
-                      <td>{item.name}</td>
-                      <td>{item.price}</td>
-                      <td>{item.stock}</td>
-                      <td>{item.seller}</td>
-                      <td className="max-w-[300px] ">
-                        <span className="line-clamp-2">{item.description}</span>
-                      </td>
-
-                      <td className="flex gap-[10px] items-center">
-                        {/* update */}
-                        <UpdateProduct item={item} fetchApi={fetchApi}/>
-                        {/* delete */}
-                        <span
-                          className="p-[10px] bg-red-500 rounded-lg"
-                          onClick={() => {
-                            const modal = document.getElementById(
-                              `modal_delete_${item._id}`
-                            ) as HTMLDialogElement;
-                            modal?.showModal();
-                          }}
-                        >
-                          <FaRegTrashCan className=" text-white text-[25px]" />
-                          <dialog
-                            id={`modal_delete_${item._id}`}
-                            className="modal"
-                          >
-                            <div className="modal-box">
-                              <div className=" py-[10px] ">
-                                <div className="text-[20px]">
-                                  Bạn có chắc muốn xóa sản phẩm:{" "}
-                                  <strong className="">{item.name}</strong>
-                                </div>
-                              </div>
-                              <div className="flex justify-end items-center">
-                                <button
-                                  className="primary-btn  relative top-[11px] mr-[10px]"
-                                  onClick={() => handleDeleteProduct(item._id)}
-                                >
-                                  Xóa
-                                </button>
-                                <div className="modal-action">
-                                  <form method="dialog">
-                                    <button className="primary-btn bg-gray-500">
-                                      thoát
-                                    </button>
-                                  </form>
-                                </div>
-                              </div>
-                            </div>
-                            <form method="dialog" className="modal-backdrop">
-                              <button>close</button>
-                            </form>
-                          </dialog>
-                        </span>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* pagination */}
-      <div className="flex items-center justify-center mt-[30px]">
-        <div className="join">
-          {page > 1 && (
-            <button
-              className="join-item btn btn-md"
-              onClick={() => setPage(page - 1)}
-            >
-              &lt;
-            </button>
-          )}
-          {page > 1 && (
-            <button className="join-item btn btn-md" onClick={() => setPage(1)}>
-              1
-            </button>
-          )}
-          <button className="join-item btn btn-md btn-active">{page}</button>
-          {page < totalPage && (
-            <button
-              className="join-item btn btn-md"
-              onClick={() => setPage(page + 1)}
-            >
-              {page + 1}
-            </button>
-          )}
-          {page < totalPage && (
-            <button
-              className="join-item btn btn-md"
-              onClick={() => setPage(page + 1)}
-            >
-              &gt;
-            </button>
-          )}
-        </div>
-      </div>
+      </span>
     </>
   );
 };
 
-export default Product;
+export default UpdateProduct;

@@ -56,6 +56,7 @@ export const categories: ICategories[] = [
   },
 ];
 
+// CATEGORY
 export interface IImage {
   public_id: string | "";
   url: string | "";
@@ -72,8 +73,29 @@ export interface ICategory {
 }
 
 export interface ICategoryResponse {
-  filteredCategoryCount: number;
   rows: ICategory[];
+  page: number;
+  limit: number;
+  total: number;
+  totalPage: number;
+}
+
+//PRODUCT
+export interface IProduct {
+  images: any;
+  _id: string;
+  ratings: number;
+  numOfReviews: number;
+  price: number;
+  stock: number;
+  name: string;
+  seller: number;
+  description: string;
+  createdAt: string; // Hoặc Date nếu bạn muốn chuyển đổi sau này
+  __v: number;
+}
+export interface IProductResponse {
+  rows: IProduct[];
   page: number;
   limit: number;
   total: number;
