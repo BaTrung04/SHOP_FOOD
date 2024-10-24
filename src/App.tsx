@@ -54,7 +54,7 @@ function App() {
             <Route path="/introduce" element={<Introduce />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/detail-product" element={<DetailProduct />} />
+            <Route path="/product/:id" element={<DetailProduct />} />
             <Route path="/contact" element={<Contact />} />
 
             <Route path="/categories" element={<Categories />}>

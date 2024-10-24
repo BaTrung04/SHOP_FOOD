@@ -2,6 +2,7 @@ import {
   IANew,
   ICategoryResponse,
   INewResponse,
+  IProductByIdResponse,
   IProductResponse,
 } from "../../components/Interface/product";
 import {
@@ -86,6 +87,12 @@ export const getAllProduct = async (
   return await axiosInstance.get(
     `/products?page=${page}&keyword=${keyword}&limit=${limit}`
   );
+};
+
+export const getProductById = async (
+  id: string | undefined
+): Promise<IProductByIdResponse> => {
+  return await axiosInstance.get(`/product/${id}`);
 };
 
 //[POST CATEGORIES]

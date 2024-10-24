@@ -30,7 +30,7 @@ export interface ICategoryResponse {
 
 //PRODUCT
 export interface IProduct {
-  images: any;
+  images: IImage[];
   _id: string;
   ratings: number;
   numOfReviews: number;
@@ -39,7 +39,7 @@ export interface IProduct {
   name: string;
   seller: number;
   description: string;
-  createdAt: string; // Hoặc Date nếu bạn muốn chuyển đổi sau này
+  createdAt: string;
   __v: number;
 }
 export interface IProductResponse {
@@ -50,6 +50,10 @@ export interface IProductResponse {
   totalPage: number;
 }
 
+export interface IProductByIdResponse {
+  product: any;
+  success: boolean;
+}
 //NEWS
 export interface INew {
   images: any;

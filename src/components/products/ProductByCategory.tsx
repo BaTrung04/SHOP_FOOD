@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { getProductByCategories } from "../../Services/modules/auth";
 const ProductByCategory = () => {
@@ -9,6 +9,7 @@ const ProductByCategory = () => {
   const gridRef = useRef<HTMLDivElement | null>(null);
   const [totalPage, setTotalPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
   console.log(id);
   const fetchApi = async () => {
     setLoading(true);
@@ -34,6 +35,10 @@ const ProductByCategory = () => {
       } as ScrollIntoViewOptions);
     }
   };
+  const handleClickDetailProduct = (id: string) => {
+    navigate(`/product/${id}`);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
   return (
     <>
       <div ref={gridRef}>
@@ -51,6 +56,7 @@ const ProductByCategory = () => {
                 <div
                   key={item._id}
                   className="flex flex-col items-center shadow-md rounded-lg h-[320px] dark:bg-gray-800 cursor-pointer transform transition-transform duration-300 hover:scale-105"
+                  onClick={() => handleClickDetailProduct(item._id)}
                 >
                   <img
                     src={item?.images[0]?.url}

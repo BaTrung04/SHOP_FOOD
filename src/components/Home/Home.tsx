@@ -13,6 +13,7 @@ import {
   getCategories,
   getNews,
 } from "../../Services/modules/auth";
+import { useNavigate } from "react-router-dom";
 
 const responsive = {
   superLargeDesktop: {
@@ -45,6 +46,7 @@ const Home = () => {
   const [news, setNews] = useState<any>([]);
   const gridRef = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
@@ -128,7 +130,11 @@ const Home = () => {
       window.removeEventListener("scroll", toggleVisibility);
     };
   }, []);
-  console.log(news);
+
+  const handleNavigate = (id: string) => {
+    navigate(`/news/${id}`);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
   return (
     <>
       <div className="bg-white  dark:bg-gray-700 dark:text-white relative">
@@ -182,11 +188,15 @@ const Home = () => {
           >
             {category &&
               category.map((urlImg) => (
-                <div key={urlImg._id} className="h-[300px] ">
+                <div
+                  key={urlImg._id}
+                  className="h-[300px] hover:shadow-md  transform transition-transform duration-300 hover:scale-105 "
+                  onClick={() => navigate(`/categories/mon-tom/${urlImg._id}`)}
+                >
                   <img
                     src={urlImg.image.url}
                     alt=""
-                    className=" cursor-pointer"
+                    className=" cursor-pointer "
                   />
                   <div className="text-center dark:text-white">
                     {urlImg.categoryName}
@@ -268,7 +278,8 @@ const Home = () => {
                   data.map((item: any) => (
                     <div
                       key={item._id}
-                      className="flex flex-col items-center shadow-md rounded-lg h-[370px] dark:bg-gray-800 cursor-pointer transform transition-transform duration-300 hover:scale-105"
+                      className="flex flex-col relative items-center shadow-md rounded-lg h-[370px] dark:bg-gray-800 cursor-pointer transform transition-transform duration-300 hover:scale-105"
+                      onClick={() => navigate(`product/${item._id}`)}
                     >
                       <img
                         src={item?.images[0]?.url || ""}
@@ -281,6 +292,9 @@ const Home = () => {
                       <div className="text-red-600 font-bold">
                         {" "}
                         {formattedPrice(item.price)}Đ
+                      </div>
+                      <div className="absolute top-[15px] right-[15px]">
+                        123
                       </div>
                     </div>
                   ))}
@@ -341,6 +355,14 @@ const Home = () => {
 
           {/* danh sach tin tuc */}
           <div className="py-[50px]">
+            <div className="flex justify-between">
+              <div className="text-[20px] uppercase py-[10px] ">
+                Danh mục tin tức
+              </div>
+              <div className="flex items-center gap-[10px] hover:text-violet-500 cursor-pointer">
+                Xem chi tiết <FaAngleRight />
+              </div>
+            </div>
             <Carousel
               responsive={responsive}
               showDots={true}
@@ -357,6 +379,7 @@ const Home = () => {
                   <div
                     key={news._id}
                     className="h-[380px] dark:bg-gray-800 mx-[5px] cursor-pointer transform transition-transform duration-300 hover:scale-105 rounded-lg"
+                    onClick={() => handleNavigate(news._id)}
                   >
                     <div className="pt-[20px]">
                       <div className="flex justify-center">
