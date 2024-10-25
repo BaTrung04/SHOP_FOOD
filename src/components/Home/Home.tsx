@@ -5,13 +5,13 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { ICategory } from "../Interface/product";
 import { FaAngleRight } from "react-icons/fa6";
-import lauHaiSan from "../../assets/lau-hai-san.jpg";
 import { FaArrowUp } from "react-icons/fa6";
 import { useEffect, useRef, useState } from "react";
 import {
   getAllProduct,
   getCategories,
   getNews,
+  getProductByCategories,
 } from "../../Services/modules/auth";
 import { useNavigate } from "react-router-dom";
 
@@ -47,7 +47,27 @@ const Home = () => {
   const gridRef = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
+  const [dataProductBySpecialty, setDataProductBySpecialty] = useState<any>([]);
 
+  useEffect(() => {
+    const fetchApi = async () => {
+      setLoading(true);
+      try {
+        const res = await getProductByCategories(
+          "671b342615a09d2d74ac245e",
+          page,
+          limit,
+          ""
+        );
+        setDataProductBySpecialty(res.rows);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchApi();
+  }, []);
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
     if (gridRef.current) {
@@ -58,6 +78,10 @@ const Home = () => {
     }
   };
 
+  const handleClickDetailProduct = (id: string) => {
+    navigate(`product/${id}`);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
   useEffect(() => {
     const fetchApiCategory = async () => {
       try {
@@ -191,7 +215,9 @@ const Home = () => {
                 <div
                   key={urlImg._id}
                   className="h-[300px] hover:shadow-md  transform transition-transform duration-300 hover:scale-105 "
-                  onClick={() => navigate(`/categories/mon-tom/${urlImg._id}`)}
+                  onClick={() =>
+                    navigate(`/categories/${urlImg.slug}/${urlImg._id}`)
+                  }
                 >
                   <img
                     src={urlImg.image.url}
@@ -211,48 +237,35 @@ const Home = () => {
                 Đặc sản trứ danh - Giữ nóng trong lu đất - Đầu bếp phục vụ tận
                 nơi
               </div>
-              <div className="flex items-center gap-[10px] hover:text-violet-500 cursor-pointer">
+              <div
+                className="flex items-center gap-[10px] hover:text-violet-500 cursor-pointer"
+                onClick={() =>
+                  navigate(`/categories/dac-san/671b342615a09d2d74ac245e`)
+                }
+              >
                 Xem chi tiết <FaAngleRight />
               </div>
             </div>
             <div className="grid grid-cols-4 gap-4">
               {/* map */}
-              <div className="flex flex-col items-center shadow-md rounded-lg h-[350px] dark:bg-gray-800 cursor-pointer transform transition-transform duration-300 hover:scale-105">
-                <img
-                  src={lauHaiSan}
-                  alt=""
-                  className=" w-[255px] object-cover my-[15px] rounded-lg"
-                />
-                <div className="text">LẨU QUÁ NGON FOOD</div>
-                <div className="text-red-600 font-bold">975.000₫</div>
-              </div>
-              <div className="flex flex-col items-center shadow-md rounded-lg h-[350px] dark:bg-gray-800 cursor-pointer transform transition-transform duration-300 hover:scale-105">
-                <img
-                  src={lauHaiSan}
-                  alt=""
-                  className=" w-[255px] object-cover my-[15px] rounded-lg"
-                />
-                <div className="text">LẨU QUÁ NGON FOOD</div>
-                <div className="text-red-600 font-bold">975.000₫</div>
-              </div>
-              <div className="flex flex-col items-center shadow-md rounded-lg h-[350px] dark:bg-gray-800 cursor-pointer transform transition-transform duration-300 hover:scale-105">
-                <img
-                  src={lauHaiSan}
-                  alt=""
-                  className=" w-[255px] object-cover my-[15px] rounded-lg"
-                />
-                <div className="text">LẨU QUÁ NGON FOOD</div>
-                <div className="text-red-600 font-bold">975.000₫</div>
-              </div>
-              <div className="flex flex-col items-center shadow-md rounded-lg h-[350px] dark:bg-gray-800 cursor-pointer transform transition-transform duration-300 hover:scale-105">
-                <img
-                  src={lauHaiSan}
-                  alt=""
-                  className=" w-[255px] object-cover my-[15px] rounded-lg"
-                />
-                <div className="text">LẨU QUÁ NGON FOOD</div>
-                <div className="text-red-600 font-bold">975.000₫</div>
-              </div>
+              {dataProductBySpecialty &&
+                dataProductBySpecialty.slice(0, 4).map((item: any) => (
+                  <div
+                    key={item._id}
+                    onClick={() => handleClickDetailProduct(item._id)}
+                    className="flex flex-col items-center shadow-md rounded-lg h-[370px] dark:bg-gray-800 cursor-pointer transform transition-transform duration-300 hover:scale-105"
+                  >
+                    <img
+                      src={item?.images[0]?.url}
+                      alt=""
+                      className=" w-[255px] object-cover my-[15px] rounded-lg"
+                    />
+                    <div className="text-center w-[80%] line-clamp-2">
+                      {item.name}
+                    </div>
+                    <div className="text-red-600 font-bold">{item.price}₫</div>
+                  </div>
+                ))}
             </div>
           </div>
           {/* danh sahc san pham */}
@@ -279,7 +292,7 @@ const Home = () => {
                     <div
                       key={item._id}
                       className="flex flex-col relative items-center shadow-md rounded-lg h-[370px] dark:bg-gray-800 cursor-pointer transform transition-transform duration-300 hover:scale-105"
-                      onClick={() => navigate(`product/${item._id}`)}
+                      onClick={() => handleClickDetailProduct(item._id)}
                     >
                       <img
                         src={item?.images[0]?.url || ""}

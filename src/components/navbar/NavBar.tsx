@@ -76,7 +76,7 @@ const NavBar = () => {
       await logoutAuthApi();
       dispatch(logOutSuccess());
       localStorage.removeItem("token");
-      toast.success("🦄 Đăng nhập thành công!");
+      toast.success("🦄 Đăng xuất thành công!");
       navigate("/");
     } catch (err) {
       dispatch(logOutFailed());
