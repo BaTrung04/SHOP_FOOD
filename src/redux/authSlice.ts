@@ -61,6 +61,18 @@ export const authSlice = createSlice({
       state.login.isLogin = true;
       state.login.error = false;
     },
+    //updateProfile
+    updateProfileSuccess: (state, action) => {
+      if (state.login.currentUser) {
+        state.login.currentUser.user = action.payload;
+      }
+    },
+    //updatePassword
+    updatePasswordSuccess: (state, action) => {
+      if (state.login.currentUser) {
+        state.login.currentUser.user.password = action.payload;
+      }
+    },
   },
 });
 
@@ -74,5 +86,7 @@ export const {
   logOutSuccess,
   logOutFailed,
   registerSuccess,
+  updateProfileSuccess,
+  updatePasswordSuccess,
 } = actions;
 export default reducer;

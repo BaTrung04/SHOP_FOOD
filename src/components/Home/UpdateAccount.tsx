@@ -1,15 +1,48 @@
 import { useState } from "react";
+import { updateProfile } from "../../Services/modules/auth";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { updateProfileSuccess } from "../../redux/authSlice";
+import { toast } from "react-toastify";
+import { IUser } from "../Interface/user";
 
 const UpdateAccount = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [avatar, setAvatar] = useState<File | null>(null);
-
+  const [avatar, setAvatar] = useState<any>("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const isFormValid = name && email && avatar;
 
-  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setAvatar(e.target.files[0]);
+  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        setAvatar(base64String);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmitUpdateProfile = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const data: any = {
+      name: name,
+      email: email,
+    };
+    if (avatar) {
+      data.avatar = avatar;
+    }
+
+    try {
+      const res: any = await updateProfile(data);
+      dispatch(updateProfileSuccess(res.user));
+      toast.success("🦄Cập nhật thông tin thành công!");
+      navigate("/info");
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -23,7 +56,10 @@ const UpdateAccount = () => {
           Quản lý thông tin hồ sơ để bảo mật tài khoản
         </div>
       </div>
-      <form className="space-y-6 mt-[20px]">
+      <form
+        onSubmit={handleSubmitUpdateProfile}
+        className="space-y-6 mt-[20px]"
+      >
         <div className="grid grid-cols-2 gap-[30px]">
           <div>
             <div>
@@ -75,7 +111,7 @@ const UpdateAccount = () => {
                 <img
                   alt="Avatar"
                   className="h-[100px] w-[100px] border border-violet-300 rounded-full"
-                  src={avatar ? URL.createObjectURL(avatar) : ""}
+                  src={""}
                 />
                 <div className="mt-2 w-[70%] flex justify-center rounded-lg border border-dashed border-gray-900/25 flex-1 dark:border-white">
                   <div className="text-center">

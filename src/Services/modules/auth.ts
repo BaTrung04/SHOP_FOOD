@@ -37,6 +37,16 @@ export const registerAuthApi = async (userData: any) => {
   return await axiosInstance.post("/register", userData, configForm);
 };
 
+//[PUT LOGOUT]
+export const updatePassword = async (passwords: any) => {
+  return await axiosInstance.put("/password/update", passwords);
+};
+
+//[PUT LOGOUT]
+export const updateProfile = async (data: any): Promise<IUser> => {
+  return await axiosInstance.put("/me/update", data);
+};
+
 //[ADMIN]
 
 //CATEGORY
