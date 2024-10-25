@@ -1,6 +1,11 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { getProductByCategories } from "../../Services/modules/auth";
+import {
+  getProductByCategories,
+  postWishList,
+} from "../../Services/modules/auth";
+import { toast } from "react-toastify";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 const ProductByCategory = () => {
   const { id } = useParams();
   const [data, setData] = useState<any>("");
@@ -39,6 +44,22 @@ const ProductByCategory = () => {
     navigate(`/product/${id}`);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  const handleClickAddWishList = async (
+    event: React.MouseEvent<HTMLDivElement>,
+    id: string
+  ) => {
+    event.stopPropagation();
+    const data: any = {
+      productId: id,
+    };
+    try {
+      const res = await postWishList(data);
+      toast.success(`🦄 ${res.message}!`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <div ref={gridRef}>
@@ -55,7 +76,7 @@ const ProductByCategory = () => {
               data.map((item: any) => (
                 <div
                   key={item._id}
-                  className="flex flex-col items-center shadow-md rounded-lg h-[320px] dark:bg-gray-800 cursor-pointer transform transition-transform duration-300 hover:scale-105"
+                  className="flex flex-col relative items-center shadow-md rounded-lg h-[320px] dark:bg-gray-800 cursor-pointer transform transition-transform duration-300 hover:scale-105"
                   onClick={() => handleClickDetailProduct(item._id)}
                 >
                   <img
@@ -67,6 +88,17 @@ const ProductByCategory = () => {
                     {item.name}
                   </div>
                   <div className="text-red-600 font-bold">{item.price}₫</div>
+                  <div className="absolute top-[15px] right-[15px]">
+                    <div
+                      onClick={(e) => handleClickAddWishList(e, item._id)}
+                      className="ring-2 ring-violet-500 p-[5px] rounded-full flex items-center justify-center relative group opacity-10 hover:opacity-100 "
+                    >
+                      <FaHeart className="text-[25px] text-violet-500" />
+                      <span className="absolute top-full flex items-center gap-[5px] w-[110px] mt-2 left-1/2 transform -translate-x-1/2 bg-violet-500 text-white text-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <FaRegHeart /> Yêu thích
+                      </span>
+                    </div>
+                  </div>
                 </div>
               ))
             ) : (

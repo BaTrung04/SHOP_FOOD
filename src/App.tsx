@@ -39,6 +39,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProductByCategory from "./components/products/ProductByCategory";
 import DetailCategory from "./components/products/DetailCategory";
+import Wishlist from "./components/Home/wishlist";
+import HistoryOrder from "./components/order/HistoryOrder";
 
 function App() {
   const isRole = useSelector(
@@ -56,6 +58,8 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/product/:id" element={<DetailProduct />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/wishlist" element={<Wishlist />} />
+            <Route path="/history-order" element={<HistoryOrder />} />
 
             <Route path="/categories" element={<Categories />}>
               <Route index element={<DetailCategory />} />

@@ -35,7 +35,6 @@ const UpdateAccount = () => {
     if (avatar) {
       data.avatar = avatar;
     }
-
     try {
       const res: any = await updateProfile(data);
       dispatch(updateProfileSuccess(res.user));

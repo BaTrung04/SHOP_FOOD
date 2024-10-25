@@ -76,3 +76,9 @@ export interface IANew {
   rows: INew[];
   success: boolean;
 }
+
+export interface IWishList {
+  category: any;
+  success: boolean;
+  message: string;
+}

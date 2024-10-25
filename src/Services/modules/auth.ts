@@ -4,6 +4,7 @@ import {
   INewResponse,
   IProductByIdResponse,
   IProductResponse,
+  IWishList,
 } from "../../components/Interface/product";
 import {
   ILogin,
@@ -160,4 +161,15 @@ export const updateNews = async (id: string, data: any) => {
 //[DELETE NEWS]
 export const deleteNews = async (id: string) => {
   return await axiosInstance.delete(`/news/${id}`);
+};
+
+//[Wishlist]
+//[POST WISHLIST]
+export const postWishList = async (id: string): Promise<IWishList> => {
+  return await axiosInstance.post("/wishlist", id);
+};
+
+//[GET WISHLIST]
+export const getWishList = async (page: number, limit: number) => {
+  return await axiosInstance.get(`/wishlist/user?limit=${limit}&page=${page}`);
 };

@@ -7,14 +7,17 @@ import { ICategory } from "../Interface/product";
 import { FaAngleRight } from "react-icons/fa6";
 import { FaArrowUp } from "react-icons/fa6";
 import { useEffect, useRef, useState } from "react";
+import { FaHeart } from "react-icons/fa";
 import {
   getAllProduct,
   getCategories,
   getNews,
   getProductByCategories,
+  postWishList,
 } from "../../Services/modules/auth";
 import { useNavigate } from "react-router-dom";
-
+import { FaRegHeart } from "react-icons/fa";
+import { toast } from "react-toastify";
 const responsive = {
   superLargeDesktop: {
     // the naming can be any, depends on you.
@@ -159,6 +162,22 @@ const Home = () => {
     navigate(`/news/${id}`);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  const handleClickAddWishList = async (
+    event: React.MouseEvent<HTMLDivElement>,
+    id: string
+  ) => {
+    event.stopPropagation();
+    const data: any = {
+      productId: id,
+    };
+    try {
+      const res = await postWishList(data);
+      toast.success(`🦄 ${res.message}!`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <div className="bg-white  dark:bg-gray-700 dark:text-white relative">
@@ -253,7 +272,7 @@ const Home = () => {
                   <div
                     key={item._id}
                     onClick={() => handleClickDetailProduct(item._id)}
-                    className="flex flex-col items-center shadow-md rounded-lg h-[370px] dark:bg-gray-800 cursor-pointer transform transition-transform duration-300 hover:scale-105"
+                    className="flex flex-col relative items-center shadow-md rounded-lg h-[370px] dark:bg-gray-800 cursor-pointer transform transition-transform duration-300 hover:scale-105"
                   >
                     <img
                       src={item?.images[0]?.url}
@@ -264,6 +283,17 @@ const Home = () => {
                       {item.name}
                     </div>
                     <div className="text-red-600 font-bold">{item.price}₫</div>
+                    <div className="absolute top-[15px] right-[15px]">
+                      <div
+                        onClick={(e) => handleClickAddWishList(e, item._id)}
+                        className="ring-2 ring-violet-500 p-[5px] rounded-full flex items-center justify-center relative group opacity-10 hover:opacity-100 "
+                      >
+                        <FaHeart className="text-[25px] text-violet-500" />
+                        <span className="absolute top-full flex items-center gap-[5px] w-[110px] mt-2 left-1/2 transform -translate-x-1/2 bg-violet-500 text-white text-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <FaRegHeart /> Yêu thích
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 ))}
             </div>
@@ -307,7 +337,15 @@ const Home = () => {
                         {formattedPrice(item.price)}Đ
                       </div>
                       <div className="absolute top-[15px] right-[15px]">
-                        123
+                        <div
+                          onClick={(e) => handleClickAddWishList(e, item._id)}
+                          className="ring-2 ring-violet-500 p-[5px] rounded-full flex items-center justify-center relative group opacity-10 hover:opacity-100 "
+                        >
+                          <FaHeart className="text-[25px] text-violet-500" />
+                          <span className="absolute top-full flex items-center gap-[5px] w-[110px] mt-2 left-1/2 transform -translate-x-1/2 bg-violet-500 text-white text-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <FaRegHeart /> Yêu thích
+                          </span>
+                        </div>
                       </div>
                     </div>
                   ))}
