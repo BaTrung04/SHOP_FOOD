@@ -39,7 +39,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProductByCategory from "./components/products/ProductByCategory";
 import DetailCategory from "./components/products/DetailCategory";
-import Wishlist from "./components/Home/wishlist";
+import Wishlist from "./components/Home/Wishlist";
 import HistoryOrder from "./components/order/HistoryOrder";
 
 function App() {

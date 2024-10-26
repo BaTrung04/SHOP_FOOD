@@ -9,6 +9,7 @@ import { loginAuthApi } from "../../Services/modules/auth";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 
 const Login = () => {
   const [showPass, setShowPass] = useState<Boolean>(false);
@@ -149,6 +150,14 @@ const Login = () => {
                               user,
                             })
                           );
+
+                          // Save token in cookie
+                          Cookies.set("token", credentialResponse.credential, {
+                            expires: 7, // Token expires in 7 days
+                            secure: true,
+                            sameSite: "strict",
+                          });
+
                           navigate("/");
                           toast.success("🦄 Đăng nhập thành công!");
                         }}

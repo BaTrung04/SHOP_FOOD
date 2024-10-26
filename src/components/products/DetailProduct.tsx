@@ -125,6 +125,7 @@ const DetailProduct = () => {
       toast.success(`🦄 ${res.message}!`);
     } catch (error) {
       console.log(error);
+      toast.error(`🦄 Vui lòng đăng nhập!`);
     }
   };
   return (
