@@ -76,12 +76,12 @@ export const authSlice = createSlice({
   },
 });
 
-// Action creators are generated for each case reducer function
+// Export actions and reducer
 const { actions, reducer } = authSlice;
 export const {
   loginStart,
-  loginFailed,
   loginSuccess,
+  loginFailed,
   logOutStart,
   logOutSuccess,
   logOutFailed,

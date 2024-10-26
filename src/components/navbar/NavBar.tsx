@@ -18,11 +18,11 @@ import {
 } from "../../redux/authSlice";
 import { getCategories, logoutAuthApi } from "../../Services/modules/auth";
 import { toast } from "react-toastify";
+import ShowCart from "../cart/ShowCart";
 
 const NavBar = () => {
   const [showProFile, setShowProFile] = useState<boolean>(false);
   const [showNavBar, setShowNavBar] = useState<boolean>(false);
-  const [showCart, setShowCart] = useState<boolean>(false);
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [category, setCategory] = useState<ICategory[]>([]);
 
@@ -240,70 +240,7 @@ const NavBar = () => {
             </button>
 
             {/* Giỏ hàng */}
-            <div
-              className="relative"
-              onMouseEnter={() => setShowCart(true)}
-              onMouseLeave={() => setShowCart(false)}
-            >
-              <div className=" inset-y-0 right-0 flex items-center gap-[10px] pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <button
-                  type="button"
-                  className="p-[11px] rounded-full hover:bg-violet-300  dark:hover:bg-gray-300  bg-violet-200 text-black dark:bg-white  dark:text-black"
-                >
-                  {darkMode ? (
-                    <RiShoppingBagFill className="text-[25px]" />
-                  ) : (
-                    <RiShoppingBagLine className="text-[25px]" />
-                  )}
-                </button>
-                <div className="absolute top-[-6px] right-[-8px] bg-red-500 text-[16px] rounded-full w-[25px] h-[25px] text-center text-white">
-                  1
-                </div>
-              </div>
-              {showCart && (
-                <div className="absolute bg-white w-[350px] right-[50%] dark:bg-gray-700 mt-[1px] left-[50%] transform translate-x-[-50%] z-10 origin-top ring-1 ring-gray-100 shadow-xl h-[auto] rounded-lg">
-                  <div className="text-gray-400 text-[14px] p-[10px] dark:text-white">
-                    Sản phẩm mới thêm
-                  </div>
-                  <div className="px-[10px] overflow-y-auto max-h-[300px] ">
-                    {/* sp1 */}
-                    <div className="flex items-center justify-between text-[14px] mb-[5px] dark:text-white">
-                      <div className="flex items-center gap-[10px] ">
-                        <img
-                          src={logo}
-                          alt=""
-                          className="w-[40px] h-[50px] border border-violet-200 object-cover rounded-sm"
-                        />
-                        <div>Sản phẩm 1</div>
-                      </div>
-                      <div className="text-red-500 font-semibold ">
-                        100.000Đ
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-[10px] items-center mt-[10px] px-[10px]">
-                    <button
-                      className="primary-btn w-[100%]"
-                      onClick={() => {
-                        navigate("/cart");
-                        setShowCart(false);
-                      }}
-                    >
-                      Xem giỏ hàng
-                    </button>
-                    <button
-                      className="primary-btn w-[100%] mb-[10px]"
-                      onClick={() => {
-                        navigate("/payment");
-                        setShowCart(false);
-                      }}
-                    >
-                      Thanh toán
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
+            <ShowCart darkMode={darkMode} />
 
             {!isLogin ? (
               <button

@@ -100,6 +100,7 @@ export const getAllProduct = async (
   );
 };
 
+//[GET PRODUCT BY ID]
 export const getProductById = async (
   id: string | undefined
 ): Promise<IProductByIdResponse> => {

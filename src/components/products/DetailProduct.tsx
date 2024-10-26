@@ -10,6 +10,10 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { FaAngleRight, FaHeart, FaRegHeart } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { useDispatch, } from "react-redux";
+import {
+  addToCart,
+} from "../../redux/CartSlice";
 const responsive = {
   superLargeDesktop: {
     breakpoint: { max: 4000, min: 3000 },
@@ -53,15 +57,17 @@ const DetailProduct = () => {
   const { id } = useParams();
   console.log(id);
   const [data, setData] = useState<any>([]);
-  const [quantity, setQuantity] = useState<number>(1);
   const [content, setContent] = useState<string>("");
   const isFormValid = content;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [images, setImages] = useState<any>([]);
   const [idCategory, setIdCategory] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [dataProductByCategory, setDataProductByCategory] = useState<any>([]);
+
   const gridRef = useRef<HTMLDivElement | null>(null);
+  const [quantity, setQuantity] = useState<number>(1);
 
   const handlePageChange = (idCategory: string) => {
     navigate(`/product/${idCategory}`);
@@ -101,6 +107,7 @@ const DetailProduct = () => {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     fetchApi();
   }, [idCategory]);
@@ -127,6 +134,11 @@ const DetailProduct = () => {
       console.log(error);
       toast.error(`🦄 Vui lòng đăng nhập!`);
     }
+  };
+
+  const handleClickAddToCart = async () => {
+    const res: any = await getProductById(id);
+    dispatch(addToCart({ product: res.product, quantity: quantity }));
   };
   return (
     <>
@@ -214,7 +226,10 @@ const DetailProduct = () => {
                     +
                   </button>
                 </div>
-                <button className="primary-btn flex-1 py-[10px]">
+                <button
+                  className="primary-btn flex-1 py-[10px]"
+                  onClick={() => handleClickAddToCart()}
+                >
                   Thêm vào giỏ hàng
                 </button>
               </div>

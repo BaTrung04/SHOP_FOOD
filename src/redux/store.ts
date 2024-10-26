@@ -1,5 +1,6 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import authReducer from "./authSlice";
+import cartReducer from "./CartSlice";
 import {
   persistStore,
   persistReducer,
@@ -20,18 +21,16 @@ const persistConfig = {
   blacklist: ["socket"], // Không lưu trữ socket trong redux-persist
 };
 
-// rootReducer với kiểu trả về được khai báo
+// rootReducer với các reducer được kết hợp
 const rootReducer = combineReducers({
   auth: authReducer,
+  cart: cartReducer,
 });
 
-// persistReducer với kiểu trả về được khai báo
+// Áp dụng persistReducer vào rootReducer
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-// Khai báo kiểu RootState từ rootReducer
-export type RootState = ReturnType<typeof rootReducer>;
-
-// Tạo store với middleware kèm theo kiểu
+// Tạo store với middleware, bỏ qua các action không serializable của redux-persist
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
@@ -42,8 +41,11 @@ export const store = configureStore({
     }),
 });
 
+// Khai báo kiểu cho RootState từ rootReducer
+export type RootState = ReturnType<typeof rootReducer>;
+
 // Khai báo kiểu cho AppDispatch từ store
 export type AppDispatch = typeof store.dispatch;
 
-// Tạo persistor
-export let persistor = persistStore(store);
+// Tạo persistor để quản lý trạng thái được lưu trữ
+export const persistor = persistStore(store);
