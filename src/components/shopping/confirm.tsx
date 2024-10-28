@@ -24,6 +24,7 @@ const Confirm = () => {
       return total + item.quantity;
     }, 0);
   };
+  
   const handleClickNext = async () => {
     const body = {
       products: items,

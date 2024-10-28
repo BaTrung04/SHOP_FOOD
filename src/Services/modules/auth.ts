@@ -184,3 +184,8 @@ export const postPayment = async (data: any) => {
 // export const postPaymentLink = async (data: any) => {
 //   return await axiosInstance.post(`/create-checkout-session`,data);
 // };
+
+//[PUT NEW REVIEW]
+export const putReview = async (data: any) => {
+  return await axiosInstance.put(`/review`,data);
+};
