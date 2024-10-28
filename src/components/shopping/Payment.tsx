@@ -1,13 +1,10 @@
 import { useState } from "react";
 import cart from "../../assets/card.png";
-import { useElements, useStripe } from "@stripe/react-stripe-js";
 const Payment = () => {
   const [cardNumber, setCardNumber] = useState<string>("");
   const [expiry, setExpiry] = useState<string>("");
   const [cvc, setCvc] = useState<string>("");
 
-  const stripe = useStripe();
-  const elements = useElements();
 
   const handleSubmit = () => {};
   return (

@@ -44,6 +44,8 @@ import HistoryOrder from "./components/order/HistoryOrder";
 import Shipping from "./components/shopping/Shipping";
 import Confirm from "./components/shopping/confirm";
 import LayoutShopping from "./components/shopping/LayoutShopping";
+import Cancel from "./components/shopping/Cancel";
+import Success from "./components/shopping/succes";
 
 function App() {
   const isRole = useSelector(
@@ -63,6 +65,8 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/wishlist" element={<Wishlist />} />
             <Route path="/history-order" element={<HistoryOrder />} />
+            <Route path="/cancel" element={<Cancel />} />
+            <Route path="/success" element={<Success />} />
 
             <Route path="/categories" element={<Categories />}>
               <Route index element={<DetailCategory />} />

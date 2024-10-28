@@ -174,3 +174,13 @@ export const postWishList = async (id: string): Promise<IWishList> => {
 export const getWishList = async (page: number, limit: number) => {
   return await axiosInstance.get(`/wishlist/user?limit=${limit}&page=${page}`);
 };
+
+
+//[PAYMENT ]
+export const postPayment = async (data: any) => {
+  return await axiosInstance.post(`/payment/process`,data);
+};
+
+// export const postPaymentLink = async (data: any) => {
+//   return await axiosInstance.post(`/create-checkout-session`,data);
+// };
