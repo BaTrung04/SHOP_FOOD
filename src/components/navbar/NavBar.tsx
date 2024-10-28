@@ -84,9 +84,9 @@ const NavBar = () => {
   };
   return (
     <>
-      <nav className="bg-white dark:bg-gray-800 shadow-lg sticky top-0 z-50">
+      <nav className="bg-white dark:bg-gray-800 shadow-lg sticky top-0 z-50 block lg:flex items-center justify-center ">
         <div className="container px-2 sm:px-6 lg:px-8">
-          <div className="relative flex h-16 items-center justify-between">
+          <div className="relative flex h-16 items-center justify-between gap-[10px] sm:gap-0">
             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden ">
               <button
                 type="button"
@@ -136,7 +136,7 @@ const NavBar = () => {
                 onClick={() => navigate("/")}
               >
                 <img
-                  className="h-8 w-auto text-black rounded-xl cursor-pointer"
+                  className="lg:h-8 w-auto h-6 text-black rounded-xl cursor-pointer"
                   src={logo}
                   alt="Your Company"
                 />
@@ -148,8 +148,8 @@ const NavBar = () => {
                     to="/introduce"
                     className={({ isActive }) =>
                       isActive
-                        ? "rounded-md px-3 py-2 text-lg font-bold text-violet-500 dark:text-violet-300 ring-2 ring-violet-300"
-                        : "rounded-md px-3 py-2 text-lg font-bold text-black dark:text-white "
+                        ? "rounded-md xl:px-3 xl:py-2 xl:text-lg font-bold text-violet-500 dark:text-violet-300 ring-2 ring-violet-300"
+                        : "rounded-md xl:px-3 xl:py-2 xl:text-lg font-bold text-black dark:text-white "
                     }
                     aria-current="page"
                   >
@@ -160,7 +160,7 @@ const NavBar = () => {
                     <NavLink
                       to="/categories"
                       className={({ isActive }) =>
-                        `flex items-center rounded-md px-3 py-2 text-lg font-bold cursor-pointer ${
+                        `flex items-center rounded-md xl:px-3 xl:py-2 xl:text-lg font-bold cursor-pointer ${
                           isActive
                             ? "text-violet-500 dark:text-violet-300 ring-2 ring-violet-300"
                             : "text-black dark:text-white"
@@ -173,11 +173,11 @@ const NavBar = () => {
 
                     {/* Dropdown hiển thị khi hover */}
                     <div className="absolute left-0 mt-0.5 hidden w-48 rounded-md bg-white shadow-lg dark:bg-gray-800 group-hover:block z-10">
-                      <ul className="py-2">
+                      <ul className="xl:px-3 xl:py-2">
                         {category &&
                           category.map((item) => (
                             <li
-                              className="px-4 py-2 hover:bg-violet-300 dark:hover:bg-gray-400 cursor-pointer dark:text-white "
+                              className="xl:px-3 xl:py-2 hover:bg-violet-300 dark:hover:bg-gray-400 cursor-pointer dark:text-white "
                               key={item._id}
                               onClick={() =>
                                 navigate(`categories/${item.slug}/${item._id}`)
@@ -193,8 +193,8 @@ const NavBar = () => {
                     to="/news"
                     className={({ isActive }) =>
                       isActive
-                        ? "rounded-md px-3 py-2 text-lg font-bold text-violet-500 dark:text-violet-300 ring-2 ring-violet-300"
-                        : "rounded-md px-3 py-2 text-lg font-bold text-black dark:text-white"
+                        ? "rounded-md xl:px-3 xl:py-2 xl:text-lg font-bold text-violet-500 dark:text-violet-300 ring-2 ring-violet-300"
+                        : "rounded-md xl:px-3 xl:py-2 xl:text-lg font-bold text-black dark:text-white"
                     }
                   >
                     Tin tức
@@ -203,8 +203,8 @@ const NavBar = () => {
                     to="/contact"
                     className={({ isActive }) =>
                       isActive
-                        ? "rounded-md px-3 py-2 text-lg font-bold text-violet-500 dark:text-violet-300 ring-2 ring-violet-300"
-                        : "rounded-md px-3 py-2 text-lg font-bold text-black dark:text-white"
+                        ? "rounded-md xl:px-3 xl:py-2 xl:text-lg font-bold text-violet-500 dark:text-violet-300 ring-2 ring-violet-300"
+                        : "rounded-md xl:px-3 xl:py-2 xl:text-lg font-bold text-black dark:text-white"
                     }
                   >
                     Liên hệ
@@ -213,18 +213,17 @@ const NavBar = () => {
               </div>
             </div>
             {/* search */}
-            <div className="w-[30%] relative">
-              <input
-                type="text"
-                className="block w-[90%] rounded-2xl mr-[10px] border-0 py-1.5 px-[10px] text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-violet-300 sm:text-sm sm:leading-6"
-                placeholder="Nhập món ăn"
-              />
-              <button
-                type="button"
-                className="p-[10px] rounded-full hover:bg-violet-300  dark:hover:bg-gray-300 bg-violet-200 text-black dark:bg-white  dark:text-black absolute top-0 right-[44px] dark:border-0 ring-1 ring-inset ring-gray-300"
-              >
-                {darkMode ? <RiSearchFill /> : <RiSearchLine />}
-              </button>
+            <div className="xl:w-[30%] relative lg:block hidden">
+              <div className="relative">
+                <input
+                  type="text"
+                  className="block w-[90%] rounded-2xl mr-[10px] border-0 py-1.5 px-[10px] text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-violet-300 sm:text-sm sm:leading-6"
+                  placeholder="Nhập món ăn"
+                />
+                <span className="p-[10px] rounded-full hover:bg-violet-300  dark:hover:bg-gray-300 bg-violet-200 text-black dark:bg-white  dark:text-black absolute top-0  2xl:right-[44px] xl:right-[30px]  dark:border-0 ring-1 ring-inset ring-gray-300">
+                  {darkMode ? <RiSearchFill /> : <RiSearchLine />}
+                </span>
+              </div>
             </div>
 
             {/* dark */}
@@ -233,9 +232,9 @@ const NavBar = () => {
               className="p-[11px] rounded-full hover:bg-violet-300  dark:hover:bg-gray-300  bg-violet-200 text-black dark:bg-white  dark:text-black"
             >
               {darkMode ? (
-                <BsCloudSunFill className="text-[25px]" />
+                <BsCloudSunFill className="2xl:text-[25px] xl:text-[20px]" />
               ) : (
-                <BsCloudSun className="text-[25px]" />
+                <BsCloudSun className="2xl:text-[25px] xl:text-[20px]" />
               )}
             </button>
 
@@ -244,7 +243,7 @@ const NavBar = () => {
 
             {!isLogin ? (
               <button
-                className="primary-btn font-bold ml-[10px]"
+                className="primary-btn font-bold ml-[10px] sm:block hidden"
                 onClick={() => navigate("/login")}
               >
                 Đăng nhập
@@ -336,31 +335,79 @@ const NavBar = () => {
         {showNavBar && (
           <div className="sm:hidden" id="mobile-menu">
             <div className="space-y-1 px-2 pb-3 pt-2">
-              <a
-                href="#"
-                className="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white"
+              <NavLink
+                to="/introduce"
+                className={({ isActive }) =>
+                  isActive
+                    ? "rounded-md xl:px-3 xl:py-2 xl:text-lg font-bold text-violet-500 dark:text-violet-300 ring-2 ring-violet-300"
+                    : "rounded-md xl:px-3 xl:py-2 xl:text-lg font-bold text-black dark:text-white "
+                }
                 aria-current="page"
               >
-                Dashboard
-              </a>
-              <a
-                href="#"
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                Giới thiệu
+              </NavLink>
+              <NavLink
+                to="/categories"
+                className={({ isActive }) =>
+                  `flex items-center rounded-md xl:px-3 xl:py-2 xl:text-lg font-bold cursor-pointer ${
+                    isActive
+                      ? "text-violet-500 dark:text-violet-300 ring-2 ring-violet-300"
+                      : "text-black dark:text-white"
+                  }`
+                }
               >
-                Team
-              </a>
-              <a
-                href="#"
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                <span>Danh mục</span>
+                <FaAngleDown className="ml-2" />
+              </NavLink>
+              <NavLink
+                to="/news"
+                className={({ isActive }) =>
+                  isActive
+                    ? "rounded-md xl:px-3 xl:py-2 xl:text-lg font-bold text-violet-500 dark:text-violet-300 ring-2 ring-violet-300"
+                    : "rounded-md xl:px-3 xl:py-2 xl:text-lg font-bold text-black dark:text-white"
+                }
               >
-                Projects
-              </a>
+                Tin tức
+              </NavLink>
               <a
                 href="#"
                 className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
               >
                 Calendar
               </a>
+              <NavLink
+                to="/contact"
+                className={({ isActive }) =>
+                  isActive
+                    ? "rounded-md xl:px-3 xl:py-2 xl:text-lg font-bold text-violet-500 dark:text-violet-300 ring-2 ring-violet-300"
+                    : "rounded-md xl:px-3 xl:py-2 xl:text-lg font-bold text-black dark:text-white"
+                }
+              >
+                Liên hệ
+              </NavLink>
+            </div>
+            <div className="flex space-x-4">
+              <div className="relative group">
+                {/* Nút danh mục */}
+
+                {/* Dropdown hiển thị khi hover */}
+                <div className="absolute left-0 mt-0.5 hidden w-48 rounded-md bg-white shadow-lg dark:bg-gray-800 group-hover:block z-10">
+                  <ul className="xl:px-3 xl:py-2">
+                    {category &&
+                      category.map((item) => (
+                        <li
+                          className="xl:px-3 xl:py-2 hover:bg-violet-300 dark:hover:bg-gray-400 cursor-pointer dark:text-white "
+                          key={item._id}
+                          onClick={() =>
+                            navigate(`categories/${item.slug}/${item._id}`)
+                          }
+                        >
+                          {item.categoryName}
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         )}

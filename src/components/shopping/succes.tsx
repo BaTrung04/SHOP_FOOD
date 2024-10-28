@@ -47,6 +47,7 @@ const Success = () => {
 
   const createOrder = async (paymentId: string, paymentStatus: string) => {
     try {
+      // truyen cho du body di. cai dung voi stripe e thanh lam r. con lai la thong tin dat hang
       const response = await fetch(`http://localhost:8000/api/v1/order/new`, {
         method: "POST",
         headers: {

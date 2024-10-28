@@ -52,16 +52,16 @@ const ShowCart: React.FC<MyComponentProps> = (props) => {
         <div className=" inset-y-0 right-0 flex items-center gap-[10px] pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
           <button
             type="button"
-            className="p-[11px] rounded-full hover:bg-violet-300  dark:hover:bg-gray-300  bg-violet-200 text-black dark:bg-white  dark:text-black"
+            className="2xl:p-[11px] xl:p-[7px] rounded-full hover:bg-violet-300  dark:hover:bg-gray-300  bg-violet-200 text-black dark:bg-white  dark:text-black"
             onClick={() => {
               navigate("/cart");
               setShowCart(false);
             }}
           >
             {darkMode ? (
-              <RiShoppingBagFill className="text-[25px]" />
+              <RiShoppingBagFill className="2xl:text-[25px] xl:text-[20px]" />
             ) : (
-              <RiShoppingBagLine className="text-[25px]" />
+              <RiShoppingBagLine className="text-[25px] xl:text-[20px]" />
             )}
           </button>
           <div className="absolute top-[-6px] right-[-8px] bg-red-500 text-[16px] rounded-full w-[25px] h-[25px] text-center text-white">

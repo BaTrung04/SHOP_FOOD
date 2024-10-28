@@ -24,7 +24,7 @@ export default {
         right: "6px 0 10px -2px rgba(0, 0, 0, 0.1)",
       },
       screens: {
-        lg: "800px", // Thêm breakpoint mới cho 670px
+        md: "800px", // Thêm breakpoint mới cho 670px
       },
     },
   },

@@ -1,19 +1,18 @@
 import Carousel from "react-multi-carousel";
 import lauHaiSan from "../../assets/lau-hai-san.jpg";
 import { useEffect, useRef, useState } from "react";
-import { CiStar } from "react-icons/ci";
+import { FaStar } from "react-icons/fa";
 import {
   getProductByCategories,
   getProductById,
   postWishList,
+  putReview,
 } from "../../Services/modules/auth";
 import { useNavigate, useParams } from "react-router-dom";
 import { FaAngleRight, FaHeart, FaRegHeart } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { useDispatch, } from "react-redux";
-import {
-  addToCart,
-} from "../../redux/CartSlice";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../redux/CartSlice";
 const responsive = {
   superLargeDesktop: {
     breakpoint: { max: 4000, min: 3000 },
@@ -57,8 +56,6 @@ const DetailProduct = () => {
   const { id } = useParams();
   console.log(id);
   const [data, setData] = useState<any>([]);
-  const [content, setContent] = useState<string>("");
-  const isFormValid = content;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [images, setImages] = useState<any>([]);
@@ -68,6 +65,10 @@ const DetailProduct = () => {
 
   const gridRef = useRef<HTMLDivElement | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
+
+  const [rating, setRating] = useState<number>(0);
+  const [comment, setComment] = useState<string>("");
+  const isFormValid = rating && comment;
 
   const handlePageChange = (idCategory: string) => {
     navigate(`/product/${idCategory}`);
@@ -139,6 +140,27 @@ const DetailProduct = () => {
   const handleClickAddToCart = async () => {
     const res: any = await getProductById(id);
     dispatch(addToCart({ product: res.product, quantity: quantity }));
+  };
+
+  const handleRating = (index: number) => {
+    setRating(index);
+  };
+
+  const handleReview = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const data = {
+      rating: rating,
+      comment: comment,
+      productId: id,
+    };
+    try {
+      await putReview(data);
+      toast.success("🦄Bạn đã đánh giá thành công!");
+      setRating(0);
+      setComment("");
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
@@ -254,11 +276,11 @@ const DetailProduct = () => {
                     <div className="flex items-center justify-start gap-[10px]">
                       <div className="font-medium">Bá Trung</div>
                       <div className="flex">
-                        <CiStar className="text-[20px]" />
-                        <CiStar className="text-[20px]" />
-                        <CiStar className="text-[20px]" />
-                        <CiStar className="text-[20px]" />
-                        <CiStar className="text-[20px]" />
+                        <FaStar className="text-[20px]" />
+                        <FaStar className="text-[20px]" />
+                        <FaStar className="text-[20px]" />
+                        <FaStar className="text-[20px]" />
+                        <FaStar className="text-[20px]" />
                       </div>
                     </div>
                     <div className="line-clamp-3 text-[14px]">
@@ -280,11 +302,11 @@ const DetailProduct = () => {
                     <div className="flex items-center justify-start gap-[10px]">
                       <div className="font-medium">Bá Trung</div>
                       <div className="flex">
-                        <CiStar className="text-[20px]" />
-                        <CiStar className="text-[20px]" />
-                        <CiStar className="text-[20px]" />
-                        <CiStar className="text-[20px]" />
-                        <CiStar className="text-[20px]" />
+                        <FaStar className="text-[20px]" />
+                        <FaStar className="text-[20px]" />
+                        <FaStar className="text-[20px]" />
+                        <FaStar className="text-[20px]" />
+                        <FaStar className="text-[20px]" />
                       </div>
                     </div>
                     <div className="line-clamp-3 text-[14px]">
@@ -299,18 +321,27 @@ const DetailProduct = () => {
               <div className="flex-1 flex items-center justify-center">
                 <div className="p-[20px] ring-2 ring-violet-300 rounded-lg shadow-lg w-[80%] dark:bg-gray-800">
                   <div className="font-semibold">Thêm đánh giá mới</div>
-                  <form className="space-y-6 mt-[20px]  w-[100%]  ">
+                  <form
+                    onSubmit={handleReview}
+                    className="space-y-6 mt-[20px]  w-[100%]  "
+                  >
                     <div>
                       <div className="text-[14px] my-[10px]">
                         Đánh giá của bạn: *
                       </div>
                       <div className="flex gap-[10px]">
                         <div className="flex">
-                          <CiStar className="text-[30px]" />
-                          <CiStar className="text-[30px]" />
-                          <CiStar className="text-[30px]" />
-                          <CiStar className="text-[30px]" />
-                          <CiStar className="text-[30px]" />
+                          {[...Array(5)].map((_, index: number) => (
+                            <FaStar
+                              key={index}
+                              className={`text-[30px] cursor-pointer ${
+                                index < rating
+                                  ? "text-yellow-400"
+                                  : "text-gray-300"
+                              }`}
+                              onClick={() => handleRating(index + 1)} // Thiết lập rating theo số sao đã chọn
+                            />
+                          ))}
                         </div>
                       </div>
                     </div>
@@ -329,8 +360,8 @@ const DetailProduct = () => {
                           <div className="mt-2 relative">
                             <textarea
                               rows={4}
-                              value={content}
-                              onChange={(e) => setContent(e.target.value)}
+                              value={comment}
+                              onChange={(e) => setComment(e.target.value)}
                               className="block w-full px-[5px] rounded-md border-0 py-1.5  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-gray-200"
                               placeholder="Nhập nội dung tại đây..."
                             ></textarea>
