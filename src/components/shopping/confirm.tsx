@@ -1,10 +1,9 @@
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { loadStripe } from "@stripe/stripe-js";
+import { removeCart } from "../../redux/CartSlice";
+
 const Confirm = () => {
-  const navigate = useNavigate();
-  const info = useSelector((state: RootState) => state.ship.info);
+  const dispatch = useDispatch();
   const items = useSelector((state: RootState) => state.cart.items);
 
   const formattedPrice = (price: number | undefined): string => {
@@ -24,6 +23,7 @@ const Confirm = () => {
       return total + item.quantity;
     }, 0);
   };
+
   const handleClickNext = async () => {
     const body = {
       products: items,
@@ -39,11 +39,20 @@ const Confirm = () => {
         method: "POST",
         headers: headers,
         body: JSON.stringify(body),
+        credentials: "include",
       }
     );
 
     const session = await res.json();
 
+    const paymentUrl = session?.url;
+    const paymentId = session?.sessionId;
+
+    if (paymentUrl && paymentId) {
+      // dispatch(removeCart());
+      window.location.href = paymentUrl;
+      localStorage.setItem("sessionId", paymentId);
+    }
   };
 
   return (

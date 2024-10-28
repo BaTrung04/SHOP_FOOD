@@ -27,7 +27,13 @@ const Login = () => {
     try {
       const res = await loginAuthApi(user);
       dispatch(loginSuccess(res));
-      localStorage.setItem("token", res.token);
+
+      Cookies.set("token", res.token, {
+        expires: 7, // Token expires in 7 days
+        secure: true,
+        sameSite: "strict",
+      });
+
       toast.success("🦄 Đăng nhập thành công!");
       navigate("/");
     } catch (err) {
