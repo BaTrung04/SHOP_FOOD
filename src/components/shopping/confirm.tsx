@@ -18,10 +18,6 @@ const Confirm = () => {
       return total + Number(item.product.price) * item.quantity;
     }, 0);
   };
-  const itemsPrice = calculateTotalPrice(); // giống giống như for, foreach
-  const shippingPrice = itemsPrice > 100000 ? 0 : 10000; // tính tiền ship
-  const taxPrice = Number(0.01 * itemsPrice); // tính thuế
-  const totalPrice = itemsPrice + shippingPrice + taxPrice; // tổng tiền
 
   const calculateTotalQuantity = (): number => {
     return items.reduce((total, item) => {
@@ -29,30 +25,25 @@ const Confirm = () => {
     }, 0);
   };
   const handleClickNext = async () => {
-    const stripe = await loadStripe("pk_test_51PCBNUP8z5n5kzFuvaruaOaszE2aUO4uc1f7FHYW2twU67IjtfQyp9cgAv2wxp2J6C4B988HYiQQ2fAA28od2Cmy00mInT9WHn");
     const body = {
       products: items,
     };
 
     const headers = {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${document.cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1]}`, // Lấy token từ cookie
     };
 
-    const res = await fetch(`http://localhost:8000/api/v1/create-checkout-session`, {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify(body),
-    });
+    const res = await fetch(
+      `http://localhost:8000/api/v1/create-checkout-session`,
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(body),
+      }
+    );
 
     const session = await res.json();
-    const result = await stripe.redirectToCheckout({
-      sessionId: session.id,
-    });
 
-    if (result.error) {
-      console.log(result.error);
-    }
   };
 
   return (
