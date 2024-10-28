@@ -41,6 +41,9 @@ import ProductByCategory from "./components/products/ProductByCategory";
 import DetailCategory from "./components/products/DetailCategory";
 import Wishlist from "./components/Home/Wishlist";
 import HistoryOrder from "./components/order/HistoryOrder";
+import Shipping from "./components/shopping/Shipping";
+import Confirm from "./components/shopping/confirm";
+import LayoutShopping from "./components/shopping/LayoutShopping";
 
 function App() {
   const isRole = useSelector(
@@ -70,7 +73,12 @@ function App() {
               <Route path=":id" element={<DetailNews />} />
             </Route>
             <Route path="/cart" element={<Cart />} />
-            <Route path="/payment" element={<Payment />} />
+            <Route path="/ship" element={<LayoutShopping />}>
+              <Route index element={<Shipping />} />
+              <Route path="confirm" element={<Confirm />} />
+              <Route path="payment" element={<Payment />} />
+            </Route>
+
             <Route path="/info" element={<Info />}>
               <Route index element={<UpdateAccount />} />
               <Route path="update-password" element={<UpdatePassword />} />

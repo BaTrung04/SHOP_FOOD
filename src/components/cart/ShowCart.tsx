@@ -6,6 +6,7 @@ import { useState } from "react";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { removeItem } from "../../redux/CartSlice";
 import cart from "../../assets/cart.png";
+import { toast } from "react-toastify";
 
 interface MyComponentProps {
   darkMode: boolean;
@@ -17,7 +18,7 @@ const ShowCart: React.FC<MyComponentProps> = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const items = useSelector((state: RootState) => state.cart.items);
-
+  const isLogin = useSelector((state: RootState) => state.auth.login.isLogin);
   const formattedPrice = (price: number | undefined): string => {
     if (typeof price !== "number") {
       return "Giá không xác định";
@@ -32,6 +33,15 @@ const ShowCart: React.FC<MyComponentProps> = (props) => {
     }, 0);
   };
 
+  const handlePayment = () => {
+    if (isLogin === false) {
+      navigate("/login");
+      toast.error("Vui lòng đăng nhập để thanh toán!");
+    } else {
+      navigate("/ship");
+      setShowCart(false);
+    }
+  };
   return (
     <>
       <div
@@ -63,8 +73,8 @@ const ShowCart: React.FC<MyComponentProps> = (props) => {
           <div className="absolute bg-white w-[350px] right-[50%] dark:bg-gray-700 mt-[1px] left-[50%] transform translate-x-[-50%] z-10 origin-top ring-1 ring-gray-100 shadow-xl h-[auto] rounded-lg">
             {items.length === 0 ? (
               <div className="px-[20px] py-[40px] text-center">
-                <div className="flex flex-col items-center justify-center gap-[10px]">
-                  <img src={cart} alt="" className="w-[100px]" />
+                <div className="flex flex-col items-center justify-center gap-[10px] dark:text-white">
+                  <img src={cart} alt="" className="w-[100px] " />
                   Chưa có sản phẩm trong giỏ hàng.
                 </div>
               </div>
@@ -125,10 +135,7 @@ const ShowCart: React.FC<MyComponentProps> = (props) => {
                   </button>
                   <button
                     className="primary-btn w-[100%] mb-[10px]"
-                    onClick={() => {
-                      navigate("/payment");
-                      setShowCart(false);
-                    }}
+                    onClick={() => handlePayment()}
                   >
                     Thanh toán
                   </button>
