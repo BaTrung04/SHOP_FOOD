@@ -18,11 +18,11 @@ export default tseslint.config({
   languageOptions: {
     // other options...
     parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
       tsconfigRootDir: import.meta.dirname,
     },
   },
-})
+});
 ```
 
 - Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
@@ -31,11 +31,11 @@ export default tseslint.config({
 
 ```js
 // eslint.config.js
-import react from 'eslint-plugin-react'
+import react from "eslint-plugin-react";
 
 export default tseslint.config({
   // Set the react version
-  settings: { react: { version: '18.3' } },
+  settings: { react: { version: "18.3" } },
   plugins: {
     // Add the react plugin
     react,
@@ -44,7 +44,26 @@ export default tseslint.config({
     // other rules...
     // Enable its recommended rules
     ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
+    ...react.configs["jsx-runtime"].rules,
   },
-})
+});
 ```
+
+# ĐỒ ÁN TỐT NGHIỆP - CỬA HÀNG ĐỒ ĂN (SHOP_FOOD)
+
+<h3>Người thực hiện </h3>
+<h6>Nguyễn Bá Trung</h6>
+
+## Mục tiêu làm đề tài
+
+- Nghiên cứu và phát triển hệ web bán hàng đồ ăn dựa vào javascript
+- Xây dựng ứng dụng mua hàng
+
+## Hướng phát triển trong tương lai:
+
+- Áp dụng công nghệ như AI, Machine Learning để gợi ý sản phẩm cho khách hàng
+- Sử dụng Machine Learning để thống kê
+- Tích hợp và hỗ trợ khách hàng tìm kiếm sản phẩm bằng hình ảnh và giọng nói
+- Cải thiện kết quả tìm kiếm
+- Sử dụng Machine Learning để dự đoán nhu cầu mua hàng hóa của khách hàng
+- Cải thiện giao diện người dùng, hỗ trợ lọc sản phẩm nâng cao
