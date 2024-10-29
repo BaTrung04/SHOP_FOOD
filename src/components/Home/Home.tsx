@@ -406,7 +406,7 @@ const Home = () => {
           </div>
 
           {/* danh sach tin tuc */}
-          <div className="py-[50px]">
+          <div className="py-[55px] mb-[1px]">
             <div className="flex justify-between">
               <div className="text-[20px] uppercase py-[10px] ">
                 Danh mục tin tức
@@ -424,7 +424,7 @@ const Home = () => {
               keyBoardControl={true}
               customTransition="all 1s ease-in-out"
               transitionDuration={500}
-              className="rounded-sm z-20]"
+              className="rounded-sm z-20 "
             >
               {news &&
                 news.map((news: any) => (

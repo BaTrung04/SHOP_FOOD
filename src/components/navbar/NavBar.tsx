@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { BsCloudSun } from "react-icons/bs";
 import { BsCloudSunFill } from "react-icons/bs";
-import { RiShoppingBagLine } from "react-icons/ri";
-import { RiShoppingBagFill } from "react-icons/ri";
 import logo from "../../assets/logo.png";
 import { FaAngleDown } from "react-icons/fa";
 import { RiSearchLine } from "react-icons/ri";
@@ -25,6 +23,7 @@ const NavBar = () => {
   const [showNavBar, setShowNavBar] = useState<boolean>(false);
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [category, setCategory] = useState<ICategory[]>([]);
+  const [keyword, setKeyword] = useState<string>("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -81,6 +80,11 @@ const NavBar = () => {
     } catch (err) {
       dispatch(logOutFailed());
     }
+  };
+  const handleSearch = (e: React.MouseEvent<HTMLSpanElement>) => {
+    e.preventDefault();
+    navigate("/categories/search", { state: { keyword } });
+    setKeyword("");
   };
   return (
     <>
@@ -219,8 +223,13 @@ const NavBar = () => {
                   type="text"
                   className="block w-[90%] rounded-2xl mr-[10px] border-0 py-1.5 px-[10px] text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-violet-300 sm:text-sm sm:leading-6"
                   placeholder="Nhập món ăn"
+                  value={keyword}
+                  onChange={(e) => setKeyword(e.target.value)}
                 />
-                <span className="p-[10px] rounded-full hover:bg-violet-300  dark:hover:bg-gray-300 bg-violet-200 text-black dark:bg-white  dark:text-black absolute top-0  2xl:right-[44px] xl:right-[30px]  dark:border-0 ring-1 ring-inset ring-gray-300">
+                <span
+                  onClick={(e) => handleSearch(e)}
+                  className="p-[10px] rounded-full hover:bg-violet-300  dark:hover:bg-gray-300 bg-violet-200 text-black dark:bg-white  dark:text-black absolute top-0  2xl:right-[44px] xl:right-[30px]  dark:border-0 ring-1 ring-inset ring-gray-300"
+                >
                   {darkMode ? <RiSearchFill /> : <RiSearchLine />}
                 </span>
               </div>

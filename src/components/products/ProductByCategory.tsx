@@ -77,7 +77,7 @@ const ProductByCategory = () => {
               data.map((item: any) => (
                 <div
                   key={item._id}
-                  className="flex flex-col relative items-center shadow-md rounded-lg h-[320px] dark:bg-gray-800 cursor-pointer transform transition-transform duration-300 hover:scale-105"
+                  className="flex flex-col  relative items-center shadow-md rounded-lg h-[320px] dark:bg-gray-800 cursor-pointer transform transition-transform duration-300 hover:scale-105"
                   onClick={() => handleClickDetailProduct(item._id)}
                 >
                   <img

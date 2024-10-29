@@ -21,7 +21,7 @@ const Product = () => {
   const [images, setImages] = useState<any>([]);
   const [imagesPreview, setImagesPreview] = useState<any>([]);
 
-  const [data, setData] = useState<any>("");
+  const [data, setData] = useState<any>([]);
   const [page, setPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
   const [keyword, setKeyword] = useState<string>("");
