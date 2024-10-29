@@ -12,8 +12,9 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { FaAngleRight, FaHeart, FaRegHeart } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/CartSlice";
+import { RootState } from "../../redux/store";
 const responsive = {
   superLargeDesktop: {
     breakpoint: { max: 4000, min: 3000 },
@@ -70,7 +71,9 @@ const DetailProduct = () => {
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>("");
   const isFormValid = rating && comment;
-
+  const name = useSelector(
+    (state: RootState) => state.auth.login.currentUser?.user.name
+  );
   const handlePageChange = (idCategory: string) => {
     navigate(`/product/${idCategory}`);
     if (gridRef.current) {
@@ -170,6 +173,7 @@ const DetailProduct = () => {
       rating: rating,
       comment: comment,
       productId: id,
+      name: name,
     };
     try {
       await putReview(data);

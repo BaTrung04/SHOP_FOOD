@@ -199,3 +199,13 @@ export const postOrder = async (data: any) => {
 export const getOrderMe = async () => {
   return await axiosInstance.get(`/orders/me`);
 };
+
+//[GET ORDER]
+export const getAllOrders = async () => {
+  return await axiosInstance.get(`/admin/orders`);
+};
+
+//[UPDATE ORDER]
+export const putOrder = async (id: string | undefined, data: any) => {
+  return await axiosInstance.put(`/admin/order/${id}`, data);
+};

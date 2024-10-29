@@ -1,7 +1,27 @@
-import { FaRegTrashCan } from "react-icons/fa6";
-import { RiPencilFill, RiSearchLine } from "react-icons/ri";
+import { useEffect, useState } from "react";
+import { RiSearchLine } from "react-icons/ri";
+import { getAllOrders } from "../../Services/modules/auth";
+import moment from "moment";
+import UpdateOrder from "./UpdateOrder";
 
 const Order = () => {
+  const [data, setData] = useState<any>([]);
+  const fetchApiOrder = async () => {
+    try {
+      const res: any = await getAllOrders();
+      setData(res.orders);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchApiOrder();
+  }, []);
+
+  const formattedDate = (data: string | Date): string => {
+    return moment(data).format("HH:mm:ss - DD/MM/YYYY ");
+  };
+  console.log(data);
   return (
     <>
       {" "}
@@ -56,29 +76,41 @@ const Order = () => {
               <tr className="text-[18px] dark:text-gray-300">
                 <th></th>
                 <th>ID</th>
-                <th>Tên sản phẩm</th>
+                <th>số lượng</th>
                 <th>Giá</th>
-                <th>Số lượng còn lại</th>
+                <th>Trạng thái</th>
+                <th>Ngào tạo</th>
                 <th>Hành động</th>
               </tr>
             </thead>
             <tbody>
-              {/* row 1 */}
-              <tr className="hover:bg-violet-100 cursor-pointer">
-                <th>1</th>
-                <td>671222f5ee39e946b821f23e</td>
-                <td>1</td>
-                <td>10.000 VNĐ</td>
-                <td>32</td>
-                <td className="flex gap-[10px] items-center">
-                  <span className="p-[10px] bg-blue-500 rounded-lg">
-                    <RiPencilFill className=" text-white text-[25px] " />
-                  </span>
-                  <span className="p-[10px] bg-red-500 rounded-lg">
-                    <FaRegTrashCan className=" text-white text-[25px]" />
-                  </span>
-                </td>
-              </tr>
+              {data &&
+                data.map((item: any, index: number) => (
+                  <tr className="hover:bg-violet-100 cursor-pointer dark:hover:bg-violet-400">
+                    <th>{index + 1}</th>
+                    <td>{item._id}</td>
+                    <td>{item.orderItems.length}</td>
+                    <td>{item.totalPrice}</td>
+                    <td>
+                      <span
+                        className={`font-semibold ${
+                          item.orderStatus === "Đã đặt hàng"
+                            ? "text-red-500"
+                            : item.orderStatus === "Đã giao hàng"
+                            ? "text-blue-500"
+                            : ""
+                        }`}
+                      >
+                        {item.orderStatus}
+                      </span>
+                    </td>
+                    <td>{formattedDate(item.createdAt)}</td>
+
+                    <td className="flex gap-[10px] items-center">
+                      <UpdateOrder item={item} fetchApiOrder={fetchApiOrder} />
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
