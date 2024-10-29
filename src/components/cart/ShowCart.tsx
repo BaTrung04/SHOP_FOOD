@@ -4,7 +4,7 @@ import { RootState } from "../../redux/store";
 import { RiShoppingBagFill, RiShoppingBagLine } from "react-icons/ri";
 import { useState } from "react";
 import { FaRegTrashCan } from "react-icons/fa6";
-import { removeItem } from "../../redux/CartSlice";
+import { removeCart, removeItem } from "../../redux/CartSlice";
 import cart from "../../assets/cart.png";
 import { toast } from "react-toastify";
 
@@ -117,10 +117,19 @@ const ShowCart: React.FC<MyComponentProps> = (props) => {
                       </div>
                     ))}
                 </div>
-                <div className="mx-[10px] py-[15px] my-[5px] border-y border-y-violet-300 dark:text-white">
-                  Tổng tiền:{" "}
-                  <span className="text-red-500 font-semibold">
-                    {formattedPrice(calculateTotalPrice())}Đ
+                <div className="mx-[10px] py-[15px] my-[5px] border-y border-y-violet-300 dark:text-white flex justify-between">
+                  <span>
+                    {" "}
+                    Tổng tiền:{" "}
+                    <span className="text-red-500 font-semibold">
+                      {formattedPrice(calculateTotalPrice())}Đ
+                    </span>
+                  </span>
+                  <span
+                    onClick={() => dispatch(removeCart())}
+                    className="text-gray-500 font-semibold text-[14px] cursor-pointer hover:text-red-500 hover:ring-1 ring-red-500 rounded-lg px-[2px]"
+                  >
+                    Xóa tất cả
                   </span>
                 </div>
                 <div className="flex flex-col gap-[10px] items-center mt-[10px] px-[10px]">

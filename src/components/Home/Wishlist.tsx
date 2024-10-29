@@ -3,12 +3,16 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import { getWishList, postWishList } from "../../Services/modules/auth";
 import { IProduct } from "../Interface/product";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../redux/CartSlice";
 
 const Wishlist = () => {
   const [data, setData] = useState<IProduct[]>([]);
   const [page] = useState<number>(1);
   const [limit] = useState<number>(10);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const dispatch = useDispatch();
   const fetchApi = async () => {
     setLoading(true);
     try {
@@ -29,7 +33,7 @@ const Wishlist = () => {
     return price.toLocaleString("vi-VN");
   };
 
-  const handleClickAddWishList = async (id: string) => {
+  const handleClickDeleteWishList = async (id: string) => {
     const data: any = {
       productId: id,
     };
@@ -42,7 +46,9 @@ const Wishlist = () => {
       toast.error(`🦄 Vui lòng đăng nhập!`);
     }
   };
-
+  const handleClickAddToCart = async (product: any) => {
+    dispatch(addToCart({ product: product, quantity: 1 }));
+  };
   return (
     <>
       {loading ? (
@@ -101,13 +107,16 @@ const Wishlist = () => {
 
                         <td className="flex gap-[10px] items-center">
                           {/* add to cart */}
-                          <button className="primary-btn">
+                          <button
+                            className="primary-btn"
+                            onClick={() => handleClickAddToCart(item)}
+                          >
                             Thêm vào giỏ hàng
                           </button>
                           {/* delete */}
                           <span
                             className="p-[10px] bg-red-500 rounded-lg"
-                            onClick={() => handleClickAddWishList(item._id)}
+                            onClick={() => handleClickDeleteWishList(item._id)}
                           >
                             <FaRegTrashCan className=" text-white text-[25px]" />
                           </span>

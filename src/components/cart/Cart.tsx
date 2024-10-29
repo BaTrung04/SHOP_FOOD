@@ -8,12 +8,13 @@ import {
 } from "../../redux/CartSlice";
 import cart from "../../assets/cart.png";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Cart = () => {
   const items = useSelector((state: RootState) => state.cart.items);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const isLogin = useSelector((state: RootState) => state.auth.login.isLogin);
   const formattedPrice = (price: number | undefined): string => {
     if (typeof price !== "number") {
       return "Giá không xác định";
@@ -33,6 +34,15 @@ const Cart = () => {
     return items.reduce((total, item) => {
       return total + item.quantity;
     }, 0);
+  };
+
+  const handlePayment = () => {
+    if (isLogin === false) {
+      navigate("/login");
+      toast.error("Vui lòng đăng nhập để thanh toán!");
+    } else {
+      navigate("/ship");
+    }
   };
   return (
     <>
@@ -84,7 +94,7 @@ const Cart = () => {
                             />
                           </td>
                           <td>{item.product.name}</td>
-                          <td>{item.product.price}</td>
+                          <td>{formattedPrice(item.product.price)}Đ</td>
                           <td>
                             {" "}
                             <div>
@@ -114,10 +124,10 @@ const Cart = () => {
                               </button>
                             </div>
                           </td>
-                          <td className="flex gap-[10px] items-center">
+                          <td className="flex gap-[10px] items-center ">
                             <div className="p-[8px] bg-red-500 rounded-lg text-white hover:bg-white hover:text-red-500 hover:ring-1 ring-violet-300">
                               <FaRegTrashCan
-                                className="  text-[22px "
+                                className="  text-[22px] "
                                 onClick={() =>
                                   dispatch(removeItem(item.product._id))
                                 }
@@ -150,7 +160,10 @@ const Cart = () => {
                     {formattedPrice(calculateTotalPrice())}Đ
                   </span>
                 </div>
-                <button className="primary-btn w-[90%] mx-[20px] mt-[15px]">
+                <button
+                  className="primary-btn w-[90%] mx-[20px] mt-[15px]"
+                  onClick={() => handlePayment()}
+                >
                   Đặt hàng
                 </button>
               </div>

@@ -185,6 +185,10 @@ export const putReview = async (data: any) => {
   return await axiosInstance.put(`/review`, data);
 };
 
+export const getReviewById = async (id: string | undefined) => {
+  return await axiosInstance.get(`/reviews?id=${id}`);
+};
+
 //[ORDER]
 //[POST ORDER]
 export const postOrder = async (data: any) => {

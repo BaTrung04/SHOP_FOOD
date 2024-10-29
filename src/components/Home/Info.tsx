@@ -43,11 +43,17 @@ const Info = () => {
             </div>
             <div className="mt-[50px] dark:bg-gray-800">
               <div className="ring-1 ring-violet-200 p-[25px] flex flex-col items-center rounded-xl gap-[30px]">
-                <button className="primary-btn">
+                <button
+                  className="primary-btn"
+                  onClick={() => navigate("/wishlist")}
+                >
                   Xem các sản phẩm yêu thích
                 </button>
                 {isRole === "user" && (
-                  <button className="primary-btn px-[55px]">
+                  <button
+                    className="primary-btn px-[55px]"
+                    onClick={() => navigate("/history-order")}
+                  >
                     Lịch sử mua hàng
                   </button>
                 )}

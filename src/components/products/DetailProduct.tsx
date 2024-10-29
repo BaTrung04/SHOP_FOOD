@@ -5,6 +5,7 @@ import { FaStar } from "react-icons/fa";
 import {
   getProductByCategories,
   getProductById,
+  getReviewById,
   postWishList,
   putReview,
 } from "../../Services/modules/auth";
@@ -62,7 +63,7 @@ const DetailProduct = () => {
   const [idCategory, setIdCategory] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [dataProductByCategory, setDataProductByCategory] = useState<any>([]);
-
+  const [dataReview, setDataReview] = useState<any>([]);
   const gridRef = useRef<HTMLDivElement | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
 
@@ -88,6 +89,7 @@ const DetailProduct = () => {
         setData(res.product);
         setImages(res.product.images);
         setIdCategory(res.product.category);
+        setQuantity(1);
       } catch (error) {
         console.log(error);
       } finally {
@@ -95,6 +97,22 @@ const DetailProduct = () => {
       }
     };
     fetchApi();
+  }, [id]);
+
+  const fetchApiReviews = async () => {
+    setLoading(true);
+    try {
+      const res: any = await getReviewById(id);
+      setDataReview(res.reviews);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchApiReviews();
   }, [id]);
 
   const fetchApi = async () => {
@@ -155,6 +173,7 @@ const DetailProduct = () => {
     };
     try {
       await putReview(data);
+      fetchApiReviews();
       toast.success("🦄Bạn đã đánh giá thành công!");
       setRating(0);
       setComment("");
@@ -266,57 +285,48 @@ const DetailProduct = () => {
               <div className="flex-1">
                 <div className="text-[18px] font-semibold ">Đánh giá</div>
                 {/* map */}
-                <div className="flex gap-[20px] pr-[30px] mt-[20px]">
-                  <img
-                    src={lauHaiSan}
-                    alt=""
-                    className="w-[70px] h-[70px] object-cover rounded-full border border-violet-300"
-                  />
-                  <div>
-                    <div className="flex items-center justify-start gap-[10px]">
-                      <div className="font-medium">Bá Trung</div>
-                      <div className="flex">
-                        <FaStar className="text-[20px]" />
-                        <FaStar className="text-[20px]" />
-                        <FaStar className="text-[20px]" />
-                        <FaStar className="text-[20px]" />
-                        <FaStar className="text-[20px]" />
-                      </div>
-                    </div>
-                    <div className="line-clamp-3 text-[14px]">
-                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                      Nulla officiis ut natus doloremque ipsa enim officia
-                      veniam, commodi dolorem laborum blanditiis ipsam eligendi
-                      unde placeat vero sequi quidem sapiente nam!
-                    </div>
+                {dataReview.length > 0 ? (
+                  <>
+                    {dataReview &&
+                      dataReview.map((item: any) => (
+                        <div
+                          className="flex gap-[20px] pr-[30px] mt-[20px] border-y border-violet-100 py-[10px]"
+                          key={item.id}
+                        >
+                          {/* Thêm key cho mỗi item */}
+                          <img
+                            src={lauHaiSan}
+                            alt=""
+                            className="w-[50px] h-[50px] object-cover rounded-full border border-violet-300"
+                          />
+                          <div>
+                            <div className="flex items-center justify-start gap-[10px]">
+                              <div className="font-medium">{item.name}</div>
+                              {/* Sử dụng item.rating để hiển thị số sao sáng */}
+                              {[...Array(5)].map((_, index: number) => (
+                                <FaStar
+                                  key={index}
+                                  className={`text-[20px] cursor-pointer ${
+                                    index < item.rating
+                                      ? "text-yellow-400"
+                                      : "text-gray-300"
+                                  }`}
+                                  onClick={() => handleRating(index + 1)} // Thiết lập rating theo số sao đã chọn
+                                />
+                              ))}
+                            </div>
+                            <div className="line-clamp-3 text-[14px]">
+                              {item.comment}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                  </>
+                ) : (
+                  <div className=" py-[30px]">
+                    Sản phẩm chưa có đánh giá nào!
                   </div>
-                </div>
-                {/* map */}
-                <div className="flex gap-[20px] pr-[30px] mt-[20px]">
-                  <img
-                    src={lauHaiSan}
-                    alt=""
-                    className="w-[70px] h-[70px] object-cover rounded-full border border-violet-300"
-                  />
-                  <div>
-                    <div className="flex items-center justify-start gap-[10px]">
-                      <div className="font-medium">Bá Trung</div>
-                      <div className="flex">
-                        <FaStar className="text-[20px]" />
-                        <FaStar className="text-[20px]" />
-                        <FaStar className="text-[20px]" />
-                        <FaStar className="text-[20px]" />
-                        <FaStar className="text-[20px]" />
-                      </div>
-                    </div>
-                    <div className="line-clamp-3 text-[14px]">
-                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                      Nulla officiis ut natus doloremque ipsa enim officia
-                      veniam, commodi dolorem laborum blanditiis ipsam eligendi
-                      unde placeat vero sequi quidem sapiente nam!
-                    </div>
-                  </div>
-                </div>
+                )}
               </div>
               <div className="flex-1 flex items-center justify-center">
                 <div className="p-[20px] ring-2 ring-violet-300 rounded-lg shadow-lg w-[80%] dark:bg-gray-800">
