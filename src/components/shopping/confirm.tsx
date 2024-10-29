@@ -23,7 +23,7 @@ const Confirm = () => {
       return total + item.quantity;
     }, 0);
   };
-  
+
   const handleClickNext = async () => {
     const body = {
       products: items,
@@ -44,15 +44,13 @@ const Confirm = () => {
     );
 
     const session = await res.json();
-
+    console.log(session);
     const paymentUrl = session?.url;
     const paymentId = session?.sessionId;
-
+    console.log(paymentId);
     if (paymentUrl && paymentId) {
+   
 
-      // nao xong het thi bo comment di de clear gio hang
-      // dispatch(removeCart()); 
-      
       window.location.href = paymentUrl;
       localStorage.setItem("sessionId", paymentId);
     }

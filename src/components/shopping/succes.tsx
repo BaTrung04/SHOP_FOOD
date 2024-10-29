@@ -1,11 +1,40 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { RootState } from "../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { removeCart } from "../../redux/CartSlice";
 
 type PaymentStatus = "success" | "failed" | "error" | "missing_session" | null;
 
 const Success = () => {
+  const dispatch = useDispatch();
   const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>(null);
   const navigate = useNavigate();
+  const items = useSelector((state: RootState) => state.cart.items);
+  const infoShip: any = useSelector((state: RootState) => state.ship.info);
+  const user: any = useSelector(
+    (state: RootState) => state.auth.login.currentUser?.user
+  );
+  const orderItems = items.map((item: any) => {
+    return {
+      product: item?.product?._id,
+      name: item?.product?.name,
+      price: item?.product?.price,
+      quantity: item?.quantity,
+      image: item?.product?.images[0]?.url,
+    };
+  });
+
+  // Hàm tính tổng tiền
+  const calculateTotalPrice = (): number => {
+    return items.reduce((total, item) => {
+      return total + Number(item.product.price) * item.quantity;
+    }, 0);
+  };
+
+  const itemsPrice = calculateTotalPrice(); // giống giống như for, foreach
+  const shippingPrice = itemsPrice > 100000 ? 0 : 10000; // tính tiền ship
+  const totalPrice = itemsPrice + shippingPrice; // tổng tiền
 
   useEffect(() => {
     const sessionId = localStorage.getItem("sessionId");
@@ -59,12 +88,18 @@ const Success = () => {
             id: paymentId,
             status: paymentStatus,
           },
-          shippingInfo: null,
-          orderItems: null,
-          itemsPrice: null,
-          taxPrice: null,
-          shippingPrice: null,
-          totalPrice: null,
+          user: user._id,
+          orderItems: orderItems,
+          shippingInfo: {
+            address: infoShip.address,
+            country: infoShip.nation,
+            city: infoShip.city,
+            phoneNo: infoShip.phone,
+            postalCode: infoShip.code,
+          },
+          itemsPrice: itemsPrice,
+          shippingPrice: shippingPrice,
+          totalPrice: totalPrice,
         }),
       });
 
@@ -72,6 +107,7 @@ const Success = () => {
         throw new Error("Tạo đơn hàng thất bại");
       }
       console.log("Đơn hàng đã được tạo thành công!");
+      dispatch(removeCart());
     } catch (error) {
       console.error("Lỗi khi tạo đơn hàng:", error);
     }
