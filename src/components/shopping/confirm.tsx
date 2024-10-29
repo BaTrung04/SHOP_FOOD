@@ -1,9 +1,7 @@
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { removeCart } from "../../redux/CartSlice";
 
 const Confirm = () => {
-  const dispatch = useDispatch();
   const items = useSelector((state: RootState) => state.cart.items);
 
   const formattedPrice = (price: number | undefined): string => {
@@ -44,13 +42,9 @@ const Confirm = () => {
     );
 
     const session = await res.json();
-    console.log(session);
     const paymentUrl = session?.url;
     const paymentId = session?.sessionId;
-    console.log(paymentId);
     if (paymentUrl && paymentId) {
-   
-
       window.location.href = paymentUrl;
       localStorage.setItem("sessionId", paymentId);
     }

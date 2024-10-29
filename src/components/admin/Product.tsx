@@ -39,7 +39,7 @@ const Product = () => {
     };
     fetchApiCategory();
   }, []);
-  
+
   useEffect(() => {
     if (category.length > 0 && !categoryProduct) {
       setCategoryProduct(category[0]._id);
@@ -58,7 +58,7 @@ const Product = () => {
   };
 
   useEffect(() => {
-    let delayDebounceFn: NodeJS.Timeout;
+    let delayDebounceFn: ReturnType<typeof setTimeout>;
     if (keyword) {
       delayDebounceFn = setTimeout(() => {
         fetchApi();

@@ -29,7 +29,6 @@ import Info from "./components/Home/Info";
 import UpdateAccount from "./components/Home/UpdateAccount";
 import UpdatePassword from "./components/Home/UpdatePassword";
 import Cart from "./components/cart/Cart";
-import Payment from "./components/shopping/Payment";
 import DetailNews from "./components/Home/DetailNews";
 import ListNews from "./components/Home/ListNews";
 import Categories from "./components/products/Categories";
@@ -80,7 +79,6 @@ function App() {
             <Route path="/ship" element={<LayoutShopping />}>
               <Route index element={<Shipping />} />
               <Route path="confirm" element={<Confirm />} />
-              <Route path="payment" element={<Payment />} />
             </Route>
 
             <Route path="/info" element={<Info />}>

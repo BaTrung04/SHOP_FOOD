@@ -3,6 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { RootState } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { removeCart } from "../../redux/CartSlice";
+import { FaCheckCircle } from "react-icons/fa";
+import { IoMdCloseCircle } from "react-icons/io";
+import { postOrder } from "../../Services/modules/auth";
+import { toast } from "react-toastify";
 
 type PaymentStatus = "success" | "failed" | "error" | "missing_session" | null;
 
@@ -75,41 +79,31 @@ const Success = () => {
   }, [navigate]);
 
   const createOrder = async (paymentId: string, paymentStatus: string) => {
+    const data = {
+      paymentInfo: {
+        id: paymentId,
+        status: paymentStatus,
+      },
+      user: user._id,
+      orderItems: orderItems,
+      shippingInfo: {
+        address: infoShip.address,
+        country: infoShip.nation,
+        city: infoShip.city,
+        phoneNo: infoShip.phone,
+        postalCode: infoShip.code,
+      },
+      itemsPrice: itemsPrice,
+      shippingPrice: shippingPrice,
+      totalPrice: totalPrice,
+    };
     try {
-      // truyen cho du body di. cai dung voi stripe e thanh lam r. con lai la thong tin dat hang
-      const response = await fetch(`http://localhost:8000/api/v1/order/new`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          paymentInfo: {
-            id: paymentId,
-            status: paymentStatus,
-          },
-          user: user._id,
-          orderItems: orderItems,
-          shippingInfo: {
-            address: infoShip.address,
-            country: infoShip.nation,
-            city: infoShip.city,
-            phoneNo: infoShip.phone,
-            postalCode: infoShip.code,
-          },
-          itemsPrice: itemsPrice,
-          shippingPrice: shippingPrice,
-          totalPrice: totalPrice,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Tạo đơn hàng thất bại");
-      }
-      console.log("Đơn hàng đã được tạo thành công!");
+      await postOrder(data);
+      toast.success("Đơn hàng tạo thành công!");
       dispatch(removeCart());
     } catch (error) {
       console.error("Lỗi khi tạo đơn hàng:", error);
+      toast.success("Đơn hàng tạo thất bại!");
     }
   };
 
@@ -118,10 +112,20 @@ const Success = () => {
   };
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      {paymentStatus === "success" && <h1>Thanh toán thành công!</h1>}
+    <div className="container py-[50px] flex flex-col justify-center items-center gap-[20px]">
+      {paymentStatus === "success" && (
+        <div className="flex flex-col justify-center items-center gap-[10px]">
+          <div>
+            <FaCheckCircle className="text-[200px] text-green-300" />
+          </div>
+          <h1>Thanh toán thành công!</h1>
+        </div>
+      )}
       {paymentStatus === "failed" && (
-        <h1>Thanh toán thất bại. Vui lòng thử lại.</h1>
+        <div className="flex flex-col justify-center items-center gap-[10px]">
+          <IoMdCloseCircle className="text-[200px] text-red-500" />
+          <h1>Thanh toán thất bại. Vui lòng thử lại.</h1>
+        </div>
       )}
       {paymentStatus === "error" && (
         <h1>Lỗi khi xác minh thanh toán. Vui lòng liên hệ hỗ trợ.</h1>
@@ -130,10 +134,7 @@ const Success = () => {
         <h1>Không tìm thấy mã phiên giao dịch.</h1>
       )}
 
-      <button
-        onClick={handleBackHome}
-        style={{ marginTop: "20px", padding: "10px 20px" }}
-      >
+      <button onClick={handleBackHome} className="primary-btn w-[30%]">
         Quay về Trang chủ
       </button>
     </div>

@@ -175,17 +175,23 @@ export const getWishList = async (page: number, limit: number) => {
   return await axiosInstance.get(`/wishlist/user?limit=${limit}&page=${page}`);
 };
 
-
 //[PAYMENT ]
 export const postPayment = async (data: any) => {
-  return await axiosInstance.post(`/payment/process`,data);
+  return await axiosInstance.post(`/payment/process`, data);
 };
-
-// export const postPaymentLink = async (data: any) => {
-//   return await axiosInstance.post(`/create-checkout-session`,data);
-// };
 
 //[PUT NEW REVIEW]
 export const putReview = async (data: any) => {
-  return await axiosInstance.put(`/review`,data);
+  return await axiosInstance.put(`/review`, data);
+};
+
+//[ORDER]
+//[POST ORDER]
+export const postOrder = async (data: any) => {
+  return await axiosInstance.post(`/order/new`, data);
+};
+
+//[GET ORDER]
+export const getOrderMe = async () => {
+  return await axiosInstance.get(`/orders/me`);
 };
