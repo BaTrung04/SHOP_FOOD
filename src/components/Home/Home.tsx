@@ -18,6 +18,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { FaRegHeart } from "react-icons/fa";
 import { toast } from "react-toastify";
+
 const responsive = {
   superLargeDesktop: {
     // the naming can be any, depends on you.

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logo1.svg";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { registerSuccess } from "../../redux/authSlice";
 import { useDispatch } from "react-redux";

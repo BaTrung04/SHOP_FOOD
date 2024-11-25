@@ -1,4 +1,4 @@
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logo1.svg";
 import { LiaCcVisa } from "react-icons/lia";
 import { FaCcVisa } from "react-icons/fa";
 

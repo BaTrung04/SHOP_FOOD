@@ -1,5 +1,5 @@
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo1.svg";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { RiProductHuntLine } from "react-icons/ri";
 import { HiOutlineShoppingCart } from "react-icons/hi";

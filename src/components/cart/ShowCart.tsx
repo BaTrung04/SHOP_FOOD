@@ -87,7 +87,10 @@ const ShowCart: React.FC<MyComponentProps> = (props) => {
                   {/* sp1 */}
                   {items &&
                     items.map((item: any) => (
-                      <div className="flex items-center justify-between text-[14px] mb-[5px] dark:text-white gap-[30px]">
+                      <div
+                        key={item._id}
+                        className="flex items-center justify-between text-[14px] mb-[5px] dark:text-white gap-[30px]"
+                      >
                         <div className="flex items-center gap-[10px] ">
                           <img
                             src={item.product?.images[0]?.url || " "}

@@ -1,5 +1,5 @@
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logo1.svg";
 import { useState } from "react";
 import { ILogin, IUser } from "../Interface/user";
 import { loginFailed, loginStart, loginSuccess } from "../../redux/authSlice";

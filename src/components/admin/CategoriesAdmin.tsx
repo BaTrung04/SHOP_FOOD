@@ -34,7 +34,7 @@ const CategoriesAdmin = () => {
   };
 
   useEffect(() => {
-    let delayDebounceFn: NodeJS.Timeout;
+    let delayDebounceFn: ReturnType<typeof setTimeout>;
     if (keyword) {
       delayDebounceFn = setTimeout(() => {
         fetchApi();

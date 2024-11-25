@@ -1,4 +1,4 @@
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 
 const Confirm = () => {
@@ -90,7 +90,10 @@ const Confirm = () => {
                   {/* row 1  map*/}
                   {items &&
                     items.map((item: any, index: number) => (
-                      <tr className="hover:bg-violet-100 cursor-pointer dark:hover:bg-violet-400">
+                      <tr
+                        key={index + 1}
+                        className="hover:bg-violet-100 cursor-pointer dark:hover:bg-violet-400"
+                      >
                         <td>{index + 1}</td>
                         <td>
                           <img

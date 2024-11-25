@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { BsCloudSun } from "react-icons/bs";
 import { BsCloudSunFill } from "react-icons/bs";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logo1.svg";
 import { FaAngleDown } from "react-icons/fa";
 import { RiSearchLine } from "react-icons/ri";
 import { RiSearchFill } from "react-icons/ri";
@@ -140,7 +140,7 @@ const NavBar = () => {
                 onClick={() => navigate("/")}
               >
                 <img
-                  className="lg:h-8 w-auto h-6 text-black rounded-xl cursor-pointer"
+                  className="lg:h-12 w-auto h-6 text-black rounded-xl cursor-pointer"
                   src={logo}
                   alt="Your Company"
                 />
@@ -226,12 +226,12 @@ const NavBar = () => {
                   value={keyword}
                   onChange={(e) => setKeyword(e.target.value)}
                 />
-                <span
+                <button
                   onClick={(e) => handleSearch(e)}
                   className="p-[10px] rounded-full hover:bg-violet-300  dark:hover:bg-gray-300 bg-violet-200 text-black dark:bg-white  dark:text-black absolute top-0  2xl:right-[44px] xl:right-[30px]  dark:border-0 ring-1 ring-inset ring-gray-300"
                 >
                   {darkMode ? <RiSearchFill /> : <RiSearchLine />}
-                </span>
+                </button>
               </div>
             </div>
 
