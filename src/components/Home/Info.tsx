@@ -25,7 +25,7 @@ const Info = () => {
                 <img
                   src={user.avatar.url}
                   alt="Avatar"
-                  className="rounded-full border border-violet-300 w-[150px] object-cover"
+                  className="rounded-full h-[150px] border border-violet-300 w-[150px] object-cover"
                 />
               )}
               <div>Họ và tên: {user?.name}</div>

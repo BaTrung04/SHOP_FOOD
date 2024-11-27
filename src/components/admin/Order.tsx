@@ -6,6 +6,10 @@ import UpdateOrder from "./UpdateOrder";
 
 const Order = () => {
   const [data, setData] = useState<any>([]);
+  const [page, setPage] = useState<number>(1);
+  // const [limit, setLimit] = useState<number>(10);
+  const [totalPage, setTotalPage] = useState<number>(1);
+
   const fetchApiOrder = async () => {
     try {
       const res: any = await getAllOrders();
@@ -118,10 +122,36 @@ const Order = () => {
       {/* pagination */}
       <div className="flex items-center justify-center mt-[30px]">
         <div className="join">
-          <button className="join-item btn btn-md">1</button>
-          <button className="join-item btn btn-md btn-active">2</button>
-          <button className="join-item btn btn-md">3</button>
-          <button className="join-item btn btn-md">4</button>
+          {page > 1 && (
+            <button
+              className="join-item btn btn-md"
+              onClick={() => setPage(page - 1)}
+            >
+              &lt;
+            </button>
+          )}
+          {page > 1 && (
+            <button className="join-item btn btn-md" onClick={() => setPage(1)}>
+              1
+            </button>
+          )}
+          <button className="join-item btn btn-md btn-active">{page}</button>
+          {page < totalPage && (
+            <button
+              className="join-item btn btn-md"
+              onClick={() => setPage(page + 1)}
+            >
+              {page + 1}
+            </button>
+          )}
+          {page < totalPage && (
+            <button
+              className="join-item btn btn-md"
+              onClick={() => setPage(page + 1)}
+            >
+              &gt;
+            </button>
+          )}
         </div>
       </div>
     </>

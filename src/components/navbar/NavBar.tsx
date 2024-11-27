@@ -312,16 +312,17 @@ const NavBar = () => {
                     >
                       Sản phẩm yêu thích
                     </Link>
-
-                    <Link
-                      to={"/history-order"}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-violet-300 cursor-pointer dark:text-white"
-                      role="menuitem"
-                      id="user-menu-item-1"
-                      onClick={() => setShowProFile(false)}
-                    >
-                      Lịch sử mua hàng
-                    </Link>
+                    {isRole === "user" && ( 
+                      <Link
+                        to={"/history-order"}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-violet-300 cursor-pointer dark:text-white"
+                        role="menuitem"
+                        id="user-menu-item-1"
+                        onClick={() => setShowProFile(false)}
+                      >
+                        Lịch sử mua hàng
+                      </Link>
+                    )}
 
                     <a
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-violet-300 cursor-pointer dark:text-white"

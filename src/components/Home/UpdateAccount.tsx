@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { updateProfileSuccess } from "../../redux/authSlice";
 import { toast } from "react-toastify";
-import { IUser } from "../Interface/user";
 
 const UpdateAccount = () => {
   const [name, setName] = useState("");
@@ -110,7 +109,7 @@ const UpdateAccount = () => {
                 <img
                   alt="Avatar"
                   className="h-[100px] w-[100px] border border-violet-300 rounded-full"
-                  src={""}
+                  src={`${avatar}`}
                 />
                 <div className="mt-2 w-[70%] flex justify-center rounded-lg border border-dashed border-gray-900/25 flex-1 dark:border-white">
                   <div className="text-center">
