@@ -98,8 +98,6 @@ const News = () => {
       console.error("Tạo danh mục thất bại:", error);
     }
   };
-
-  console.log(data);
   return (
     <>
       <div>

@@ -75,7 +75,6 @@ const Product = () => {
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
-    console.log(files);
     if (files) {
       const fileArray = Array.from(files);
       const fileArrayBase64: string[] = [];

@@ -25,7 +25,6 @@ const Order = () => {
   const formattedDate = (data: string | Date): string => {
     return moment(data).format("HH:mm:ss - DD/MM/YYYY ");
   };
-  console.log(data);
   return (
     <>
       {" "}

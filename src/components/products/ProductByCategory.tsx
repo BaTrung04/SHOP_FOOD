@@ -15,7 +15,7 @@ const ProductByCategory = () => {
   const [totalPage, setTotalPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
-  console.log(id);
+
   const fetchApi = async () => {
     setLoading(true);
     try {

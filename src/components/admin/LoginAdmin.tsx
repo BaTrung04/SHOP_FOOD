@@ -36,6 +36,7 @@ const LoginAdmin = () => {
       }
     } catch (err) {
       dispatch(loginFailed());
+      toast.error("🦄 Tài khoản mật khẩu Admin không đúng!");
     }
   };
   return (
@@ -173,6 +174,7 @@ const LoginAdmin = () => {
                   }}
                   onError={() => {
                     console.log("Login Failed");
+                    toast.error("🦄 Tài khoản mật khẩu Admin không đúng!");
                   }}
                 />
               </div>

@@ -25,7 +25,6 @@ const ListNews = () => {
     };
     fetchApi();
   }, [keyword, page, limit]);
-  console.log(data);
   const formattedDate = (data: string | Date): string => {
     return moment(data).format("DD/MM/YYYY");
   };

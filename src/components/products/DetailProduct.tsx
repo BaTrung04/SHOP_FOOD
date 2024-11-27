@@ -56,7 +56,6 @@ const responsiveCate = {
 
 const DetailProduct = () => {
   const { id } = useParams();
-  console.log(id);
   const [data, setData] = useState<any>([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();

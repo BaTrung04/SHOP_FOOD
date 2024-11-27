@@ -19,7 +19,7 @@ import {
   ArcElement,
 } from "chart.js";
 import { Doughnut, Line, Radar } from "react-chartjs-2";
-
+import { useNavigate } from "react-router-dom";
 
 ChartJS.register(
   CategoryScale,
@@ -42,7 +42,7 @@ const DashBoard = () => {
   const [monthlyRevenue, setMonthlyRevenue] = useState<number[]>(
     Array(12).fill(0)
   );
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchApi = async () => {
       try {
@@ -66,7 +66,7 @@ const DashBoard = () => {
 
         const resCate = await getCategories(1, 30, "");
         setDataCategories(resCate.rows);
-        console.log(resCate);
+   
       } catch (error) {
         console.log(error);
       }
@@ -120,7 +120,6 @@ const DashBoard = () => {
     };
   });
 
-  console.log(result);
   const productWithCate = result.map((item: any) => item.count);
   const nameCategories = dataCategories.map((item: any) => item.categoryName);
   const radarData = {
@@ -193,7 +192,10 @@ const DashBoard = () => {
                   {dataCategories.length}
                 </div>
               </div>
-              <div className="flex items-center justify-between border-t border-t-violet-500 px-[10px] py-[6px]">
+              <div
+                onClick={() => navigate("categories")}
+                className="flex items-center justify-between border-t border-t-violet-500 px-[10px] py-[6px] cursor-pointer"
+              >
                 Xem chi tiết <FaAngleRight />
               </div>
             </div>
@@ -208,7 +210,10 @@ const DashBoard = () => {
                   {dataProduct.length}
                 </div>
               </div>
-              <div className="flex items-center justify-between border-t border-t-red-500 px-[10px] py-[6px]">
+              <div
+                onClick={() => navigate("products")}
+                className="flex items-center justify-between border-t border-t-red-500 px-[10px] py-[6px] cursor-pointer"
+              >
                 Xem chi tiết <FaAngleRight />
               </div>
             </div>
@@ -221,7 +226,10 @@ const DashBoard = () => {
                 <div className="text-center text-[22px]">Tổng số bài viết</div>
                 <div className="text-center text-[20px] font-bold">5</div>
               </div>
-              <div className="flex items-center justify-between border-t border-t-fuchsia-500 px-[10px] py-[6px]">
+              <div
+                onClick={() => navigate("news")}
+                className="flex items-center justify-between border-t border-t-fuchsia-500 px-[10px] py-[6px] cursor-pointer"
+              >
                 Xem chi tiết <FaAngleRight />
               </div>
             </div>
@@ -238,7 +246,10 @@ const DashBoard = () => {
                   {dataUser.length}
                 </div>
               </div>
-              <div className="flex items-center justify-between border-t border-t-lime-500 px-[10px] py-[6px]">
+              <div
+                onClick={() => navigate("user")}
+                className="flex items-center justify-between border-t border-t-lime-500 px-[10px] py-[6px] cursor-pointer"
+              >
                 Xem chi tiết <FaAngleRight />
               </div>
             </div>
@@ -253,7 +264,10 @@ const DashBoard = () => {
                   {dataOrder.length}
                 </div>
               </div>
-              <div className="flex items-center justify-between border-t border-t-yellow-500 px-[10px] py-[6px]">
+              <div
+                onClick={() => navigate("orders")}
+                className="flex items-center justify-between border-t border-t-yellow-500 px-[10px] py-[6px] cursor-pointer"
+              >
                 Xem chi tiết <FaAngleRight />
               </div>
             </div>

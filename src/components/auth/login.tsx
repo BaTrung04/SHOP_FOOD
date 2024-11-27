@@ -38,6 +38,7 @@ const Login = () => {
       navigate("/");
     } catch (err) {
       dispatch(loginFailed());
+      toast.error("🦄 Tài khoản mật khẩu không chính xác!");
     }
   };
   return (
