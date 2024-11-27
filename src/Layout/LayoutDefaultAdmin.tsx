@@ -13,7 +13,8 @@ import { useDispatch } from "react-redux";
 import { logOutFailed, logOutStart, logOutSuccess } from "../redux/authSlice";
 import { logoutAuthApi } from "../Services/modules/auth";
 import { ToastContainer } from "react-toastify";
-
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 const LayoutDefaultAdmin = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -22,6 +23,11 @@ const LayoutDefaultAdmin = () => {
   const [darkMode, setDarkMode] = useState<boolean>(
     localStorage.getItem("darkMode") === "true"
   );
+
+  const user: any = useSelector(
+    (state: RootState) => state.auth.login.currentUser?.user
+  );
+
   useEffect(() => {
     const isDark = localStorage.getItem("darkMode") === "true";
     setDarkMode(isDark);
@@ -141,11 +147,12 @@ const LayoutDefaultAdmin = () => {
           >
             <div className="mt-[350px] flex items-center gap-[15px] border border-violet-400 px-[10px] py-[6px] rounded-lg cursor-pointer">
               <img
-                src={logo}
+                src={`${user?.avatar?.url}`}
                 alt=""
                 className="w-[40px] h-[40px] object-cover border border-violet-300 rounded-full"
               />
-              Bá Trung <FaAngleUp />
+              {user.name}
+              <FaAngleUp />
             </div>
             {showDiv && (
               <div className="absolute cursor-pointer bottom-[55px] left-0 bg-white w-[258px] ring-1 ring-violet-100 shadow-md rounded-lg dark:bg-gray-700 ">
