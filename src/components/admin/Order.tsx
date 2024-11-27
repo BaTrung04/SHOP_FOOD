@@ -8,7 +8,7 @@ const Order = () => {
   const [data, setData] = useState<any>([]);
   const [page, setPage] = useState<number>(1);
   // const [limit, setLimit] = useState<number>(10);
-  const [totalPage, setTotalPage] = useState<number>(1);
+  const [totalPage] = useState<number>(1);
 
   const fetchApiOrder = async () => {
     try {

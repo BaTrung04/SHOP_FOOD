@@ -1,4 +1,4 @@
-import {  RiSearchLine } from "react-icons/ri";
+import { RiSearchLine } from "react-icons/ri";
 import { MdOutlineKey } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { getAllUser } from "../../Services/modules/auth";
@@ -8,7 +8,7 @@ const User = () => {
   const [data, setData] = useState<any>("");
   const [page, setPage] = useState<number>(1);
   // const [limit, setLimit] = useState<number>(10);
-  const [totalPage, setTotalPage] = useState<number>(1);
+  const [totalPage] = useState<number>(1);
   const fetchApi = async () => {
     try {
       const res = await getAllUser();
@@ -21,7 +21,7 @@ const User = () => {
   useEffect(() => {
     fetchApi();
   }, []);
-  
+
   return (
     <>
       {" "}

@@ -66,7 +66,6 @@ const DashBoard = () => {
 
         const resCate = await getCategories(1, 30, "");
         setDataCategories(resCate.rows);
-   
       } catch (error) {
         console.log(error);
       }
@@ -139,11 +138,11 @@ const DashBoard = () => {
     ],
   };
   let outOfStock = 0;
-  const dataOutOfStokc = dataProduct.map((item: any) => {
-    if (item.stock === 0) {
-      outOfStock += 1;
-    }
-  });
+  // const dataOutOfStokc = dataProduct.map((item: any) => {
+  //   if (item.stock === 0) {
+  //     outOfStock += 1;
+  //   }
+  // });
   // Doughnut tính số lượng hàng còn và hết hàng
   const doughnutState = {
     labels: ["Hết hàng", "Còn hàng"],
