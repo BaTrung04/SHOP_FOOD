@@ -18,6 +18,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import { FaRegHeart } from "react-icons/fa";
 import { toast } from "react-toastify";
+import zaloIcon from "../../assets/contact/zalo.png";
+import fbIcon from "../../assets/contact/facebook.png";
 
 const responsive = {
   superLargeDesktop: {
@@ -229,7 +231,7 @@ const Home = () => {
             keyBoardControl={true}
             customTransition="all 1s ease-in-out"
             transitionDuration={500}
-            className="rounded-sm z-20"
+            className="rounded-sm z-20 "
           >
             {category &&
               category.map((urlImg) => (
@@ -456,12 +458,30 @@ const Home = () => {
           </div>
         </div>
         {isOnButton && (
-          <button
-            className="primary-btn p-[15px] cursor-pointer rounded-full fixed right-[30px] bottom-[30px]"
-            onClick={scrollToTop}
-          >
-            <FaArrowUp className="text-[22px]" />
-          </button>
+          <>
+            <div className=" flex flex-col gap-2 fixed right-[30px] bottom-[30px] cursor-pointer">
+              <a
+                href="https://zalo.me/0776488546"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img src={zaloIcon} alt="" className="w-[52px] " />
+              </a>
+              <a
+                href="https://www.facebook.com/people/C%E1%BB%ADa-h%C3%A0ng-FOOD-GOOD/100082684898402/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img src={fbIcon} alt="" className="w-[52px] " />
+              </a>
+              <button
+                className="primary-btn p-[15px]  rounded-full"
+                onClick={scrollToTop}
+              >
+                <FaArrowUp className="text-[22px]" />
+              </button>
+            </div>
+          </>
         )}
       </div>
     </>
