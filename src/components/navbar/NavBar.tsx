@@ -17,7 +17,6 @@ import {
 import { getCategories, logoutAuthApi } from "../../Services/modules/auth";
 import { toast } from "react-toastify";
 import ShowCart from "../cart/ShowCart";
-
 const NavBar = () => {
   const [showProFile, setShowProFile] = useState<boolean>(false);
   const [showNavBar, setShowNavBar] = useState<boolean>(false);

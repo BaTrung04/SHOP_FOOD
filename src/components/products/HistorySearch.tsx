@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { getAllProduct, postWishList } from "../../Services/modules/auth";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { toast } from "react-toastify";
-
+import { formattedPrice } from "../../utils/formattedPrice";
 const HistorySearch = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -83,7 +83,9 @@ const HistorySearch = () => {
                   <div className="text-center w-[80%] line-clamp-2">
                     {item.name}
                   </div>
-                  <div className="text-red-600 font-bold">{item.price}₫</div>
+                  <div className="text-red-600 font-bold">
+                    {formattedPrice(item.price)}Đ
+                  </div>
                   <div className="absolute top-[15px] right-[15px]">
                     <div
                       onClick={(e) => handleClickAddWishList(e, item._id)}

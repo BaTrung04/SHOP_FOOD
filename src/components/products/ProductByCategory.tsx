@@ -6,6 +6,7 @@ import {
 } from "../../Services/modules/auth";
 import { toast } from "react-toastify";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { formattedPrice } from "../../utils/formattedPrice";
 const ProductByCategory = () => {
   const { id } = useParams();
   const [data, setData] = useState<any>("");
@@ -88,7 +89,9 @@ const ProductByCategory = () => {
                   <div className="text-center w-[80%] line-clamp-2">
                     {item.name}
                   </div>
-                  <div className="text-red-600 font-bold">{item.price}₫</div>
+                  <div className="text-red-600 font-bold">
+                    {formattedPrice(item.price)}Đ
+                  </div>
                   <div className="absolute top-[15px] right-[15px]">
                     <div
                       onClick={(e) => handleClickAddWishList(e, item._id)}

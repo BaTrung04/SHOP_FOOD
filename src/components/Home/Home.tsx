@@ -286,7 +286,9 @@ const Home = () => {
                     <div className="text-center w-[80%] line-clamp-2">
                       {item.name}
                     </div>
-                    <div className="text-red-600 font-bold">{item.price}₫</div>
+                    <div className="text-red-600 font-bold">
+                      {formattedPrice(item.price)}Đ
+                    </div>
                     <div className="absolute top-[15px] right-[15px]">
                       <div
                         onClick={(e) => handleClickAddWishList(e, item._id)}
@@ -465,14 +467,14 @@ const Home = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <img src={zaloIcon} alt="" className="w-[52px] " />
+                <img src={zaloIcon} alt="" className="w-[52px] rounded-md" />
               </a>
               <a
                 href="https://www.facebook.com/people/C%E1%BB%ADa-h%C3%A0ng-FOOD-GOOD/100082684898402/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <img src={fbIcon} alt="" className="w-[52px] " />
+                <img src={fbIcon} alt="" className="w-[52px]  rounded-md" />
               </a>
               <button
                 className="primary-btn p-[15px]  rounded-full"

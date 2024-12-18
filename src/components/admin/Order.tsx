@@ -3,7 +3,7 @@ import { RiSearchLine } from "react-icons/ri";
 import { getAllOrders } from "../../Services/modules/auth";
 import moment from "moment";
 import UpdateOrder from "./UpdateOrder";
-
+import { formattedPrice } from "../../utils/formattedPrice";
 const Order = () => {
   const [data, setData] = useState<any>([]);
   const [page, setPage] = useState<number>(1);
@@ -93,7 +93,7 @@ const Order = () => {
                     <th>{index + 1}</th>
                     <td>{item._id}</td>
                     <td>{item.orderItems.length}</td>
-                    <td>{item.totalPrice}</td>
+                    <td>{formattedPrice(item.totalPrice)}Đ</td>
                     <td>
                       <span
                         className={`font-semibold ${
