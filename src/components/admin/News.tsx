@@ -16,14 +16,18 @@ const News = () => {
   const [limit, setLimit] = useState<number>(10);
   const [keyword, setKeyword] = useState<string>("");
   const [totalPage, setTotalPage] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const fetchApi = async () => {
+    setLoading(true);
     try {
       const res = await getNews(page, limit, keyword);
       setTotalPage(res.totalPage);
       setData(res.rows);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -271,131 +275,144 @@ const News = () => {
       {/* table */}
       <div className="mt-[40px]">
         <div className="overflow-x-auto w-[1500px]">
-          <table className="table text-[16px]">
-            {/* head */}
-            <thead>
-              <tr className="text-[18px] dark:text-gray-300">
-                <th></th>
-                <th>ID</th>
-                <th>Hình ảnh</th>
-                <th>Tiêu đề</th>
-                <th>Tác giả</th>
-                <th className="text-center">Mô tả</th>
-                <th className="">Ngày tạo</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* row 1 */}
-              {data &&
-                data.map((item: any, index: number) => (
-                  <tr className="hover:bg-violet-100 cursor-pointer">
-                    <th>{index + 1}</th>
-                    <td>{item._id}</td>
-                    <td>
-                      <img
-                        src={item?.image?.url || " "}
-                        alt="hình ảnh"
-                        className="w-[50px] h-[50px] object-cover ring-1 ring-violet-300 rounded"
-                      />
-                    </td>
-                    <td className="max-w-[350px] ">
-                      <span className="line-clamp-2">{item.title}</span>
-                    </td>
-                    <td className="max-w-[350px] ">
-                      <span className="line-clamp-2">{item.author.name}</span>
-                    </td>
-                    <td className="max-w-[450px] ">
-                      <span className="line-clamp-2">{item.content}</span>
-                    </td>
-                    <td className="">{formattedDate(item.createdAt)}</td>
-                    <td className="flex gap-[10px] items-center">
-                      {/* update */}
-                      <UpdateNews item={item} fetchApi={fetchApi} />
-                      {/* delete */}
-                      <span
-                        className="p-[10px] bg-red-500 rounded-lg"
-                        onClick={() => {
-                          const modal = document.getElementById(
-                            `modal_delete_${item._id}`
-                          ) as HTMLDialogElement;
-                          modal?.showModal();
-                        }}
-                      >
-                        <FaRegTrashCan className=" text-white text-[25px]" />
-                        <dialog
-                          id={`modal_delete_${item._id}`}
-                          className="modal"
+          {loading ? (
+            <div className="h-[320px] w-full flex items-center justify-center text-violet-400">
+              <span className="loading loading-spinner loading-lg "></span>
+              <span className="loading loading-spinner loading-lg "></span>
+              <span className="loading loading-spinner loading-lg "></span>
+            </div>
+          ) : (
+            <table className="table text-[16px]">
+              {/* head */}
+              <thead>
+                <tr className="text-[18px] dark:text-gray-300">
+                  <th></th>
+                  <th>ID</th>
+                  <th>Hình ảnh</th>
+                  <th>Tiêu đề</th>
+                  <th>Tác giả</th>
+                  <th className="text-center">Mô tả</th>
+                  <th className="">Ngày tạo</th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* row 1 */}
+                {data &&
+                  data.map((item: any, index: number) => (
+                    <tr className="hover:bg-violet-100 cursor-pointer">
+                      <th>{index + 1}</th>
+                      <td>{item._id}</td>
+                      <td>
+                        <img
+                          src={item?.image?.url || " "}
+                          alt="hình ảnh"
+                          className="w-[50px] h-[50px] object-cover ring-1 ring-violet-300 rounded"
+                        />
+                      </td>
+                      <td className="max-w-[350px] ">
+                        <span className="line-clamp-2">{item.title}</span>
+                      </td>
+                      <td className="max-w-[350px] ">
+                        <span className="line-clamp-2">{item.author.name}</span>
+                      </td>
+                      <td className="max-w-[450px] ">
+                        <span className="line-clamp-2">{item.content}</span>
+                      </td>
+                      <td className="">{formattedDate(item.createdAt)}</td>
+                      <td className="flex gap-[10px] items-center">
+                        {/* update */}
+                        <UpdateNews item={item} fetchApi={fetchApi} />
+                        {/* delete */}
+                        <span
+                          className="p-[10px] bg-red-500 rounded-lg"
+                          onClick={() => {
+                            const modal = document.getElementById(
+                              `modal_delete_${item._id}`
+                            ) as HTMLDialogElement;
+                            modal?.showModal();
+                          }}
                         >
-                          <div className="modal-box">
-                            <div className=" py-[10px] ">
-                              <div className="text-[20px]">
-                                Bạn có chắc muốn xóa bài viết:
-                                <strong className="">{item.title}</strong>
+                          <FaRegTrashCan className=" text-white text-[25px]" />
+                          <dialog
+                            id={`modal_delete_${item._id}`}
+                            className="modal"
+                          >
+                            <div className="modal-box">
+                              <div className=" py-[10px] ">
+                                <div className="text-[20px]">
+                                  Bạn có chắc muốn xóa bài viết:
+                                  <strong className="">{item.title}</strong>
+                                </div>
+                              </div>
+                              <div className="flex justify-end items-center">
+                                <button
+                                  className="primary-btn  relative top-[11px] mr-[10px]"
+                                  onClick={() => handleDeleteNew(item._id)}
+                                >
+                                  Xóa
+                                </button>
+                                <div className="modal-action">
+                                  <form method="dialog">
+                                    <button className="primary-btn bg-gray-500">
+                                      thoát
+                                    </button>
+                                  </form>
+                                </div>
                               </div>
                             </div>
-                            <div className="flex justify-end items-center">
-                              <button
-                                className="primary-btn  relative top-[11px] mr-[10px]"
-                                onClick={() => handleDeleteNew(item._id)}
-                              >
-                                Xóa
-                              </button>
-                              <div className="modal-action">
-                                <form method="dialog">
-                                  <button className="primary-btn bg-gray-500">
-                                    thoát
-                                  </button>
-                                </form>
-                              </div>
-                            </div>
-                          </div>
-                          <form method="dialog" className="modal-backdrop">
-                            <button>close</button>
-                          </form>
-                        </dialog>
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
+                            <form method="dialog" className="modal-backdrop">
+                              <button>close</button>
+                            </form>
+                          </dialog>
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
       {/* pagination */}
-      <div className="flex items-center justify-center mt-[30px]">
-        <div className="join">
-          {page > 1 && (
-            <button
-              className="join-item btn btn-md"
-              onClick={() => setPage(page - 1)}
-            >
-              &lt;
-            </button>
-          )}
-          {page > 1 && (
-            <button className="join-item btn btn-md" onClick={() => setPage(1)}>
-              1
-            </button>
-          )}
-          <button className="join-item btn btn-md btn-active">{page}</button>
-          {page < totalPage && (
-            <button
-              className="join-item btn btn-md"
-              onClick={() => setPage(page + 1)}
-            >
-              {page + 1}
-            </button>
-          )}
-          {page < totalPage && (
-            <button
-              className="join-item btn btn-md"
-              onClick={() => setPage(page + 1)}
-            >
-              &gt;
-            </button>
-          )}
+      {loading === false && (
+        <div className="flex items-center justify-center mt-[30px]">
+          <div className="join">
+            {page > 1 && (
+              <button
+                className="join-item btn btn-md"
+                onClick={() => setPage(page - 1)}
+              >
+                &lt;
+              </button>
+            )}
+            {page > 1 && (
+              <button
+                className="join-item btn btn-md"
+                onClick={() => setPage(1)}
+              >
+                1
+              </button>
+            )}
+            <button className="join-item btn btn-md btn-active">{page}</button>
+            {page < totalPage && (
+              <button
+                className="join-item btn btn-md"
+                onClick={() => setPage(page + 1)}
+              >
+                {page + 1}
+              </button>
+            )}
+            {page < totalPage && (
+              <button
+                className="join-item btn btn-md"
+                onClick={() => setPage(page + 1)}
+              >
+                &gt;
+              </button>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

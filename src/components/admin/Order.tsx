@@ -9,13 +9,17 @@ const Order = () => {
   const [page, setPage] = useState<number>(1);
   // const [limit, setLimit] = useState<number>(10);
   const [totalPage] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const fetchApiOrder = async () => {
+    setLoading(true);
     try {
       const res: any = await getAllOrders();
       setData(res.orders);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -73,86 +77,102 @@ const Order = () => {
       {/* table */}
       <div className="mt-[40px]">
         <div className="overflow-x-auto w-[1500px]">
-          <table className="table text-[16px]">
-            {/* head */}
-            <thead>
-              <tr className="text-[18px] dark:text-gray-300">
-                <th></th>
-                <th>ID</th>
-                <th>số lượng</th>
-                <th>Giá</th>
-                <th>Trạng thái</th>
-                <th>Ngào tạo</th>
-                <th>Hành động</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data &&
-                data.map((item: any, index: number) => (
-                  <tr className="hover:bg-violet-100 cursor-pointer dark:hover:bg-violet-400">
-                    <th>{index + 1}</th>
-                    <td>{item._id}</td>
-                    <td>{item.orderItems.length}</td>
-                    <td>{formattedPrice(item.totalPrice)}Đ</td>
-                    <td>
-                      <span
-                        className={`font-semibold ${
-                          item.orderStatus === "Đã đặt hàng"
-                            ? "text-red-500"
-                            : item.orderStatus === "Đã giao hàng"
-                            ? "text-blue-500"
-                            : ""
-                        }`}
-                      >
-                        {item.orderStatus}
-                      </span>
-                    </td>
-                    <td>{formattedDate(item.createdAt)}</td>
+          {loading ? (
+            <div className="h-[320px] w-full flex items-center justify-center text-violet-400">
+              <span className="loading loading-spinner loading-lg "></span>
+              <span className="loading loading-spinner loading-lg "></span>
+              <span className="loading loading-spinner loading-lg "></span>
+            </div>
+          ) : (
+            <table className="table text-[16px]">
+              {/* head */}
+              <thead>
+                <tr className="text-[18px] dark:text-gray-300">
+                  <th></th>
+                  <th>ID</th>
+                  <th>số lượng</th>
+                  <th>Giá</th>
+                  <th>Trạng thái</th>
+                  <th>Ngào tạo</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data &&
+                  data.map((item: any, index: number) => (
+                    <tr className="hover:bg-violet-100 cursor-pointer dark:hover:bg-violet-400">
+                      <th>{index + 1}</th>
+                      <td>{item._id}</td>
+                      <td>{item.orderItems.length}</td>
+                      <td>{formattedPrice(item.totalPrice)}Đ</td>
+                      <td>
+                        <span
+                          className={`font-semibold ${
+                            item.orderStatus === "Đã đặt hàng"
+                              ? "text-red-500"
+                              : item.orderStatus === "Đã giao hàng"
+                              ? "text-blue-500"
+                              : ""
+                          }`}
+                        >
+                          {item.orderStatus}
+                        </span>
+                      </td>
+                      <td>{formattedDate(item.createdAt)}</td>
 
-                    <td className="flex gap-[10px] items-center">
-                      <UpdateOrder item={item} fetchApiOrder={fetchApiOrder} />
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
+                      <td className="flex gap-[10px] items-center">
+                        <UpdateOrder
+                          item={item}
+                          fetchApiOrder={fetchApiOrder}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
       {/* pagination */}
-      <div className="flex items-center justify-center mt-[30px]">
-        <div className="join">
-          {page > 1 && (
-            <button
-              className="join-item btn btn-md"
-              onClick={() => setPage(page - 1)}
-            >
-              &lt;
-            </button>
-          )}
-          {page > 1 && (
-            <button className="join-item btn btn-md" onClick={() => setPage(1)}>
-              1
-            </button>
-          )}
-          <button className="join-item btn btn-md btn-active">{page}</button>
-          {page < totalPage && (
-            <button
-              className="join-item btn btn-md"
-              onClick={() => setPage(page + 1)}
-            >
-              {page + 1}
-            </button>
-          )}
-          {page < totalPage && (
-            <button
-              className="join-item btn btn-md"
-              onClick={() => setPage(page + 1)}
-            >
-              &gt;
-            </button>
-          )}
+      {loading === false && (
+        <div className="flex items-center justify-center mt-[30px]">
+          <div className="join">
+            {page > 1 && (
+              <button
+                className="join-item btn btn-md"
+                onClick={() => setPage(page - 1)}
+              >
+                &lt;
+              </button>
+            )}
+            {page > 1 && (
+              <button
+                className="join-item btn btn-md"
+                onClick={() => setPage(1)}
+              >
+                1
+              </button>
+            )}
+            <button className="join-item btn btn-md btn-active">{page}</button>
+            {page < totalPage && (
+              <button
+                className="join-item btn btn-md"
+                onClick={() => setPage(page + 1)}
+              >
+                {page + 1}
+              </button>
+            )}
+            {page < totalPage && (
+              <button
+                className="join-item btn btn-md"
+                onClick={() => setPage(page + 1)}
+              >
+                &gt;
+              </button>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

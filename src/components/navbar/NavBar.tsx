@@ -23,7 +23,6 @@ const NavBar = () => {
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [category, setCategory] = useState<ICategory[]>([]);
   const [keyword, setKeyword] = useState<string>("");
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -80,11 +79,14 @@ const NavBar = () => {
       dispatch(logOutFailed());
     }
   };
+
   const handleSearch = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.preventDefault();
+
     navigate("/categories/search", { state: { keyword } });
     setKeyword("");
   };
+
   return (
     <>
       <nav className="bg-white dark:bg-gray-800 shadow-lg sticky top-0 z-50 block lg:flex items-center justify-center ">
@@ -186,7 +188,14 @@ const NavBar = () => {
                                 navigate(`categories/${item.slug}/${item._id}`)
                               }
                             >
-                              {item.categoryName}
+                              <div className="flex items-center gap-2">
+                                {item.categoryName}
+                                {item.categoryName === "Đặc sản" && (
+                                  <div className="bg-red-600 text-sm text-white rounded-sm px-[5px] py-[1px]">
+                                    Hot
+                                  </div>
+                                )}
+                              </div>
                             </li>
                           ))}
                       </ul>
@@ -311,7 +320,7 @@ const NavBar = () => {
                     >
                       Sản phẩm yêu thích
                     </Link>
-                    {isRole === "user" && ( 
+                    {isRole === "user" && (
                       <Link
                         to={"/history-order"}
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-violet-300 cursor-pointer dark:text-white"

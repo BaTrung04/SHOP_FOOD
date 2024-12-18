@@ -1,5 +1,4 @@
 import Carousel from "react-multi-carousel";
-import lauHaiSan from "../../assets/lau-hai-san.jpg";
 import { useEffect, useRef, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import {
@@ -73,6 +72,7 @@ const DetailProduct = () => {
   const name = useSelector(
     (state: RootState) => state.auth.login.currentUser?.user.name
   );
+
   const handlePageChange = (idCategory: string) => {
     navigate(`/product/${idCategory}`);
     if (gridRef.current) {
@@ -184,6 +184,7 @@ const DetailProduct = () => {
       console.log(error);
     }
   };
+  console.log(dataReview);
   return (
     <>
       {loading ? (
@@ -297,11 +298,7 @@ const DetailProduct = () => {
                           key={item.id}
                         >
                           {/* Thêm key cho mỗi item */}
-                          <img
-                            src={lauHaiSan}
-                            alt=""
-                            className="w-[50px] h-[50px] object-cover rounded-full border border-violet-300"
-                          />
+
                           <div>
                             <div className="flex items-center justify-start gap-[10px]">
                               <div className="font-medium">{item.name}</div>
@@ -445,7 +442,7 @@ const DetailProduct = () => {
                         {item.name}
                       </div>
                       <div className="text-red-600 font-bold text-[16px] text-center">
-                        {item.price}₫
+                        {formattedPrice(item.price)}Đ
                       </div>
                       <div className="absolute top-[15px] right-[15px]">
                         <div

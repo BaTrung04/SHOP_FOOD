@@ -20,7 +20,8 @@ import {
 } from "chart.js";
 import { Doughnut, Line, Radar } from "react-chartjs-2";
 import { useNavigate } from "react-router-dom";
-
+import * as XLSX from "xlsx";
+import { RiFileExcel2Line } from "react-icons/ri";
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -159,6 +160,33 @@ const DashBoard = () => {
   };
 
   const options = {};
+  const exportToExcel = () => {
+    // Tính tổng doanh thu
+    const totalRevenue = monthlyRevenue.reduce(
+      (sum, revenue) => sum + revenue,
+      0
+    );
+
+    // Tạo dữ liệu cho file Excel
+    const revenueData = monthlyRevenue.map((revenue, index) => ({
+      Tháng: `Tháng ${index + 1}`,
+      "Doanh thu (VNĐ)": revenue.toLocaleString("vi-VN"),
+    }));
+
+    // Thêm dòng tổng vào cuối dữ liệu
+    revenueData.push({
+      Tháng: "Tổng cộng",
+      "Doanh thu (VNĐ)": totalRevenue.toLocaleString("vi-VN"),
+    });
+
+    // Tạo WorkBook và WorkSheet
+    const worksheet = XLSX.utils.json_to_sheet(revenueData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Doanh thu theo tháng");
+
+    // Xuất file Excel
+    XLSX.writeFile(workbook, "Doanh_thu_theo_thang.xlsx");
+  };
 
   return (
     <>
@@ -166,6 +194,17 @@ const DashBoard = () => {
         <h1 className="text-[35px] font-semibold text-gray-700 mt-[10px]">
           Tổng quan
         </h1>
+        <div className="mt-5">
+          <button
+            onClick={exportToExcel}
+            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+          >
+            <span className="flex items-center gap-2">
+              Xuất danh thu Excel
+              <RiFileExcel2Line />
+            </span>
+          </button>
+        </div>
         <div className="grid grid-cols-6 gap-[30px] mt-[40px]">
           {/* Tổng danh thu */}
           <div>

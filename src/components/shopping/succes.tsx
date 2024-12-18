@@ -14,6 +14,7 @@ const Success = () => {
   const dispatch = useDispatch();
   const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>(null);
   const navigate = useNavigate();
+  const [countdown, setCountdown] = useState<number>(5);
   const items = useSelector((state: RootState) => state.cart.items);
   const infoShip: any = useSelector((state: RootState) => state.ship.info);
   const user: any = useSelector(
@@ -78,6 +79,19 @@ const Success = () => {
       });
   }, [navigate]);
 
+  useEffect(() => {
+    if (paymentStatus === "success") {
+      const interval = setInterval(() => {
+        setCountdown((prev) => prev - 1);
+      }, 1000);
+
+      if (countdown === 0) {
+        navigate("/");
+      }
+
+      return () => clearInterval(interval);
+    }
+  }, [paymentStatus, countdown, navigate]);
   const createOrder = async (paymentId: string, paymentStatus: string) => {
     const data = {
       paymentInfo: {
@@ -119,6 +133,9 @@ const Success = () => {
             <FaCheckCircle className="text-[200px] text-green-300" />
           </div>
           <h1>Thanh toán thành công!</h1>
+          <p className="font-bold">
+            Chuyển về Trang chủ sau {countdown} giây...
+          </p>
         </div>
       )}
       {paymentStatus === "failed" && (

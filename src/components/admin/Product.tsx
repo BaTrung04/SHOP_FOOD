@@ -20,6 +20,7 @@ const Product = () => {
   const [seller, setSeller] = useState<string>("");
   const [images, setImages] = useState<any>([]);
   const [imagesPreview, setImagesPreview] = useState<any>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [data, setData] = useState<any>([]);
   const [page, setPage] = useState<number>(1);
@@ -30,11 +31,14 @@ const Product = () => {
 
   useEffect(() => {
     const fetchApiCategory = async () => {
+      setLoading(true);
       try {
         const res = await getCategories(1, 10, "");
         setCategory(res.rows);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchApiCategory();
@@ -405,138 +409,155 @@ const Product = () => {
       {/* table */}
       <div className="mt-[40px]">
         <div className="overflow-x-auto w-[1500px]">
-          <table className="table text-[16px]">
-            {/* head */}
-            <thead>
-              <tr className="text-[18px] dark:text-gray-300">
-                <th></th>
-                <th>ID</th>
-                <th>img</th>
-                <th>Tên sản phẩm</th>
-                <th>Giá</th>
-                <th>Số lượng </th>
-                <th>nhãn hiệu</th>
-                <th className="text-center">mô tả</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* row 1 */}
-              {data &&
-                data.map((item: IProduct, index: number) => {
-                  return (
-                    <tr
-                      key={item._id}
-                      className="hover:bg-violet-100 cursor-pointer dark:hover:bg-violet-400"
-                    >
-                      <th>{index + 1}</th>
-                      <td>{item._id}</td>
-                      <td>
-                        <img
-                          src={item?.images[0]?.url || ""}
-                          alt="sản phẩm"
-                          className="w-[50px] h-[50px] object-cover ring-1 ring-violet-300 rounded"
-                        />
-                      </td>
-                      <td>{item.name}</td>
-                      <td className="text-red-500">
-                        {formattedPrice(item.price)}Đ
-                      </td>
-                      <td>{item.stock}</td>
-                      <td>{item.seller}</td>
-                      <td className="max-w-[300px] ">
-                        <span className="line-clamp-2">{item.description}</span>
-                      </td>
+          {loading ? (
+            <div className="h-[320px] w-full flex items-center justify-center text-violet-400">
+              <span className="loading loading-spinner loading-lg "></span>
+              <span className="loading loading-spinner loading-lg "></span>
+              <span className="loading loading-spinner loading-lg "></span>
+            </div>
+          ) : (
+            <table className="table text-[16px]">
+              {/* head */}
+              <thead>
+                <tr className="text-[18px] dark:text-gray-300">
+                  <th></th>
+                  <th>ID</th>
+                  <th>img</th>
+                  <th>Tên sản phẩm</th>
+                  <th>Giá</th>
+                  <th>Số lượng </th>
+                  <th>nhãn hiệu</th>
+                  <th className="text-center">mô tả</th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* row 1 */}
+                {data &&
+                  data.map((item: IProduct, index: number) => {
+                    return (
+                      <tr
+                        key={item._id}
+                        className="hover:bg-violet-100 cursor-pointer dark:hover:bg-violet-400"
+                      >
+                        <th>{index + 1}</th>
+                        <td>{item._id}</td>
+                        <td>
+                          <img
+                            src={item?.images[0]?.url || ""}
+                            alt="sản phẩm"
+                            className="w-[50px] h-[50px] object-cover ring-1 ring-violet-300 rounded"
+                          />
+                        </td>
+                        <td>{item.name}</td>
+                        <td className="text-red-500">
+                          {formattedPrice(item.price)}Đ
+                        </td>
+                        <td>{item.stock}</td>
+                        <td>{item.seller}</td>
+                        <td className="max-w-[300px] ">
+                          <span className="line-clamp-2">
+                            {item.description}
+                          </span>
+                        </td>
 
-                      <td className="flex gap-[10px] items-center">
-                        {/* update */}
-                        <UpdateProduct item={item} fetchApi={fetchApi} />
-                        {/* delete */}
-                        <span
-                          className="p-[10px] bg-red-500 rounded-lg"
-                          onClick={() => {
-                            const modal = document.getElementById(
-                              `modal_delete_${item._id}`
-                            ) as HTMLDialogElement;
-                            modal?.showModal();
-                          }}
-                        >
-                          <FaRegTrashCan className=" text-white text-[25px]" />
-                          <dialog
-                            id={`modal_delete_${item._id}`}
-                            className="modal"
+                        <td className="flex gap-[10px] items-center">
+                          {/* update */}
+                          <UpdateProduct item={item} fetchApi={fetchApi} />
+                          {/* delete */}
+                          <span
+                            className="p-[10px] bg-red-500 rounded-lg"
+                            onClick={() => {
+                              const modal = document.getElementById(
+                                `modal_delete_${item._id}`
+                              ) as HTMLDialogElement;
+                              modal?.showModal();
+                            }}
                           >
-                            <div className="modal-box">
-                              <div className=" py-[10px] ">
-                                <div className="text-[20px]">
-                                  Bạn có chắc muốn xóa sản phẩm:{" "}
-                                  <strong className="">{item.name}</strong>
+                            <FaRegTrashCan className=" text-white text-[25px]" />
+                            <dialog
+                              id={`modal_delete_${item._id}`}
+                              className="modal"
+                            >
+                              <div className="modal-box">
+                                <div className=" py-[10px] ">
+                                  <div className="text-[20px]">
+                                    Bạn có chắc muốn xóa sản phẩm:{" "}
+                                    <strong className="">{item.name}</strong>
+                                  </div>
+                                </div>
+                                <div className="flex justify-end items-center">
+                                  <button
+                                    className="primary-btn  relative top-[11px] mr-[10px]"
+                                    onClick={() =>
+                                      handleDeleteProduct(item._id)
+                                    }
+                                  >
+                                    Xóa
+                                  </button>
+                                  <div className="modal-action">
+                                    <form method="dialog">
+                                      <button className="primary-btn bg-gray-500">
+                                        thoát
+                                      </button>
+                                    </form>
+                                  </div>
                                 </div>
                               </div>
-                              <div className="flex justify-end items-center">
-                                <button
-                                  className="primary-btn  relative top-[11px] mr-[10px]"
-                                  onClick={() => handleDeleteProduct(item._id)}
-                                >
-                                  Xóa
-                                </button>
-                                <div className="modal-action">
-                                  <form method="dialog">
-                                    <button className="primary-btn bg-gray-500">
-                                      thoát
-                                    </button>
-                                  </form>
-                                </div>
-                              </div>
-                            </div>
-                            <form method="dialog" className="modal-backdrop">
-                              <button>close</button>
-                            </form>
-                          </dialog>
-                        </span>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
+                              <form method="dialog" className="modal-backdrop">
+                                <button>close</button>
+                              </form>
+                            </dialog>
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
 
       {/* pagination */}
-      <div className="flex items-center justify-center mt-[30px]">
-        <div className="join">
-          {page > 1 && (
-            <button
-              className="join-item btn btn-md"
-              onClick={() => setPage(page - 1)}
-            >
-              &lt;
-            </button>
-          )}
-          {page > 1 && (
-            <button className="join-item btn btn-md" onClick={() => setPage(1)}>
-              1
-            </button>
-          )}
-          <button className="join-item btn btn-md btn-active">{page}</button>
-          {page < totalPage && (
-            <button
-              className="join-item btn btn-md"
-              onClick={() => setPage(page + 1)}
-            >
-              {page + 1}
-            </button>
-          )}
-          {page < totalPage && (
-            <button
-              className="join-item btn btn-md"
-              onClick={() => setPage(page + 1)}
-            >
-              &gt;
-            </button>
-          )}
+      {loading === false && (
+        <div className="flex items-center justify-center mt-[30px]">
+          <div className="join">
+            {page > 1 && (
+              <button
+                className="join-item btn btn-md"
+                onClick={() => setPage(page - 1)}
+              >
+                &lt;
+              </button>
+            )}
+            {page > 1 && (
+              <button
+                className="join-item btn btn-md"
+                onClick={() => setPage(1)}
+              >
+                1
+              </button>
+            )}
+            <button className="join-item btn btn-md btn-active">{page}</button>
+            {page < totalPage && (
+              <button
+                className="join-item btn btn-md"
+                onClick={() => setPage(page + 1)}
+              >
+                {page + 1}
+              </button>
+            )}
+            {page < totalPage && (
+              <button
+                className="join-item btn btn-md"
+                onClick={() => setPage(page + 1)}
+              >
+                &gt;
+              </button>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

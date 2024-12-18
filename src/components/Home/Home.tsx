@@ -416,7 +416,10 @@ const Home = () => {
               <div className="text-[20px] uppercase py-[10px] ">
                 Danh mục tin tức
               </div>
-              <div className="flex items-center gap-[10px] hover:text-violet-500 cursor-pointer">
+              <div
+                className="flex items-center gap-[10px] hover:text-violet-500 cursor-pointer"
+                onClick={() => navigate(`/news`)}
+              >
                 Xem chi tiết <FaAngleRight />
               </div>
             </div>
