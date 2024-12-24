@@ -6,12 +6,7 @@ import {
   IProductResponse,
   IWishList,
 } from "../../components/Interface/product";
-import {
-  ILogin,
-  IApiLogin,
-  IUser,
-  IAllUser,
-} from "../../components/Interface/user";
+import { ILogin, IApiLogin, IUser } from "../../components/Interface/user";
 import axiosInstance from "../axiosBaseApi";
 const config = {
   headers: {
@@ -79,8 +74,14 @@ export const deleteCategories = async (id: string) => {
 
 //[USER]
 //admin [GET ALL USER]
-export const getAllUser = async (): Promise<IAllUser> => {
-  return await axiosInstance.get(`/admin/users`);
+export const getAllUser = async (
+  page: number,
+  limit: number,
+  keyword: string
+) => {
+  return await axiosInstance.get(
+    `/admin/users?page=${page}&keyword=${keyword}&limit=${limit}`
+  );
 };
 
 //admin [GET ALL USER]
@@ -201,11 +202,22 @@ export const getOrderMe = async () => {
 };
 
 //[GET ORDER]
-export const getAllOrders = async () => {
-  return await axiosInstance.get(`/admin/orders`);
+export const getAllOrders = async (
+  page: number,
+  limit: number,
+  keyword: string
+) => {
+  return await axiosInstance.get(
+    `/admin/orders?page=${page}&keyword=${keyword}&limit=${limit}`
+  );
 };
 
 //[UPDATE ORDER]
 export const putOrder = async (id: string | undefined, data: any) => {
   return await axiosInstance.put(`/admin/order/${id}`, data);
+};
+
+//[DELETE ORDER]
+export const deleteOrder = async (id: string) => {
+  return await axiosInstance.delete(`/admin/order/${id}`);
 };

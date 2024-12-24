@@ -46,7 +46,7 @@ const Cart = () => {
   };
   return (
     <>
-      <div className="container py-[50px] dark:text-white">
+      <div className="container py-[50px] dark:text-white ">
         {items.length === 0 ? (
           <div className="py-[50px] flex flex-col items-center gap-[10px]">
             <img src={cart} alt="" className="w-[300px]" />
@@ -67,16 +67,16 @@ const Cart = () => {
             </h1>
             {/* table */}
             <div className="mt-[40px] border-b border-b-violet-300">
-              <div className="overflow-x-auto w-[100%]">
-                <table className="table text-[16px]">
+              <div className="overflow-x-auto">
+                <table className="table text-[16px] min-w-[600px]">
                   {/* head */}
                   <thead>
                     <tr className="text-[18px] dark:text-gray-300">
                       <th></th>
-                      <th>Hình ảnh sản phẩm</th>
-                      <th>Tên sản phẩm</th>
+                      <th>Hình ảnh </th>
+                      <th>Tên </th>
                       <th>Giá</th>
-                      <th className="">Số lượng </th>
+                      <th>Số lượng </th>
                       <th>Hành động</th>
                     </tr>
                   </thead>
@@ -93,13 +93,16 @@ const Cart = () => {
                               className="w-[50px] h-[50px] object-cover ring-1 ring-violet-300 rounded"
                             />
                           </td>
-                          <td>{item.product.name}</td>
+                          <td>
+                            <div className="block line-clamp-2">
+                              {item.product.name}
+                            </div>
+                          </td>
                           <td>{formattedPrice(item.product.price)}Đ</td>
                           <td>
-                            {" "}
                             <div>
                               <button
-                                className={`btn rounded-tl-md rounded-none rounded-bl-md text-[20px] ${
+                                className={`btn btn-xs sm:btn-md rounded-tl-md rounded-none rounded-bl-md sm:text-[20px] ${
                                   item.quantity === 1
                                     ? " opacity-50 cursor-not-allowed bg-violet-300"
                                     : ""
@@ -111,11 +114,11 @@ const Cart = () => {
                               >
                                 -
                               </button>
-                              <button className="btn rounded-none bg-white text-[20px] w-[30px] ">
+                              <button className="btn btn-xs sm:btn-md rounded-none bg-white sm:text-[20px] text-sm  ">
                                 {item.quantity}
                               </button>
                               <button
-                                className="btn rounded-tr-md rounded-none rounded-br-md text-[20px]"
+                                className="btn btn-xs sm:btn-md rounded-tr-md rounded-none rounded-br-md text-[20px]"
                                 onClick={() =>
                                   dispatch(increaseQuantity(item.product._id))
                                 }
@@ -124,8 +127,8 @@ const Cart = () => {
                               </button>
                             </div>
                           </td>
-                          <td className="flex gap-[10px] items-center ">
-                            <div className="p-[8px] bg-red-500 rounded-lg text-white hover:bg-white hover:text-red-500 hover:ring-1 ring-violet-300">
+                          <td className="">
+                            <div className="p-[8px] bg-red-500 rounded-lg w-[40px] text-white hover:bg-white hover:text-red-500 hover:ring-1 ring-violet-300">
                               <FaRegTrashCan
                                 className="  text-[22px] "
                                 onClick={() =>

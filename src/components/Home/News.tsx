@@ -26,16 +26,16 @@ const News = () => {
   return (
     <>
       <div className="container">
-        <h1 className="text-[25px] font-medium uppercase py-[40px] text-center dark:text-white">
+        <h1 className="md:text-[25px] text-[20px] font-medium uppercase md:py-[40px] py-[30px] text-center dark:text-white">
           Category Archives: Tin tức
         </h1>
-        <div className="flex gap-[10px] pb-[50px] dark:text-white">
+        <div className="grid grid-cols-3 gap-[10px] pb-[50px] dark:text-white">
           {/* left */}
-          <div className="flex-1 border-r border-r-violet-300 px-[20px] pb-[50px]">
+          <div className="md:col-span-2 col-span-3 md:border-r border-r-violet-300 sm:px-[20px] pb-[50px]">
             <Outlet />
           </div>
           {/* right */}
-          <div className="w-[300px] p-[20px]">
+          <div className="md:block hidden w-[300px] p-[20px]">
             <div className="relative text-[20px] font-semibold  uppercase">
               Food Good
               <span className="absolute w-[40px] h-[3px] bg-violet-500 block left-[0] bottom-[-5px]"></span>

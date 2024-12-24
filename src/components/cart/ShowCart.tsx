@@ -45,23 +45,23 @@ const ShowCart: React.FC<MyComponentProps> = (props) => {
   return (
     <>
       <div
-        className="relative"
+        className="relative "
         onMouseEnter={() => setShowCart(true)}
         onMouseLeave={() => setShowCart(false)}
       >
-        <div className=" inset-y-0 right-0 flex items-center gap-[10px] pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+        <div className="inset-y-0 right-0 flex items-center gap-[10px] pr-2 sm:static sm:inset-auto xl:ml-6 sm:pr-0 ml-3">
           <button
             type="button"
-            className="2xl:p-[11px] xl:p-[7px] rounded-full hover:bg-violet-300  dark:hover:bg-gray-300  bg-violet-200 text-black dark:bg-white  dark:text-black"
+            className="xl:p-[14px] p-[10px] rounded-full hover:bg-violet-300  dark:hover:bg-gray-300  bg-violet-200 text-black dark:bg-white  dark:text-black"
             onClick={() => {
               navigate("/cart");
               setShowCart(false);
             }}
           >
             {darkMode ? (
-              <RiShoppingBagFill className="2xl:text-[25px] xl:text-[20px]" />
+              <RiShoppingBagFill className="2xl:text-[20px] xl:text-[15px]" />
             ) : (
-              <RiShoppingBagLine className="text-[25px] xl:text-[20px]" />
+              <RiShoppingBagLine className="2xl:text-[20px] xl:text-[15px]" />
             )}
           </button>
           <div className="absolute top-[-6px] right-[-8px] bg-red-500 text-[16px] rounded-full w-[25px] h-[25px] text-center text-white">
@@ -70,7 +70,7 @@ const ShowCart: React.FC<MyComponentProps> = (props) => {
         </div>
 
         {showCart && (
-          <div className="absolute bg-white w-[350px] right-[50%] dark:bg-gray-700 mt-[1px] left-[50%] transform translate-x-[-50%] z-10 origin-top ring-1 ring-gray-100 shadow-xl h-[auto] rounded-lg">
+          <div className="sm:block hidden absolute bg-white w-[350px] right-[50%] dark:bg-gray-700 mt-[1px] left-[50%] transform translate-x-[-50%] z-10 origin-top ring-1 ring-gray-100 shadow-xl h-[auto] rounded-lg">
             {items.length === 0 ? (
               <div className="px-[20px] py-[40px] text-center">
                 <div className="flex flex-col items-center justify-center gap-[10px] dark:text-white">

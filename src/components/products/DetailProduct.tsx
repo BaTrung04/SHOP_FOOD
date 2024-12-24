@@ -41,15 +41,15 @@ const responsiveCate = {
   },
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
-    items: 5,
+    items: 4,
   },
   tablet: {
-    breakpoint: { max: 1024, min: 464 },
-    items: 5,
+    breakpoint: { max: 1024, min: 700 },
+    items: 3,
   },
   mobile: {
-    breakpoint: { max: 464, min: 0 },
-    items: 1,
+    breakpoint: { max: 700, min: 0 },
+    items: 2,
   },
 };
 
@@ -195,7 +195,7 @@ const DetailProduct = () => {
         </div>
       ) : (
         <div className="container py-[50px]" ref={gridRef}>
-          <div className="grid grid-cols-2 border-b border-b-violet-300 pb-[50px] dark:text-white">
+          <div className="grid md:grid-cols-2 border-b border-b-violet-300 pb-[50px] dark:text-white">
             <div>
               <div className="flex items-center justify-center">
                 <img
@@ -205,7 +205,7 @@ const DetailProduct = () => {
                       : "path/to/default/image.jpg"
                   }
                   alt="ảnh"
-                  className="w-[100%] object-cover rounded-md"
+                  className="md:w-[100%] w-[80%] object-cover rounded-md"
                 />
               </div>
               <Carousel
@@ -235,8 +235,10 @@ const DetailProduct = () => {
               </Carousel>
             </div>
             <div className="px-[30px] flex flex-col gap-[20px]">
-              <div className="text-[30px] font-medium">{data.name}</div>
-              <div className="text-red-500 text-[20px]">
+              <div className="md:text-[30px] text-[20px] font-medium">
+                {data.name}
+              </div>
+              <div className="text-red-500 md:text-[20px] text-lg">
                 {formattedPrice(data.price)}Đ
               </div>
               <p className="line-clamp-6">{data.description}</p>
@@ -285,8 +287,8 @@ const DetailProduct = () => {
               Đánh giá (0)
             </div>
             {/* Dánh giá */}
-            <div className="flex dark:text-white">
-              <div className="flex-1">
+            <div className="grid md:grid-cols-2 md:gap-0 gap-[50px] dark:text-white">
+              <div className="">
                 <div className="text-[18px] font-semibold ">Đánh giá</div>
                 {/* map */}
                 {dataReview.length > 0 ? (
@@ -328,8 +330,8 @@ const DetailProduct = () => {
                   </div>
                 )}
               </div>
-              <div className="flex-1 flex items-center justify-center">
-                <div className="p-[20px] ring-2 ring-violet-300 rounded-lg shadow-lg w-[80%] dark:bg-gray-800">
+              <div className="flex items-center justify-center">
+                <div className="p-[20px] ring-2 ring-violet-300 rounded-lg shadow-lg w-[90%] dark:bg-gray-800">
                   <div className="font-semibold">Thêm đánh giá mới</div>
                   <form
                     onSubmit={handleReview}

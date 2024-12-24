@@ -37,7 +37,7 @@ const Shipping = () => {
   return (
     <>
       <div className="flex flex-col items-center justify-center mt-[20px]">
-        <div className="w-[700px] ring-1 ring-violet-300 px-[50px] pb-[50px] rounded-lg shadow-lg dark:bg-gray-800">
+        <div className="md:w-[700px] w-[100%] ring-1 ring-violet-300 md:px-[50px] px-[10px] pb-[50px] rounded-lg shadow-lg dark:bg-gray-800">
           <div className="text-[25px] text-center py-[30px]">
             Thông tin vận chuyển
           </div>

@@ -4,9 +4,9 @@ import Footer from "../components/footer/Footer";
 const LayoutDefault = () => {
   return (
     <>
-      <div className="h-auto ">
+      <div className="h-full ">
         <NavBar />
-        <div className="dark:bg-gray-700 ">
+        <div className="dark:bg-gray-700 overflow-x-hidden">
           <Outlet />
         </div>
         <Footer />

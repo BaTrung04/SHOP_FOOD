@@ -142,7 +142,10 @@ const UpdateOrder: React.FC<MyComponentProps> = ({ item, fetchApiOrder }) => {
               </div>
               {orderItems &&
                 orderItems.map((item: any) => (
-                  <div className="flex items-center justify-between text-[16px] mb-[5px] dark:text-white gap-[30px]">
+                  <div
+                    key={item.id}
+                    className=" flex items-center justify-between text-[16px] mb-[5px] dark:text-white gap-[30px]"
+                  >
                     <div className="flex items-center gap-[15px] ">
                       <img
                         src={item.image}

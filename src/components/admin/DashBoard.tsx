@@ -50,20 +50,21 @@ const DashBoard = () => {
         const resProduct = await getAllProduct(1, 1000, "");
         setDataProduct(resProduct.rows);
 
-        const resOrder: any = await getAllOrders();
-        setTotal(resOrder.totalAmount);
-        setDataOrder(resOrder.orders);
+        const resOrder: any = await getAllOrders(1, 1000, "");
+        setTotal(resOrder.metadata.totalAmount);
+        setDataOrder(resOrder.rows);
 
         // Calculate monthly revenue
         const revenueByMonth = Array(12).fill(0);
-        resOrder.orders.forEach((order: any) => {
+        resOrder?.rows?.forEach((order: any) => {
           const month = new Date(order.createdAt).getMonth();
           revenueByMonth[month] += order.totalPrice;
         });
         setMonthlyRevenue(revenueByMonth);
 
-        const resUser: any = await getAllUser();
-        setDataUser(resUser.users);
+        const resUser: any = await getAllUser(1, 1000, "");
+
+        setDataUser(resUser.rows);
 
         const resCate = await getCategories(1, 30, "");
         setDataCategories(resCate.rows);
@@ -151,7 +152,7 @@ const DashBoard = () => {
       {
         backgroundColor: ["#e40e0e", "#406eeb"],
         hoverBackgroundColor: ["#eb4949", "#5491ec"],
-        data: [outOfStock, dataProduct.length - outOfStock],
+        data: [outOfStock, dataProduct?.length - outOfStock],
       },
     ],
   };
@@ -227,7 +228,7 @@ const DashBoard = () => {
               <div className="p-[10px]">
                 <div className="text-center text-[22px]">Tổng số danh mục</div>
                 <div className="text-center text-[20px] font-bold">
-                  {dataCategories.length}
+                  {dataCategories?.length}
                 </div>
               </div>
               <div
@@ -245,7 +246,7 @@ const DashBoard = () => {
               <div className="p-[10px]">
                 <div className="text-center text-[22px]">Tổng số sản phẩm</div>
                 <div className="text-center text-[20px] font-bold">
-                  {dataProduct.length}
+                  {dataProduct?.length}
                 </div>
               </div>
               <div
@@ -281,7 +282,7 @@ const DashBoard = () => {
                   Tổng số người dùng
                 </div>
                 <div className="text-center text-[20px] font-bold">
-                  {dataUser.length}
+                  {dataUser?.length}
                 </div>
               </div>
               <div
@@ -299,7 +300,7 @@ const DashBoard = () => {
               <div className="p-[10px]">
                 <div className="text-center text-[22px]">Tổng số đơn hàng</div>
                 <div className="text-center text-[20px] font-bold">
-                  {dataOrder.length}
+                  {dataOrder?.length}
                 </div>
               </div>
               <div

@@ -53,8 +53,9 @@ const Contact = () => {
           className="w-[100%] h-[500px]"
         ></iframe>
         <div className="container dark:text-white">
-          <div className="flex py-[20px]">
-            <div className="p-[30px] flex-1">
+          <div className="grid md:grid-cols-2 grid-cols-1 md:gap-0 gap-20 py-[20px]">
+            {/* left */}
+            <div className="md:p-[30px] ">
               <div className="pb-[15px] border-b border-b-violet-300 flex flex-col gap-[10px]">
                 <div>Mọi chi tiết xin liên hệ:</div>
                 <div className="text-[18px] font-medium">
@@ -70,7 +71,8 @@ const Contact = () => {
                 <div>Facebook: http://www.facebook.com/foodgood</div>
               </div>
             </div>
-            <div className="p-[30px] flex-1">
+            {/* right */}
+            <div className="md:p-[30px]  ">
               <div className="border-b border-b-violet-300 pb-[15px] text-[18px] font-medium">
                 GỬI MAIL CHO CHÚNG TÔI
               </div>

@@ -72,19 +72,19 @@ const ProductByCategory = () => {
             <span className="loading loading-spinner loading-lg "></span>
           </div>
         ) : (
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid xl:grid-cols-4 lg:grid-cols-3 grid-cols-2 gap-4">
             {/* map */}
             {data && data.length > 0 ? (
               data.map((item: any) => (
                 <div
                   key={item._id}
-                  className="flex flex-col  relative items-center shadow-md rounded-lg h-[320px] dark:bg-gray-800 cursor-pointer transform transition-transform duration-300 hover:scale-105"
+                  className="flex flex-col  relative items-center shadow-md rounded-lg  dark:bg-gray-800 cursor-pointer transform transition-transform duration-300 hover:scale-105"
                   onClick={() => handleClickDetailProduct(item._id)}
                 >
                   <img
                     src={item?.images[0]?.url}
                     alt="sản phẩm"
-                    className="w-[200px] h-[200px] object-cover my-[15px] rounded-lg"
+                    className="w-[90%] object-cover my-[15px] rounded-lg"
                   />
                   <div className="text-center w-[80%] line-clamp-2">
                     {item.name}

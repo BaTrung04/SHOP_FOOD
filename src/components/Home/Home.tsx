@@ -29,15 +29,15 @@ const responsive = {
   },
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
-    items: 5,
+    items: 4,
   },
   tablet: {
     breakpoint: { max: 1024, min: 464 },
-    items: 5,
+    items: 3,
   },
   mobile: {
     breakpoint: { max: 464, min: 0 },
-    items: 1,
+    items: 2,
   },
 };
 
@@ -192,8 +192,8 @@ const Home = () => {
         {/* main */}
         <div className="container">
           {/* header */}
-          <div className="flex items-center justify-around gap-[20px] py-[50px] dark:text-white">
-            <div>
+          <div className="flex flex-col sm:flex-row items-center justify-around gap-[20px] sm:py-[50px]  py-[20px] dark:text-white ">
+            <div className="sm:border-none border-b pb-4 sm:pb-0 border-dashed border-violet-600">
               <div className="flex items-center gap-[10px]">
                 <img src={ship} alt="" className="h-[60px]" /> Giao món siêu
                 nhanh
@@ -203,14 +203,14 @@ const Home = () => {
                 nghiệm tuyệt vời nhất.
               </div>
             </div>
-            <div className="flex flex-col items-center gap-[10px] border-x border-dashed border-violet-600 px-[5px]">
+            <div className="flex flex-col items-center gap-[10px] sm:border-x border-dashed  sm:py-0 border-violet-600 px-[5px]">
               <div>Thực đơn đa dạng</div>
               <div className="text-center">
                 Không còn giới hạn nhu cầu và sở thích khi bạn đến với Qúa Ngon
                 Food
               </div>
             </div>
-            <div>
+            <div className="sm:border-none border-t pt-4 sm:pt-0 border-dashed border-violet-600">
               <div className="flex items-center gap-[10px] ">
                 <img src={chef} alt="" className="h-[60px]" /> Đầu bếp phục vụ
                 tại nhà
@@ -224,7 +224,7 @@ const Home = () => {
           {/* Carousel danh muc */}
           <Carousel
             responsive={responsive}
-            showDots={true}
+            // showDots={true}
             infinite={true}
             autoPlay={true}
             autoPlaySpeed={3000}
@@ -237,7 +237,7 @@ const Home = () => {
               category.map((urlImg) => (
                 <div
                   key={urlImg._id}
-                  className="h-[300px] hover:shadow-md  transform transition-transform duration-300 hover:scale-105 "
+                  className="sm:h-[300px] h-[110%] hover:shadow-md  transform transition-transform duration-300 hover:scale-105 flex flex-col items-center"
                   onClick={() =>
                     navigate(`/categories/${urlImg.slug}/${urlImg._id}`)
                   }
@@ -245,7 +245,7 @@ const Home = () => {
                   <img
                     src={urlImg.image.url}
                     alt=""
-                    className=" cursor-pointer "
+                    className=" cursor-pointer w-[90%] "
                   />
                   <div className="text-center dark:text-white">
                     {urlImg.categoryName}
@@ -255,8 +255,8 @@ const Home = () => {
           </Carousel>
           {/* top */}
           <div className="py-[50px]">
-            <div className="flex justify-between">
-              <div className="text-[20px] uppercase py-[10px] ">
+            <div className="flex justify-between sm:gap-10">
+              <div className="sm:text-[20px] uppercase py-[10px] ">
                 Đặc sản trứ danh - Giữ nóng trong lu đất - Đầu bếp phục vụ tận
                 nơi
               </div>
@@ -266,22 +266,23 @@ const Home = () => {
                   navigate(`/categories/dac-san/671b342615a09d2d74ac245e`)
                 }
               >
-                Xem chi tiết <FaAngleRight />
+                <span className="lg:block hidden "> Xem chi tiết</span>{" "}
+                <FaAngleRight />
               </div>
             </div>
-            <div className="grid grid-cols-4 gap-4">
+            <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-4">
               {/* map */}
               {dataProductBySpecialty &&
                 dataProductBySpecialty.slice(0, 4).map((item: any) => (
                   <div
                     key={item._id}
                     onClick={() => handleClickDetailProduct(item._id)}
-                    className="flex flex-col relative items-center shadow-md rounded-lg h-[370px] dark:bg-gray-800 cursor-pointer transform transition-transform duration-300 hover:scale-105"
+                    className="flex flex-col relative items-center shadow-md rounded-lg  dark:bg-gray-800 cursor-pointer transform transition-transform duration-300 hover:scale-105"
                   >
                     <img
                       src={item?.images[0]?.url}
                       alt=""
-                      className=" w-[255px] object-cover my-[15px] rounded-lg"
+                      className=" w-[90%] object-cover my-[15px] rounded-lg"
                     />
                     <div className="text-center w-[80%] line-clamp-2">
                       {item.name}
@@ -311,7 +312,8 @@ const Home = () => {
                 Sản phẩm thường xuyên được đặt{" "}
               </div>
               <div className="flex items-center gap-[10px] hover:text-violet-500 cursor-pointer">
-                Xem chi tiết <FaAngleRight />
+                <span className="lg:block hidden "> Xem chi tiết</span>{" "}
+                <FaAngleRight />
               </div>
             </div>
             {loading ? (
@@ -321,19 +323,19 @@ const Home = () => {
                 <span className="loading loading-spinner loading-lg "></span>
               </div>
             ) : (
-              <div className="grid grid-cols-4 gap-4">
+              <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-4">
                 {/* map */}
                 {data &&
                   data.map((item: any) => (
                     <div
                       key={item._id}
-                      className="flex flex-col relative items-center shadow-md rounded-lg h-[370px] dark:bg-gray-800 cursor-pointer transform transition-transform duration-300 hover:scale-105"
+                      className="flex flex-col relative items-center shadow-md rounded-lg  dark:bg-gray-800 cursor-pointer transform transition-transform duration-300 hover:scale-105"
                       onClick={() => handleClickDetailProduct(item._id)}
                     >
                       <img
                         src={item?.images[0]?.url || ""}
                         alt="Sản phẩm"
-                        className=" w-[255px] h-[255px] object-cover my-[15px] rounded-lg"
+                        className=" w-[90%] object-cover my-[15px] rounded-lg"
                       />
                       <div className="text-center w-[80%] line-clamp-2">
                         {item.name}
@@ -464,13 +466,13 @@ const Home = () => {
         </div>
         {isOnButton && (
           <>
-            <div className=" flex flex-col gap-2 fixed right-[30px] bottom-[30px] cursor-pointer">
+            <div className=" flex flex-col gap-2 fixed sm:right-[30px] right-[15px] sm:bottom-[30px] bottom-[15px] cursor-pointer z-50">
               <a
                 href="https://zalo.me/0776488546"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <img src={zaloIcon} alt="" className="w-[52px] rounded-md" />
+                <img src={zaloIcon} alt="" className="w-[52px] ] rounded-md" />
               </a>
               <a
                 href="https://www.facebook.com/people/C%E1%BB%ADa-h%C3%A0ng-FOOD-GOOD/100082684898402/"
@@ -480,10 +482,10 @@ const Home = () => {
                 <img src={fbIcon} alt="" className="w-[52px]  rounded-md" />
               </a>
               <button
-                className="primary-btn p-[15px]  rounded-full"
+                className="primary-btn p-[15px] rounded-full flex items-center justify-center"
                 onClick={scrollToTop}
               >
-                <FaArrowUp className="text-[22px]" />
+                <FaArrowUp className="text-[22px] " />
               </button>
             </div>
           </>

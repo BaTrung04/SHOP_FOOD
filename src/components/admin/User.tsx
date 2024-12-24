@@ -9,13 +9,15 @@ const User = () => {
   const [page, setPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
 
-  // const [limit, setLimit] = useState<number>(10);
+  const [limit, setLimit] = useState<number>(10);
   const [totalPage] = useState<number>(1);
+  const [keyword, setKeyword] = useState<string>("");
   const fetchApi = async () => {
     setLoading(true);
     try {
-      const res = await getAllUser();
-      setData(res.users);
+      const res: any = await getAllUser(page, limit, keyword);
+      console.log(res);
+      setData(res.rows);
     } catch (error) {
       console.log(error);
     } finally {
@@ -46,14 +48,16 @@ const User = () => {
             </label>
             <div className="mt-2">
               <select
-                id="country"
-                name="country"
-                autoComplete="country-name"
+                id="limit"
+                name="limit"
+                autoComplete="limit-name"
+                value={limit}
+                onChange={(e) => setLimit(Number(e.target.value))}
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
               >
-                <option>10</option>
-                <option>20</option>
-                <option>30</option>
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={30}>30</option>
               </select>
             </div>
           </div>
@@ -62,6 +66,8 @@ const User = () => {
               type="text"
               className="block w-[90%] rounded-2xl mr-[10px] border-0 py-1.5 px-[10px] text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-violet-300 sm:text-sm sm:leading-6"
               placeholder="Tìm kiếm"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
             />
             <button
               type="button"

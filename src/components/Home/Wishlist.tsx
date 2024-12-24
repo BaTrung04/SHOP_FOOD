@@ -108,10 +108,16 @@ const Wishlist = () => {
                         <td className="flex gap-[10px] items-center">
                           {/* add to cart */}
                           <button
-                            className="primary-btn"
+                            className="primary-btn sm:block hidden"
                             onClick={() => handleClickAddToCart(item)}
                           >
                             Thêm vào giỏ hàng
+                          </button>
+                          <button
+                            className="primary-btn sm:hidden block py-[12px]"
+                            onClick={() => handleClickAddToCart(item)}
+                          >
+                            Thêm
                           </button>
                           {/* delete */}
                           <span

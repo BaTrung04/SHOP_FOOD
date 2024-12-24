@@ -41,10 +41,10 @@ const UpdatePassword = () => {
           Quản lý thông tin hồ sơ để bảo mật tài khoản
         </div>
       </div>
-      <div className="flex justify-center mt-[50px]">
+      <div className="flex justify-center mt-[50px] w-full">
         <form
           onSubmit={handleSubmitUpdatePassword}
-          className="space-y-6 mt-[20px] ring-1 ring-violet-300 px-[30px] py-[50px] w-[50%] rounded-lg shadow-lg dark:bg-gray-800"
+          className="space-y-6 mt-[20px] ring-1 md:w-[90%] ring-violet-300 px-[30px] py-[50px] lg:w-[70%] w-full rounded-lg shadow-lg dark:bg-gray-800"
         >
           <div className="w">
             <div>

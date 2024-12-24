@@ -17,9 +17,10 @@ const Info = () => {
   return (
     <>
       <div className="container py-[50px]">
-        <div className="flex gap-[25px]">
-          <div className="border-r border-r-violet-200 pr-[25px] border-dashed ">
-            <div className="flex flex-col flex-[2] ring-1 ring-violet-200 gap-[10px] items-center p-[20px] rounded-xl dark:bg-gray-800 dark:text-white">
+        <div className="grid xl:grid-cols-3 md:grid-cols-2 gap-[25px]">
+          <div className="md:border-r border-r-violet-200 md:pr-[25px] border-dashed  col-span-1">
+            {/* left */}
+            <div className="flex flex-col  ring-1 ring-violet-200 gap-[10px] items-center p-[20px] rounded-xl dark:bg-gray-800 dark:text-white">
               <h1 className="text-[25px] font-semibold">Thông tin cá nhân</h1>
               {user?.avatar?.url && (
                 <img
@@ -60,7 +61,8 @@ const Info = () => {
               </div>
             </div>
           </div>
-          <div className="flex-[8]">
+          {/* right */}
+          <div className="xl:col-span-2">
             <Outlet />
           </div>
         </div>

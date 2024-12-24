@@ -52,8 +52,8 @@ const Confirm = () => {
 
   return (
     <>
-      <div className="grid grid-cols-3 gap-[30px]">
-        <div className="col-span-2 border-r border-r-violet-100 border-dashed pr-[20px] pb-[20px]">
+      <div className="grid md:grid-cols-3 grid-cols-1 gap-[30px] overflow-x-hidden">
+        <div className="md:col-span-2 border-r border-r-violet-100 border-dashed pr-[20px] pb-[20px]">
           <div className="flex flex-col gap-[10px] border-b border-b-violet-100 pb-[25px]">
             <div className="text-[25px] font-semibold">
               Thông tin vận chuyển
@@ -122,7 +122,7 @@ const Confirm = () => {
         </div>
         <div>
           <div>
-            <div className="flex justify-end mt-[50px]">
+            <div className="flex md:justify-end  justify-center md:mt-[50px]">
               <div className="  w-[300px] ring-1 ring-violet-300 py-[15px] rounded-xl shadow-md dark:bg-gray-800">
                 <div className="text-center font-semibold border-b border-b-violet-300 px-[20px] pb-[10px]">
                   Tổng giá trị đơn hàng

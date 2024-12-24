@@ -33,9 +33,9 @@ const Categories = () => {
   };
   return (
     <div className="container py-[50px]">
-      <div className="flex gap-[10px] pb-[50px] dark:text-white">
+      <div className="flex sm:flex-row flex-col gap-[10px] pb-[50px] dark:text-white">
         {/* left */}
-        <div className="w-[270px] border-r border-r-violet-300 border-dashed">
+        <div className="sm:w-[270px] w-full sm:border-r border-r-violet-300 border-dashed">
           <div className=" px-[20px] py-[10px] rounded-lg">
             <div className="text-[18px] font-bold relative mb-[10px]">
               Danh mục
@@ -48,7 +48,7 @@ const Categories = () => {
                 <span className="loading loading-spinner loading-lg "></span>
               </div>
             ) : (
-              <div className="flex flex-col gap-[8px]">
+              <div className="grid sm:grid-cols-1 grid-cols-3 sm:gap-[8px] gap-[4px]">
                 {category &&
                   category.map((item) => {
                     const isActive = location.pathname.includes(item.slug); // Kiểm tra xem slug có trong URL hiện tại không
@@ -56,7 +56,7 @@ const Categories = () => {
                     return (
                       <div
                         key={item._id}
-                        className={`border-b border-b-violet-200 py-[5px] pl-[5px] rounded-md cursor-pointer hover:bg-violet-200 ${
+                        className={`truncate max-w-[200px] sm:border-b border-b-violet-200 border border-violet-200  py-[5px] sm:block flex items-center justify-center pl-[5px] rounded-md cursor-pointer hover:bg-violet-200 ${
                           isActive ? "bg-violet-300" : ""
                         }`}
                         onClick={() =>

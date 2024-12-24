@@ -46,11 +46,11 @@ const UpdateAccount = () => {
 
   return (
     <>
-      <div className="border-b border-b-violet-300 pb-[10px]">
-        <h1 className="text-[20px] font-medium dark:text-white">
+      <div className="md:border-b border-b-violet-300 pb-[10px] ">
+        <h1 className="text-[20px] font-medium dark:text-white text-center md:text-start">
           Cập nhật thông tin{" "}
         </h1>
-        <div className="text-[14px] text-gray-600 dark:text-gray-300">
+        <div className="text-[14px] text-gray-600 dark:text-gray-300 md:block hidden">
           Quản lý thông tin hồ sơ để bảo mật tài khoản
         </div>
       </div>
@@ -58,7 +58,7 @@ const UpdateAccount = () => {
         onSubmit={handleSubmitUpdateProfile}
         className="space-y-6 mt-[20px]"
       >
-        <div className="grid grid-cols-2 gap-[30px]">
+        <div className="grid xl:grid-cols-2 gap-[30px]">
           <div>
             <div>
               <label
@@ -100,7 +100,7 @@ const UpdateAccount = () => {
               </div>
             </div>
           </div>
-          <div className="border-l border-l-violet-300 border-dashed ">
+          <div className="xl:border-l border-l-violet-300 border-dashed ">
             <div className="col-span-full">
               <label className="block text-sm font-medium text-center leading-6 text-gray-900 dark:text-white mb-[10px]">
                 Ảnh đại diện
@@ -148,10 +148,10 @@ const UpdateAccount = () => {
           </div>
         </div>
 
-        <div className="flex justify-end">
+        <div className="xl:flex justify-end">
           <button
             type="submit"
-            className={`primary-btn w-[47%] ${
+            className={`primary-btn xl:w-[47%] w-full ${
               !isFormValid ? "opacity-50 cursor-not-allowed bg-violet-300" : ""
             }`}
             disabled={!isFormValid}

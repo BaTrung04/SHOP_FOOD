@@ -89,13 +89,13 @@ const NavBar = () => {
 
   return (
     <>
-      <nav className="bg-white dark:bg-gray-800 shadow-lg sticky top-0 z-50 block lg:flex items-center justify-center ">
+      <nav className="bg-white dark:bg-gray-800 shadow-lg sticky top-0 z-50 lg:flex block items-center justify-center ">
         <div className="container px-2 sm:px-6 lg:px-8">
           <div className="relative flex h-16 items-center justify-between gap-[10px] sm:gap-0">
             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden ">
               <button
                 type="button"
-                className="relative inline-flex items-center justify-center rounded-md p-2 text-white  hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                className="relative inline-flex items-center justify-center rounded-md p-1 text-black dark:text-white dark:hover:bg-gray-700 hover:bg-violet-50 dark:hover:text-white hover:text-black focus:outline-none ring-2 focus:ring-inset dark:focus:ring-white focus:ring-violet-500"
                 aria-controls="mobile-menu"
                 aria-expanded="false"
                 onClick={() => setShowNavBar(!showNavBar)}
@@ -141,20 +141,20 @@ const NavBar = () => {
                 onClick={() => navigate("/")}
               >
                 <img
-                  className="lg:h-12 w-auto h-6 text-black rounded-xl cursor-pointer"
+                  className="lg:h-12  w-auto ml-[40px] sm:ml-0 h-8 text-black rounded-xl cursor-pointer"
                   src={logo}
                   alt="Your Company"
                 />
               </div>
               {/* navbar  */}
-              <div className="hidden sm:ml-6 sm:block">
-                <div className="flex space-x-4">
+              <div className="hidden md:ml-6 md:flex justify-center items-center">
+                <div className="flex 2xl:space-x-4 gap-2 md:text-sm">
                   <NavLink
                     to="/introduce"
                     className={({ isActive }) =>
                       isActive
-                        ? "rounded-md xl:px-3 xl:py-2 xl:text-lg font-bold text-violet-500 dark:text-violet-300 ring-2 ring-violet-300"
-                        : "rounded-md xl:px-3 xl:py-2 xl:text-lg font-bold text-black dark:text-white "
+                        ? "rounded-md xl:px-3 xl:py-2  xl:text-lg font-bold text-violet-500 dark:text-violet-300 ring-2 ring-violet-300"
+                        : "rounded-md xl:px-3 xl:py-2  xl:text-lg font-bold text-black dark:text-white "
                     }
                     aria-current="page"
                   >
@@ -165,7 +165,7 @@ const NavBar = () => {
                     <NavLink
                       to="/categories"
                       className={({ isActive }) =>
-                        `flex items-center rounded-md xl:px-3 xl:py-2 xl:text-lg font-bold cursor-pointer ${
+                        `flex items-center rounded-md xl:px-3 xl:py-2 xl:text-lg  font-bold cursor-pointer ${
                           isActive
                             ? "text-violet-500 dark:text-violet-300 ring-2 ring-violet-300"
                             : "text-black dark:text-white"
@@ -173,16 +173,16 @@ const NavBar = () => {
                       }
                     >
                       <span>Danh mục</span>
-                      <FaAngleDown className="ml-2" />
+                      <FaAngleDown className="ml-2 lg:block hidden" />
                     </NavLink>
 
                     {/* Dropdown hiển thị khi hover */}
                     <div className="absolute left-0 mt-0.5 hidden w-48 rounded-md bg-white shadow-lg dark:bg-gray-800 group-hover:block z-10">
-                      <ul className="xl:px-3 xl:py-2">
+                      <ul className=" py-2 px-3">
                         {category &&
                           category.map((item) => (
                             <li
-                              className="xl:px-3 xl:py-2 hover:bg-violet-300 dark:hover:bg-gray-400 cursor-pointer dark:text-white "
+                              className="xl:px-3 xl:py-2 py-1 hover:bg-violet-300 dark:hover:bg-gray-400 cursor-pointer dark:text-white "
                               key={item._id}
                               onClick={() =>
                                 navigate(`categories/${item.slug}/${item._id}`)
@@ -225,7 +225,7 @@ const NavBar = () => {
               </div>
             </div>
             {/* search */}
-            <div className="xl:w-[30%] relative lg:block hidden">
+            <div className="xl:w-[30%] w-[160px] relative ">
               <div className="relative">
                 <input
                   type="text"
@@ -236,7 +236,7 @@ const NavBar = () => {
                 />
                 <button
                   onClick={(e) => handleSearch(e)}
-                  className="p-[10px] rounded-full hover:bg-violet-300  dark:hover:bg-gray-300 bg-violet-200 text-black dark:bg-white  dark:text-black absolute top-0  2xl:right-[44px] xl:right-[30px]  dark:border-0 ring-1 ring-inset ring-gray-300"
+                  className="absolute right-[10px] p-[10px] rounded-full hover:bg-violet-300  dark:hover:bg-gray-300 bg-violet-200 text-black dark:bg-white  dark:text-black  top-0  2xl:right-[44px] xl:right-[30px]  dark:border-0 ring-1 ring-inset ring-gray-300"
                 >
                   {darkMode ? <RiSearchFill /> : <RiSearchLine />}
                 </button>
@@ -260,20 +260,20 @@ const NavBar = () => {
 
             {!isLogin ? (
               <button
-                className="primary-btn font-bold ml-[10px] sm:block hidden"
+                className="primary-btn font-bold ml-[20px] sm:block hidden"
                 onClick={() => navigate("/login")}
               >
                 Đăng nhập
               </button>
             ) : (
               <div
-                className="relative ml-3 cursor-pointer"
+                className="relative ml-3 cursor-pointer sm:block hidden"
                 onMouseEnter={() => setShowProFile(true)}
                 onMouseLeave={() => setShowProFile(false)}
               >
                 <div className="flex relative  items-center gap-[10px] focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                   <img
-                    className="h-[45px] w-[45px] rounded-full ml-[10px]"
+                    className="xl:h-[45px] xl:w-[45px] h-[39px] w-[39px] rounded-full ml-[10px]"
                     src={user.avatar && user.avatar.url}
                     alt={user && user.name}
                   />
@@ -349,16 +349,97 @@ const NavBar = () => {
             )}
           </div>
         </div>
-
+        {/* mobile */}
         {showNavBar && (
-          <div className="sm:hidden" id="mobile-menu">
-            <div className="space-y-1 px-2 pb-3 pt-2">
+          <div
+            className="sm:hidden fixed bg-slate-100 dark:bg-gray-600 dark:text-white w-full"
+            id="mobile-menu"
+          >
+            <div className="space-y-1 px-2 pb-3 pt-2 flex flex-col gap-2">
+              {!isLogin ? (
+                <NavLink
+                  to="/login"
+                  onClick={() => setShowNavBar(false)}
+                  className={({ isActive }) =>
+                    `flex items-center rounded-sm font-bold cursor-pointer ${
+                      isActive
+                        ? "text-violet-500 dark:text-violet-300 ring-2 ring-violet-300"
+                        : "text-black dark:text-white"
+                    }`
+                  }
+                >
+                  Đăng nhập
+                </NavLink>
+              ) : (
+                <NavLink
+                  to="/info"
+                  onClick={() => setShowNavBar(false)}
+                  className={({ isActive }) =>
+                    `flex items-center rounded-sm font-bold cursor-pointer ${
+                      isActive
+                        ? "text-violet-500 dark:text-violet-300 ring-2 ring-violet-300"
+                        : "text-black dark:text-white"
+                    }`
+                  }
+                >
+                  Thông tin cá nhân: {user.name}
+                </NavLink>
+              )}
+              {isLogin && (
+                <NavLink
+                  to="/wishlist"
+                  onClick={() => setShowNavBar(false)}
+                  className={({ isActive }) =>
+                    `flex items-center rounded-sm font-bold cursor-pointer ${
+                      isActive
+                        ? "text-violet-500 dark:text-violet-300 ring-2 ring-violet-300"
+                        : "text-black dark:text-white"
+                    }`
+                  }
+                >
+                  Sản phẩm yêu thích
+                </NavLink>
+              )}
+              {isLogin && (
+                <NavLink
+                  to="/history-order"
+                  onClick={() => setShowNavBar(false)}
+                  className={({ isActive }) =>
+                    `flex items-center rounded-sm font-bold cursor-pointer ${
+                      isActive
+                        ? "text-violet-500 dark:text-violet-300 ring-2 ring-violet-300"
+                        : "text-black dark:text-white"
+                    }`
+                  }
+                >
+                  Lịch sử mua hàng
+                </NavLink>
+              )}
+              {!isLogin ? (
+                <NavLink
+                  to="/register"
+                  onClick={() => setShowNavBar(false)}
+                  className={({ isActive }) =>
+                    `flex items-center rounded-sm font-bold cursor-pointer ${
+                      isActive
+                        ? "text-violet-500 dark:text-violet-300 ring-2 ring-violet-300"
+                        : "text-black dark:text-white"
+                    }`
+                  }
+                >
+                  Đăng ký
+                </NavLink>
+              ) : undefined}
+
               <NavLink
                 to="/introduce"
+                onClick={() => setShowNavBar(false)}
                 className={({ isActive }) =>
-                  isActive
-                    ? "rounded-md xl:px-3 xl:py-2 xl:text-lg font-bold text-violet-500 dark:text-violet-300 ring-2 ring-violet-300"
-                    : "rounded-md xl:px-3 xl:py-2 xl:text-lg font-bold text-black dark:text-white "
+                  `flex items-center rounded-sm font-bold cursor-pointer ${
+                    isActive
+                      ? "text-violet-500 dark:text-violet-300 ring-2 ring-violet-300"
+                      : "text-black dark:text-white"
+                  }`
                 }
                 aria-current="page"
               >
@@ -366,43 +447,54 @@ const NavBar = () => {
               </NavLink>
               <NavLink
                 to="/categories"
+                onClick={() => setShowNavBar(false)}
                 className={({ isActive }) =>
-                  `flex items-center rounded-md xl:px-3 xl:py-2 xl:text-lg font-bold cursor-pointer ${
+                  `flex items-center rounded-sm font-bold cursor-pointer ${
                     isActive
                       ? "text-violet-500 dark:text-violet-300 ring-2 ring-violet-300"
                       : "text-black dark:text-white"
                   }`
                 }
               >
-                <span>Danh mục</span>
-                <FaAngleDown className="ml-2" />
+                Danh mục
               </NavLink>
               <NavLink
                 to="/news"
+                onClick={() => setShowNavBar(false)}
                 className={({ isActive }) =>
-                  isActive
-                    ? "rounded-md xl:px-3 xl:py-2 xl:text-lg font-bold text-violet-500 dark:text-violet-300 ring-2 ring-violet-300"
-                    : "rounded-md xl:px-3 xl:py-2 xl:text-lg font-bold text-black dark:text-white"
+                  `flex items-center rounded-sm font-bold cursor-pointer ${
+                    isActive
+                      ? "text-violet-500 dark:text-violet-300 ring-2 ring-violet-300"
+                      : "text-black dark:text-white"
+                  }`
                 }
               >
                 Tin tức
               </NavLink>
-              <a
-                href="#"
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-              >
-                Calendar
-              </a>
               <NavLink
                 to="/contact"
+                onClick={() => setShowNavBar(false)}
                 className={({ isActive }) =>
-                  isActive
-                    ? "rounded-md xl:px-3 xl:py-2 xl:text-lg font-bold text-violet-500 dark:text-violet-300 ring-2 ring-violet-300"
-                    : "rounded-md xl:px-3 xl:py-2 xl:text-lg font-bold text-black dark:text-white"
+                  `flex items-center rounded-sm font-bold cursor-pointer ${
+                    isActive
+                      ? "text-violet-500 dark:text-violet-300 ring-2 ring-violet-300"
+                      : "text-black dark:text-white"
+                  }`
                 }
               >
                 Liên hệ
               </NavLink>
+              {isLogin && (
+                <div
+                  className="flex items-center rounded-sm font-bold cursor-pointer"
+                  onClick={() => {
+                    handleLogOut();
+                    setShowNavBar(false);
+                  }}
+                >
+                  Đăng xuất
+                </div>
+              )}
             </div>
             <div className="flex space-x-4">
               <div className="relative group">

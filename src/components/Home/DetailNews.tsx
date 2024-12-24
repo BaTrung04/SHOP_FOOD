@@ -51,7 +51,7 @@ const DetailNews = () => {
               <img
                 src={data.image?.url}
                 alt=""
-                className="w-[80%]  object-cover border border-violet-200 rounded-xl"
+                className="w-[90%] xl:h-[500px] lg:h-[400px] md:h-[300px] h-[200px]  object-cover border border-violet-200 rounded-xl"
               />
             </div>
             <div className="p-[20px]">

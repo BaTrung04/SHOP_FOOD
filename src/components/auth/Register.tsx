@@ -54,7 +54,7 @@ const Register = () => {
       {" "}
       <div className="container ">
         <div className="flex items-center justify-center">
-          <div className="mb-[70px] mt-[50px] w-[80%] h-auto border border-violet-200 rounded-lg shadow-xl dark:bg-gray-800">
+          <div className="mb-[70px] mt-[50px] sm:w-[80%] w-full h-auto sm:border border-violet-200 rounded-lg sm:shadow-xl dark:bg-gray-800">
             <div className="lg:flex ">
               <div className="lg:flex-1 lg:m-auto flex items-center justify-center  ">
                 <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">

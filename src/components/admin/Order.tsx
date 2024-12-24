@@ -1,22 +1,24 @@
 import { useEffect, useState } from "react";
 import { RiSearchLine } from "react-icons/ri";
-import { getAllOrders } from "../../Services/modules/auth";
+import { deleteOrder, getAllOrders } from "../../Services/modules/auth";
 import moment from "moment";
 import UpdateOrder from "./UpdateOrder";
 import { formattedPrice } from "../../utils/formattedPrice";
+import { FaRegTrashCan } from "react-icons/fa6";
+import { toast } from "react-toastify";
 const Order = () => {
   const [data, setData] = useState<any>([]);
   const [page, setPage] = useState<number>(1);
-  // const [limit, setLimit] = useState<number>(10);
+  const [limit, setLimit] = useState<number>(10);
   const [totalPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
-
+  const [keyword, setKeyword] = useState<string>("");
   const fetchApiOrder = async () => {
     setLoading(true);
     try {
-      const res: any = await getAllOrders();
-      console.log(res);
-      setData(res.orders);
+      const res: any = await getAllOrders(page, limit, keyword);
+
+      setData(res.rows);
     } catch (error) {
       console.log(error);
     } finally {
@@ -29,6 +31,18 @@ const Order = () => {
 
   const formattedDate = (data: string | Date): string => {
     return moment(data).format("HH:mm:ss - DD/MM/YYYY ");
+  };
+
+  const handleDeleteOrder = async (id: string) => {
+    await deleteOrder(id);
+    const modal = document.getElementById(
+      `modal_delete_${id}`
+    ) as HTMLDialogElement;
+    modal.close();
+    toast.success("🦄 Bạn đã xóa sản phẩm thành công!", {
+      position: "top-right",
+    });
+    fetchApiOrder();
   };
   console.log(data);
   return (
@@ -50,14 +64,16 @@ const Order = () => {
             </label>
             <div className="mt-2">
               <select
-                id="country"
-                name="country"
-                autoComplete="country-name"
+                id="limit"
+                name="limit"
+                autoComplete="limit-name"
+                value={limit}
+                onChange={(e) => setLimit(Number(e.target.value))}
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
               >
-                <option>10</option>
-                <option>20</option>
-                <option>30</option>
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={30}>30</option>
               </select>
             </div>
           </div>
@@ -66,6 +82,8 @@ const Order = () => {
               type="text"
               className="block w-[90%] rounded-2xl mr-[10px] border-0 py-1.5 px-[10px] text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-violet-300 sm:text-sm sm:leading-6"
               placeholder="Tìm kiếm"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
             />
             <button
               type="button"
@@ -127,6 +145,49 @@ const Order = () => {
                           item={item}
                           fetchApiOrder={fetchApiOrder}
                         />
+                        {/* delete */}
+                        <span
+                          className="p-[10px] bg-red-500 rounded-lg"
+                          onClick={() => {
+                            const modal = document.getElementById(
+                              `modal_delete_${item._id}`
+                            ) as HTMLDialogElement;
+                            modal?.showModal();
+                          }}
+                        >
+                          <FaRegTrashCan className=" text-white text-[25px]" />
+                          <dialog
+                            id={`modal_delete_${item._id}`}
+                            className="modal"
+                          >
+                            <div className="modal-box">
+                              <div className=" py-[10px] ">
+                                <div className="text-[20px]">
+                                  Bạn có chắc muốn xóa sản phẩm:{" "}
+                                  <strong className="">{item.name}</strong>
+                                </div>
+                              </div>
+                              <div className="flex justify-end items-center">
+                                <button
+                                  className="primary-btn  relative top-[11px] mr-[10px]"
+                                  onClick={() => handleDeleteOrder(item._id)}
+                                >
+                                  Xóa
+                                </button>
+                                <div className="modal-action">
+                                  <form method="dialog">
+                                    <button className="primary-btn bg-gray-500">
+                                      thoát
+                                    </button>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                            <form method="dialog" className="modal-backdrop">
+                              <button>close</button>
+                            </form>
+                          </dialog>
+                        </span>
                       </td>
                     </tr>
                   ))}

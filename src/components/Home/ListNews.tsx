@@ -64,10 +64,12 @@ const ListNews = () => {
                     <img
                       src={item.image.url}
                       alt=""
-                      className="w-[300px] h-[300px] object-cover border border-violet-200 rounded-xl"
+                      className="md:mt-0 mt-[20px] object-cover border border-violet-200 rounded-xl"
                     />
                     <div className="p-[20px] col-span-2 ">
-                      <p className="line-clamp-6">{item.content} </p>
+                      <p className="md:line-clamp-6 line-clamp-4">
+                        {item.content}{" "}
+                      </p>
                       <button
                         className="primary-btn px-[30px] py-[8px] mt-[20px] flex items-center gap-[10px]"
                         onClick={() => navigate(`${item._id}`)}

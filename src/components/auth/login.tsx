@@ -50,7 +50,7 @@ const Login = () => {
   return (
     <div className="container ">
       <div className="flex items-center justify-center ">
-        <div className="my-[70px] w-[80%] h-auto border border-violet-200 rounded-lg shadow-xl dark:bg-gray-800">
+        <div className="my-[70px] sm:w-[80%] w-full h-auto sm:border border-violet-200 rounded-lg sm:shadow-xl dark:bg-gray-800">
           <div className="lg:flex ">
             <div className="lg:flex-1 lg:m-auto flex items-center justify-center">
               <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -148,7 +148,7 @@ const Login = () => {
                         );
                         const { name, email, picture, jti }: any = decoded;
                         const res = await loginAuthApi({
-                          email: "a@gmail.com",
+                          email: "khanhshopfood@gmail.com",
                           password: "123456",
                         });
                         const user: IUser = {
