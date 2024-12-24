@@ -1,0 +1,15 @@
+services:
+  shop-food:
+    build: .
+    ports:
+      - "${VITE_PORT}:${VITE_PORT}"
+    env_file:
+      - .env
+    volumes:
+      - ./:/shop-food
+    networks:
+      - shared-network
+
+networks:
+  shared-network:
+    external: true
