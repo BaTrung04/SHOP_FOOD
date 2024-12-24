@@ -11,4 +11,4 @@ RUN npm install
 
 EXPOSE ${VITE_PORT}
 
-CMD ["npm", "dev"]
+CMD ["sh", "-c", "npm run dev"]
