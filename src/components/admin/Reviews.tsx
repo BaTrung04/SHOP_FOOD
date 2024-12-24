@@ -31,7 +31,6 @@ const Reviews = () => {
   const handleRating = (index: number) => {
     setRating(index);
   };
-
   return (
     <>
       {" "}
@@ -99,7 +98,10 @@ const Reviews = () => {
                 <tbody>
                   {data &&
                     data.map((item: any, index: number) => (
-                      <tr className="hover:bg-violet-100 cursor-pointer dark:hover:bg-violet-400">
+                      <tr
+                        className="hover:bg-violet-100 cursor-pointer dark:hover:bg-violet-400"
+                        key={item._id}
+                      >
                         <th>{index + 1}</th>
                         <td>{item._id}</td>
                         <td>{item.name}</td>
@@ -136,9 +138,6 @@ const Reviews = () => {
           <div className="flex items-center justify-center mt-[30px]">
             <div className="join">
               <button className="join-item btn btn-md">1</button>
-              <button className="join-item btn btn-md btn-active">2</button>
-              <button className="join-item btn btn-md">3</button>
-              <button className="join-item btn btn-md">4</button>
             </div>
           </div>
         </>

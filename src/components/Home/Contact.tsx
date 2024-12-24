@@ -1,4 +1,49 @@
+import React, { useState } from "react";
+import emailjs from "emailjs-com";
+import { toast } from "react-toastify";
+
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Gửi email bằng EmailJS
+    emailjs
+      .send(
+        "service_ad4096v", // Service ID từ EmailJS
+        "template_9h4bwto", // Template ID từ EmailJS
+        formData, // Dữ liệu form sẽ được gửi tới EmailJS
+        "WqOgpzbZlTI8BZNLc" // Public Key từ EmailJS
+      )
+      .then(
+        () => {
+          toast.success("Email đã được gửi thành công!");
+          setFormData({
+            name: "",
+            email: "",
+            message: "",
+          });
+        },
+        (error) => {
+          console.error("Lỗi khi gửi email:", error.text);
+        }
+      );
+  };
+
   return (
     <>
       <div>
@@ -9,7 +54,7 @@ const Contact = () => {
         ></iframe>
         <div className="container dark:text-white">
           <div className="flex py-[20px]">
-            <div className="p-[30px] flex-1 ">
+            <div className="p-[30px] flex-1">
               <div className="pb-[15px] border-b border-b-violet-300 flex flex-col gap-[10px]">
                 <div>Mọi chi tiết xin liên hệ:</div>
                 <div className="text-[18px] font-medium">
@@ -27,10 +72,10 @@ const Contact = () => {
             </div>
             <div className="p-[30px] flex-1">
               <div className="border-b border-b-violet-300 pb-[15px] text-[18px] font-medium">
-                GỬI MAIL CHO CHÚNG TÔI{" "}
+                GỬI MAIL CHO CHÚNG TÔI
               </div>
               <div className="py-[20px]">
-                <form className="space-y-6">
+                <form className="space-y-6" onSubmit={handleSubmit}>
                   <div>
                     <label
                       htmlFor="name"
@@ -41,11 +86,12 @@ const Contact = () => {
                     <div className="mt-2">
                       <input
                         type="text"
+                        name="name"
                         placeholder="Tên của bạn"
                         required
-                        autoComplete="email"
+                        value={formData.name}
+                        onChange={handleChange}
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-[5px]"
-                        tabIndex={1}
                       />
                     </div>
                   </div>
@@ -60,31 +106,35 @@ const Contact = () => {
                     <div className="mt-2">
                       <input
                         type="email"
+                        name="email"
                         placeholder="Email"
                         required
-                        autoComplete="email"
+                        value={formData.email}
+                        onChange={handleChange}
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-[5px]"
-                        tabIndex={1}
                       />
                     </div>
                   </div>
+
                   <div>
                     <label
-                      htmlFor="name"
+                      htmlFor="message"
                       className="block text-sm font-medium leading-6 text-gray-900 dark:text-white"
                     >
                       Tin nhắn:
                     </label>
                     <div className="mt-2">
                       <textarea
+                        name="message"
                         placeholder="Bạn muốn gửi gắm điều gì?"
                         required
-                        autoComplete="email"
-                        className=" h-[6.75rem] leading-5 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-[5px]"
-                        tabIndex={1}
+                        value={formData.message}
+                        onChange={handleChange}
+                        className="h-[6.75rem] leading-5 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-[5px]"
                       />
                     </div>
                   </div>
+
                   <div>
                     <button type="submit" className="primary-btn w-[20%]">
                       Gửi
