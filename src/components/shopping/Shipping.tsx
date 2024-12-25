@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { shipInfo } from "../../redux/shipSlice";
 import { useNavigate } from "react-router-dom";
 
@@ -11,7 +11,9 @@ const Shipping = () => {
   const [nation, setNation] = useState<string>("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const name = useSelector(
+    (state: any) => state.auth?.login?.currentUser?.user?.name
+  );
   const loadSuggestions = (key: string) =>
     JSON.parse(localStorage.getItem(key) || "[]");
 
@@ -25,7 +27,8 @@ const Shipping = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(shipInfo({ address, city, phone, code, nation }));
+    dispatch(shipInfo({ name, address, city, phone, code, nation }));
+    saveSuggestion("name", name);
     saveSuggestion("addressSuggestions", address);
     saveSuggestion("citySuggestions", city);
     saveSuggestion("phoneSuggestions", phone);

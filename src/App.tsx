@@ -52,8 +52,11 @@ function App() {
     (state: RootState) => state.auth?.login?.currentUser?.user?.role
   );
   const darkMode = localStorage.getItem("darkMode");
+
+
   return (
     <>
+
       <Router>
         <Routes>
           <Route path="/" element={<LayoutDefault />}>

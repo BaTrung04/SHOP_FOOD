@@ -10,14 +10,14 @@ const Order = () => {
   const [data, setData] = useState<any>([]);
   const [page, setPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
-  const [totalPage] = useState<number>(1);
+  const [totalPage, setTotalPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
   const [keyword, setKeyword] = useState<string>("");
   const fetchApiOrder = async () => {
     setLoading(true);
     try {
       const res: any = await getAllOrders(page, limit, keyword);
-
+      setTotalPage(res.totalPage);
       setData(res.rows);
     } catch (error) {
       console.log(error);
@@ -27,7 +27,7 @@ const Order = () => {
   };
   useEffect(() => {
     fetchApiOrder();
-  }, []);
+  }, [keyword, page, limit]);
 
   const formattedDate = (data: string | Date): string => {
     return moment(data).format("HH:mm:ss - DD/MM/YYYY ");
@@ -163,8 +163,10 @@ const Order = () => {
                             <div className="modal-box">
                               <div className=" py-[10px] ">
                                 <div className="text-[20px]">
-                                  Bạn có chắc muốn xóa sản phẩm:{" "}
-                                  <strong className="">{item.name}</strong>
+                                  Bạn có chắc muốn đơn hàng của :
+                                  <strong className="">
+                                    {item.shippingInfo.name}
+                                  </strong>
                                 </div>
                               </div>
                               <div className="flex justify-end items-center">

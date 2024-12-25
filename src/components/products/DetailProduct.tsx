@@ -307,7 +307,7 @@ const DetailProduct = () => {
                               {/* Sử dụng item.rating để hiển thị số sao sáng */}
                               {[...Array(5)].map((_, index: number) => (
                                 <FaStar
-                                  key={index}
+                                  key={index + 1}
                                   className={`text-[20px] cursor-pointer ${
                                     index < item.rating
                                       ? "text-yellow-400"
@@ -345,7 +345,7 @@ const DetailProduct = () => {
                         <div className="flex">
                           {[...Array(5)].map((_, index: number) => (
                             <FaStar
-                              key={index}
+                              key={index + 1}
                               className={`text-[30px] cursor-pointer ${
                                 index < rating
                                   ? "text-yellow-400"

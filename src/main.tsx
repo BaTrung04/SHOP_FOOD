@@ -12,13 +12,15 @@ import { Elements } from "@stripe/react-stripe-js";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 createRoot(document.getElementById("root")!).render(
-  <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <Elements stripe={stripePromise}>
-          <App />
-        </Elements>
-      </PersistGate>
-    </Provider>
-  </GoogleOAuthProvider>
+  <>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Elements stripe={stripePromise}>
+            <App />
+          </Elements>
+        </PersistGate>
+      </Provider>
+    </GoogleOAuthProvider>
+  </>
 );

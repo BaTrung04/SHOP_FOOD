@@ -108,7 +108,7 @@ const Wishlist = () => {
                         <td className="flex gap-[10px] items-center">
                           {/* add to cart */}
                           <button
-                            className="primary-btn sm:block hidden"
+                            className="primary-btn sm:block py-[12px] hidden"
                             onClick={() => handleClickAddToCart(item)}
                           >
                             Thêm vào giỏ hàng

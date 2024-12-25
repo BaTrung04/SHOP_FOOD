@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { IoInformationOutline } from "react-icons/io5";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
 import moment from "moment";
 import { putOrder } from "../../Services/modules/auth";
 import { toast } from "react-toastify";
@@ -14,10 +12,6 @@ interface MyComponentProps {
 const UpdateOrder: React.FC<MyComponentProps> = ({ item, fetchApiOrder }) => {
   const { _id, shippingInfo, orderItems, orderStatus, createdAt, totalPrice } =
     item;
-  const info = useSelector(
-    (state: RootState) => state.auth?.login?.currentUser?.user
-  );
-
   const [status, setStatus] = useState(orderStatus || ""); // Set giá trị mặc định là orderStatus
 
   // Mảng trạng thái có thể có
@@ -71,7 +65,7 @@ const UpdateOrder: React.FC<MyComponentProps> = ({ item, fetchApiOrder }) => {
                 <div className="grid grid-cols-3">
                   <div className="flex flex-col gap-[10px] col-span-2">
                     <div>
-                      Tên: <strong className="">{info?.name}</strong>
+                      Tên: <strong className="">{shippingInfo?.name}</strong>
                     </div>
                     <div>
                       Điện thoại:{" "}

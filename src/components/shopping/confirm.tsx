@@ -2,8 +2,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 
 const Confirm = () => {
-  const items = useSelector((state: RootState) => state.cart.items);
-
+  const items = useSelector((state: RootState) => state?.cart?.items);
+  const shipping: any = useSelector((state: RootState) => state?.ship?.info);
   const formattedPrice = (price: number | undefined): string => {
     if (typeof price !== "number") {
       return "Giá không xác định";
@@ -59,14 +59,14 @@ const Confirm = () => {
               Thông tin vận chuyển
             </div>
             <div>
-              <span className="font-bold">Tên khách hàng:</span> trung
+              <span className="font-bold">Tên khách hàng:</span> {shipping.name}
             </div>
             <div>
-              <span className="font-bold">Số điện thoại:</span> 012142133
+              <span className="font-bold">Số điện thoại:</span> {shipping.phone}
             </div>
             <div>
-              <span className="font-bold">địa chỉ:</span> bắc ninh , hà nội,
-              việt nam
+              <span className="font-bold">địa chỉ:</span> {shipping.address}/
+              {shipping.city}/{shipping.nation}
             </div>
           </div>
           <div className="mt-[25px] border-b border-b-violet-100">

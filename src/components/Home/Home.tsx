@@ -19,8 +19,8 @@ import { useNavigate } from "react-router-dom";
 import { FaRegHeart } from "react-icons/fa";
 import { toast } from "react-toastify";
 import zaloIcon from "../../assets/contact/zalo.png";
-import fbIcon from "../../assets/contact/facebook.png";
 
+import fbIcon from "../../assets/contact/facebook.png";
 const responsive = {
   superLargeDesktop: {
     // the naming can be any, depends on you.
@@ -54,7 +54,6 @@ const Home = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const [dataProductBySpecialty, setDataProductBySpecialty] = useState<any>([]);
-
   useEffect(() => {
     const fetchApi = async () => {
       setLoading(true);
@@ -192,7 +191,7 @@ const Home = () => {
         {/* main */}
         <div className="container">
           {/* header */}
-          <div className="flex flex-col sm:flex-row items-center justify-around gap-[20px] sm:py-[50px]  py-[20px] dark:text-white ">
+          <div className="flex flex-col sm:flex-row items-center justify-around gap-[20px] sm:py-[50px] py-[20px] dark:text-white ">
             <div className="sm:border-none border-b pb-4 sm:pb-0 border-dashed border-violet-600">
               <div className="flex items-center gap-[10px]">
                 <img src={ship} alt="" className="h-[60px]" /> Giao món siêu
@@ -306,7 +305,7 @@ const Home = () => {
             </div>
           </div>
           {/* danh sahc san pham */}
-          <div className="py-[50px]" ref={gridRef}>
+          <div className="py-[50px] " ref={gridRef}>
             <div className="flex justify-between">
               <div className="text-[20px] uppercase py-[10px] ">
                 Sản phẩm thường xuyên được đặt{" "}
@@ -323,7 +322,7 @@ const Home = () => {
                 <span className="loading loading-spinner loading-lg "></span>
               </div>
             ) : (
-              <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-4">
+              <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-4 ">
                 {/* map */}
                 {data &&
                   data.map((item: any) => (

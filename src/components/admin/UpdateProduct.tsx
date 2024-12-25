@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { RiPencilFill } from "react-icons/ri";
 import { getCategories, updateProduct } from "../../Services/modules/auth";
 import { toast } from "react-toastify";
+
 interface MyComponentProps {
   item: any;
   fetchApi: () => void;
 }
+
 const UpdateProduct: React.FC<MyComponentProps> = ({ item, fetchApi }) => {
   const { name, price, description, stock, category, seller, images, _id } =
     item;
@@ -20,6 +22,7 @@ const UpdateProduct: React.FC<MyComponentProps> = ({ item, fetchApi }) => {
     images.map((item: any) => item.url)
   );
   const [categoryProduct, setCategoryProduct] = useState<any>("");
+
   useEffect(() => {
     const fetchApiCategory = async () => {
       try {
@@ -53,16 +56,18 @@ const UpdateProduct: React.FC<MyComponentProps> = ({ item, fetchApi }) => {
       setImagesUp(fileArrayBase64); // Lưu mảng file thay vì chỉ 1 file
     }
   };
-  const handleSubmitCreateProduct = async (event: React.FormEvent) => {
+
+  const handleSubmitUpdateProduct = async (event: React.FormEvent) => {
     event.preventDefault();
     const data: any = {
-      name: name,
-      price: price,
-      description: description,
-      stock: stock,
-      seller: seller,
+      name: nameUp,
+      price: priceUp,
+      description: descriptionUp,
+      stock: stockUp,
+      seller: sellerUp,
+      category: categoryUp,
     };
-    if (imagesUp) {
+    if (imagesUp.lengh > 0) {
       data.images = imagesUp;
     }
     try {
@@ -71,21 +76,26 @@ const UpdateProduct: React.FC<MyComponentProps> = ({ item, fetchApi }) => {
         `modal_update_${_id}`
       ) as HTMLDialogElement;
       modal.close();
-      toast.success("🦄 Bạn dã cập nhật thành công!", {
+      toast.success("🦄 Bạn đã cập nhật thành công!", {
         position: "top-right",
       });
       fetchApi();
-      setNameUp(name);
-      setPriceUp(price);
-      setStockUp(stock);
-      setCategoryUp(category);
-      setSellerUp(seller);
-      setImagesUp(images);
-      setImagesPreviewUp(images.map((item: any) => item.url));
+      // Cập nhật lại state với giá trị mới
+      setNameUp(data.name);
+      setPriceUp(data.price);
+      setDescriptionUp(data.description);
+      setStockUp(data.stock);
+      setCategoryUp(data.category);
+      setSellerUp(data.seller);
+      setImagesUp(data.images || []);
+      setImagesPreviewUp(
+        data.images ? data.images.map((item: any) => item.url) : []
+      );
     } catch (error) {
-      console.error("Tạo danh mục thất bại:", error);
+      console.error("Cập nhật sản phẩm thất bại:", error);
     }
   };
+
   return (
     <>
       <span className="p-[10px] bg-blue-500 rounded-lg">
@@ -101,18 +111,18 @@ const UpdateProduct: React.FC<MyComponentProps> = ({ item, fetchApi }) => {
         <dialog id={`modal_update_${_id}`} className="modal">
           <div className="modal-box w-11/12 max-w-[1000px]">
             <div className="text-[20px] font-semibold py-[10px]">
-              Cập nhật danh mục:
+              Cập nhật sản phẩm:
             </div>
-            <form onSubmit={handleSubmitCreateProduct} className="space-y-6 ">
+            <form onSubmit={handleSubmitUpdateProduct} className="space-y-6 ">
               <div className="grid grid-cols-2 gap-[20px]">
                 {/* name */}
                 <div>
                   <label className="block text-sm font-medium leading-6 text-gray-900">
-                    Tên danh mục:
+                    Tên sản phẩm:
                   </label>
                   <div className="mt-2">
                     <input
-                      type="name"
+                      type="text"
                       name="name"
                       placeholder="Tên sản phẩm"
                       required
@@ -131,9 +141,9 @@ const UpdateProduct: React.FC<MyComponentProps> = ({ item, fetchApi }) => {
                   </label>
                   <div className="mt-2">
                     <input
-                      type="price"
+                      type="text"
                       name="price"
-                      placeholder="giá"
+                      placeholder="Giá"
                       required
                       value={priceUp}
                       autoComplete="price"
@@ -146,13 +156,13 @@ const UpdateProduct: React.FC<MyComponentProps> = ({ item, fetchApi }) => {
                 {/* số lượng */}
                 <div>
                   <label className="block text-sm font-medium leading-6 text-gray-900">
-                    số lượng:
+                    Số lượng:
                   </label>
                   <div className="mt-2">
                     <input
                       type="number"
                       name="stock"
-                      placeholder="số lượng"
+                      placeholder="Số lượng"
                       required
                       value={stockUp}
                       min={0} // Không cho phép nhập giá trị âm
@@ -169,13 +179,13 @@ const UpdateProduct: React.FC<MyComponentProps> = ({ item, fetchApi }) => {
                 {/* nhãn hiệu */}
                 <div>
                   <label className="block text-sm font-medium leading-6 text-gray-900">
-                    nhãn hiệu:
+                    Nhãn hiệu:
                   </label>
                   <div className="mt-2">
                     <input
-                      type="seller"
+                      type="text"
                       name="seller"
-                      placeholder="nhãn hiệu"
+                      placeholder="Nhãn hiệu"
                       required
                       value={sellerUp}
                       autoComplete="seller"
@@ -220,7 +230,7 @@ const UpdateProduct: React.FC<MyComponentProps> = ({ item, fetchApi }) => {
                       className=" h-[6.75rem] leading-5 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-[5px]"
                       tabIndex={1}
                       name="description"
-                      placeholder="mô tả"
+                      placeholder="Mô tả"
                       value={descriptionUp}
                       onChange={(e) => setDescriptionUp(e.target.value)}
                     />
@@ -254,7 +264,7 @@ const UpdateProduct: React.FC<MyComponentProps> = ({ item, fetchApi }) => {
                                 multiple
                                 type="file"
                                 className="sr-only"
-                                accept="iamges/*"
+                                accept="images/*"
                                 onChange={handleFileChange}
                               />
                             </label>
