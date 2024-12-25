@@ -221,3 +221,6 @@ export const putOrder = async (id: string | undefined, data: any) => {
 export const deleteOrder = async (id: string) => {
   return await axiosInstance.delete(`/admin/order/${id}`);
 };
+export const createSession = async (data: any) => {
+  return await axiosInstance.post(`/create-checkout-session`, data);
+};

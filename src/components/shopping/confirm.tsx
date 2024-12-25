@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import { createSession } from "../../Services/modules/auth";
 
 const Confirm = () => {
   const items = useSelector((state: RootState) => state?.cart?.items);
@@ -26,24 +27,9 @@ const Confirm = () => {
     const body = {
       products: items,
     };
-
-    const headers = {
-      "Content-Type": "application/json",
-    };
-
-    const res = await fetch(
-      `http://localhost:8000/api/v1/create-checkout-session`,
-      {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(body),
-        credentials: "include",
-      }
-    );
-
-    const session = await res.json();
-    const paymentUrl = session?.url;
-    const paymentId = session?.sessionId;
+    const res: any = await createSession(body);
+    const paymentUrl = res?.url;
+    const paymentId = res?.sessionId;
     if (paymentUrl && paymentId) {
       window.location.href = paymentUrl;
       localStorage.setItem("sessionId", paymentId);
